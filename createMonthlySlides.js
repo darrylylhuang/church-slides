@@ -1,16 +1,14 @@
 var SHEET_ID = "1f5dM3ppCNISYl6EgvFoC6irO-UwpIvJc_hoDnkEb6wQ"; // Open GoogleSheets with all info
-var SPREADSHEET = SpreadsheetApp.openById(SHEET_ID);
-var GATHER_COMPREHENSIVE = SPREADSHEET.getSheetByName("Gather Comprehensive"); // Open specific sheet with Gather Comprehensive hymn info
-var STORRINGTON_MASS = SPREADSHEET.getSheetByName("Storrington Mass"); // Open the sheet that has Storrington mass settings
-var BINDER = SPREADSHEET.getSheetByName("Binder");
-var OTHER_SLIDES = SPREADSHEET.getSheetByName("Other Slides"); // Open the sheet that has transitions + additional slides
-var SCHEDULE = SPREADSHEET.getSheetByName("Current Month"); // Open the sheet that has the information on what we're playing each month
+var GlobalConstants = {};
 
-function createMonthlySlides() {
-  // ************* TO UPDATE AN EXISTING PRESENTATION *************
-  // var PRESENTATION_ID = '1tzUskJ8-7IvJikkIX2gEHdH0NDN65OYbu_2AYGOZPXM';
-  // var presentation = SlidesApp.openById(PRESENTATION_ID);
-  // var newPresentation = SlidesApp.create('Sunday, July 7, 2024');
+function initializeData() {
+  Logger.log("Initializing data.");
+  var SPREADSHEET = SpreadsheetApp.openById(SHEET_ID);
+  var GATHER_COMPREHENSIVE = SPREADSHEET.getSheetByName("Gather Comprehensive"); // Open specific sheet with Gather Comprehensive hymn info
+  var STORRINGTON_MASS = SPREADSHEET.getSheetByName("Storrington Mass"); // Open the sheet that has Storrington mass settings
+  var BINDER = SPREADSHEET.getSheetByName("Binder");
+  var OTHER_SLIDES = SPREADSHEET.getSheetByName("Other Slides"); // Open the sheet that has transitions + additional slides
+  var SCHEDULE = SPREADSHEET.getSheetByName("Current Month"); // Open the sheet that has the information on what we're playing each month
 
   var gatherData = GATHER_COMPREHENSIVE.getRange("A2:C").getValues(); // Contains hymn number, name, and GoogleSlides ID
   var storringtonData = STORRINGTON_MASS.getRange("A2:B10").getValues(); // Contains part of the mass, and GoogleSlidesID
@@ -19,10 +17,10 @@ function createMonthlySlides() {
   var otherSlideData = OTHER_SLIDES.getRange("A2:B10").getValues(); // Contains slide type + GoogleSlides ID
 
   // ************* CHANGE THIS RANGE AS NEEDED *************
-  var scheduleData = SCHEDULE.getRange("A2:M6").getValues();
+  GlobalConstants.scheduleData = SCHEDULE.getRange("A2:M6").getValues();
 
   // Create an object for quick lookup of presentation IDs by hymn number
-  this.gatherPresentationIds = {};
+  GlobalConstants.gatherPresentationIds = {};
   gatherData.forEach(function (column) {
     gatherPresentationIds[column[0]] = column[2]; // column[0] is hymn number, column[2] is presentation ID
   });
@@ -40,25 +38,38 @@ function createMonthlySlides() {
   });
 
   // Other slides e.g. transition, opening slide, etc.
-  this.otherSlidesPresentationIds = {};
+  const otherSlidesPresentationIds = {};
   otherSlideData.forEach(function (column) {
     otherSlidesPresentationIds[column[0]] = column[1]; // column[0] is slide type, column[1] is presentation ID
   });
 
   // consts so that conditional slides aren't searched every time
-  const gloriaId = storringtonSlidesPresentationIds["Gloria"];
-  const gospelId = storringtonSlidesPresentationIds["Gospel Acclamation"];
-  const lentenId =
+  GlobalConstants.gloriaId = storringtonSlidesPresentationIds["Gloria"];
+  GlobalConstants.gospelId =
+    storringtonSlidesPresentationIds["Gospel Acclamation"];
+  GlobalConstants.lentenId =
     storringtonSlidesPresentationIds["Lenten Gospel Acclamation"];
-  const sanctusId = storringtonSlidesPresentationIds["Sanctus"];
-  const memorial1Id =
+  GlobalConstants.sanctusId = storringtonSlidesPresentationIds["Sanctus"];
+  GlobalConstants.memorial1Id =
     storringtonSlidesPresentationIds["Memorial Acclamation 1"]; // When We Eat This Bread...
-  const memorial2Id =
+  GlobalConstants.memorial2Id =
     storringtonSlidesPresentationIds["Memorial Acclamation 2"]; // We Proclaim Your Death...
-  const memorial3Id =
+  GlobalConstants.memorial3Id =
     storringtonSlidesPresentationIds["Memorial Acclamation 3"]; // Save Us, Saviour of the World...
-  const amenId = storringtonSlidesPresentationIds["Amen"];
-  const lambId = storringtonSlidesPresentationIds["Lamb of God"];
+  GlobalConstants.amenId = storringtonSlidesPresentationIds["Amen"];
+  GlobalConstants.lambId = storringtonSlidesPresentationIds["Lamb of God"];
+
+  GlobalConstants.transitionId = otherSlidesPresentationIds["Transition"];
+
+  Logger.log("Data initilization complete.");
+}
+
+function createMonthlySlides() {
+  // ************* TO UPDATE AN EXISTING PRESENTATION *************
+  // var PRESENTATION_ID = '1tzUskJ8-7IvJikkIX2gEHdH0NDN65OYbu_2AYGOZPXM';
+  // var presentation = SlidesApp.openById(PRESENTATION_ID);
+  // var newPresentation = SlidesApp.create('Sunday, July 7, 2024');
+  initializeData();
 
   // Test with one week
   var nextSunday = scheduleData[0];
@@ -76,6 +87,8 @@ function createSlidesForOneWeek(nextSunday) {
   // SANDBOX
   // var PRESENTATION_ID = '1tzUskJ8-7IvJikkIX2gEHdH0NDN65OYbu_2AYGOZPXM';
   // var presentation = SlidesApp.openById(PRESENTATION_ID);
+
+  gatherPresentationIds = GlobalConstants.gatherPresentationIds;
 
   var slidesToAdd = [];
 
@@ -121,36 +134,21 @@ function createSlidesForOneWeek(nextSunday) {
 
   // **************************************************** SLIDE ORDER ****************************************************
   slidesToAdd.push(gathering);
-  if (gloriaCond) slidesToAdd.push(storringtonSlidesPresentationIds["Gloria"]);
+  if (gloriaCond) slidesToAdd.push(GlobalConstants.gloriaId);
   slidesToAdd.push(psalm);
-  if (gospelCond)
-    slidesToAdd.push(storringtonSlidesPresentationIds["Gospel Acclamation"]);
-  if (lentenCond)
-    slidesToAdd.push(
-      storringtonSlidesPresentationIds["Lenten Gospel Acclamation"]
-    );
+  if (gospelCond) slidesToAdd.push(GlobalConstants.gospelId);
+  if (lentenCond) slidesToAdd.push(GlobalConstants.lentenId);
   slidesToAdd.push(offertory);
-  if (sanctusCond)
-    slidesToAdd.push(storringtonSlidesPresentationIds["Sanctus"]);
-  if (memorialCond === 1)
-    slidesToAdd.push(
-      storringtonSlidesPresentationIds["Memorial Acclamation 1"]
-    );
-  if (memorialCond === 2)
-    slidesToAdd.push(
-      storringtonSlidesPresentationIds["Memorial Acclamation 2"]
-    );
-  if (memorialCond === 3)
-    slidesToAdd.push(
-      storringtonSlidesPresentationIds["Memorial Acclamation 3"]
-    );
-  if (amenCond) slidesToAdd.push(storringtonSlidesPresentationIds["Amen"]);
-  if (lambCond)
-    slidesToAdd.push(storringtonSlidesPresentationIds["Lamb of God"]);
+  if (sanctusCond) slidesToAdd.push(GlobalConstants.sanctusId);
+  if (memorialCond === 1) slidesToAdd.push(GlobalConstants.memorial1Id);
+  if (memorialCond === 2) slidesToAdd.push(GlobalConstants.memorial2Id);
+  if (memorialCond === 3) slidesToAdd.push(GlobalConstants.memorial3Id);
+  if (amenCond) slidesToAdd.push(GlobalConstants.amenId);
+  if (lambCond) slidesToAdd.push(GlobalConstants.lambId);
   slidesToAdd.push(communion);
   slidesToAdd.push(recessional);
 
-  var transitionId = otherSlidesPresentationIds["Transition"];
+  var transitionId = GlobalConstants.transitionId;
   var presentationId = null;
 
   var transitionPresentation = SlidesApp.openById(transitionId);
