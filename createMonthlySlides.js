@@ -66,12 +66,12 @@ function createSlidesForOneWeek(nextSunday) {
   var presentation = newPresentation;
   presentation.getSlides()[0].remove();
 
-  [gatheringId, gatheringId, offertoryId, communionId, recessionalId] = hymnIdList;
+  [gatheringId, psalmId, offertoryId, communionId, recessionalId] = hymnIdList;
 
   // **************************************************** SLIDE ORDER ****************************************************
   slidesToAdd.push(gatheringId);
   if (gloriaCond) slidesToAdd.push(GlobalConstants.gloriaId);
-  slidesToAdd.push(gatheringId);
+  slidesToAdd.push(psalmId);
   if (gospelCond) slidesToAdd.push(GlobalConstants.gospelId);
   if (lentenCond) slidesToAdd.push(GlobalConstants.lentenId);
   slidesToAdd.push(offertoryId);
