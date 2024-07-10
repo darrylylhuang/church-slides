@@ -12,7 +12,7 @@ function createPresentationInFolder(date) {
     removeParents: DriveApp.getRootFolder().getId(),
   });
 
-  Logger.log("Presentation created in folder: " + folderId);
+  Logger.log(`Presentation ${presentationId} created in folder: ${folderId}`);
   return presentation;
 }
 
