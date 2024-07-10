@@ -20,10 +20,11 @@ function initializeData() {
   GlobalConstants.scheduleData = SCHEDULE.getRange("A2:M6").getValues();
 
   // Create an object for quick lookup of presentation IDs by hymn number
-  GlobalConstants.gatherPresentationIds = {};
+  const gatherPresentationIds = {};
   gatherData.forEach(function (column) {
     gatherPresentationIds[column[0]] = column[2]; // column[0] is hymn number, column[2] is presentation ID
   });
+  GlobalConstants.gatherPresentationIds = gatherPresentationIds;
 
   // Storrington mass setting slides
   const storringtonSlidesPresentationIds = {};
@@ -88,7 +89,7 @@ function createSlidesForOneWeek(nextSunday) {
   // var PRESENTATION_ID = '1tzUskJ8-7IvJikkIX2gEHdH0NDN65OYbu_2AYGOZPXM';
   // var presentation = SlidesApp.openById(PRESENTATION_ID);
 
-  gatherPresentationIds = GlobalConstants.gatherPresentationIds;
+  const gatherPresentationIds = GlobalConstants.gatherPresentationIds;
 
   var slidesToAdd = [];
 
