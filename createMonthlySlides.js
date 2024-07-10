@@ -15,11 +15,9 @@ function createMonthlySlides() {
   createSlidesForOneWeek(nextSunday);
 
   // // Make the slides for the whole month
-  // var nextSunday = null;
-  // for (let i = 0;  i < scheduleData.length; i++) {
-  //   nextSunday = scheduleData[i];
-  //   createSlidesForOneWeek(nextSunday);
-  // }
+  // scheduleData.forEach((week) => {
+  //   createSlidesForOneWeek(week);
+  // });
 }
 
 function addHymnTypeToTitle(slides) {}
