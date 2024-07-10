@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <body>
+    <button id="runButton">Run Script</button>
+
+  <script>
+    // JavaScript function to execute when the button is clicked
+    document.getElementById("runButton").addEventListener("click", function() {
+      google.script.run.createMonthlySlides();
+    });
+  </script>
+  </body>
+</html>
