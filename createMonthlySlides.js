@@ -26,8 +26,9 @@ function createMonthlySlides() {
   gatherData.forEach(function(column) {
     gatherPresentationIds[column[0]] = column[2]; // column[0] is hymn number, column[2] is presentation ID
   });
-
-  this.storringtonSlidesPresentationIds = {};
+  
+  // Storrington mass setting slides
+  const storringtonSlidesPresentationIds = {};
   storringtonData.forEach(function(column) {
     storringtonSlidesPresentationIds[column[0]] = column[1]; // column[0] is slide type, column[1] is presentation ID
   });
@@ -38,11 +39,22 @@ function createMonthlySlides() {
     binderPresentationIds[column[0]] = column[1]; // column[0] is slide type, column[1] is presentation ID
   });
 
-  // Storrington mass setting, and possibly others
+  // Other slides e.g. transition, opening slide, etc.
   this.otherSlidesPresentationIds = {};
   otherSlideData.forEach(function(column) {
     otherSlidesPresentationIds[column[0]] = column[1]; // column[0] is slide type, column[1] is presentation ID
   });
+
+  // consts so that conditional slides aren't searched every time
+  const gloriaId = storringtonSlidesPresentationIds["Gloria"];
+  const gospelId = storringtonSlidesPresentationIds["Gospel Acclamation"];
+  const lentenId = storringtonSlidesPresentationIds["Lenten Gospel Acclamation"];
+  const sanctusId = storringtonSlidesPresentationIds["Sanctus"];
+  const memorial1Id = storringtonSlidesPresentationIds["Memorial Acclamation 1"]; // When We Eat This Bread...
+  const memorial2Id = storringtonSlidesPresentationIds["Memorial Acclamation 2"]; // We Proclaim Your Death...
+  const memorial3Id = storringtonSlidesPresentationIds["Memorial Acclamation 3"]; // Save Us, Saviour of the World...
+  const amenId = storringtonSlidesPresentationIds["Amen"];
+  const lambId = storringtonSlidesPresentationIds["Lamb of God"];
 
   // Test with one week
   var nextSunday = scheduleData[0];
