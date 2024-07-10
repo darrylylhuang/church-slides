@@ -28,6 +28,7 @@ function createSlidesForOneWeek(nextSunday) {
   // var presentation = SlidesApp.openById(PRESENTATION_ID);
 
   const gatherPresentationIds = GlobalConstants.gatherPresentationIds;
+  const binderPresentationIds = GlobalConstants.binderPresentationIds;
 
   var slidesToAdd = [];
 

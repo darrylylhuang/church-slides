@@ -30,10 +30,11 @@ function initializeData() {
   });
 
   // presentation ID by hymn name for binder hymns
-  this.binderPresentationIds = {};
+  const binderPresentationIds = {};
   binderData.forEach(function (column) {
     binderPresentationIds[column[0]] = column[1]; // column[0] is slide type, column[1] is presentation ID
   });
+  GlobalConstants.binderPresentationIds = binderPresentationIds;
 
   // Other slides e.g. transition, opening slide, etc.
   const otherSlidesPresentationIds = {};
