@@ -23,10 +23,6 @@ function createMonthlySlides() {
 }
 
 function createSlidesForOneWeek(nextSunday) {
-  // SANDBOX
-  // var PRESENTATION_ID = '1tzUskJ8-7IvJikkIX2gEHdH0NDN65OYbu_2AYGOZPXM';
-  // var presentation = SlidesApp.openById(PRESENTATION_ID);
-
   const gatherPresentationIds = GlobalConstants.gatherPresentationIds;
   const binderPresentationIds = GlobalConstants.binderPresentationIds;
 
@@ -70,23 +66,23 @@ function createSlidesForOneWeek(nextSunday) {
   var presentation = newPresentation;
   presentation.getSlides()[0].remove();
 
-  [gathering, psalm, offertory, communion, recessional] = hymnIdList;
+  [gatheringId, gatheringId, offertoryId, communionId, recessionalId] = hymnIdList;
 
   // **************************************************** SLIDE ORDER ****************************************************
-  slidesToAdd.push(gathering);
+  slidesToAdd.push(gatheringId);
   if (gloriaCond) slidesToAdd.push(GlobalConstants.gloriaId);
-  slidesToAdd.push(psalm);
+  slidesToAdd.push(gatheringId);
   if (gospelCond) slidesToAdd.push(GlobalConstants.gospelId);
   if (lentenCond) slidesToAdd.push(GlobalConstants.lentenId);
-  slidesToAdd.push(offertory);
+  slidesToAdd.push(offertoryId);
   if (sanctusCond) slidesToAdd.push(GlobalConstants.sanctusId);
   if (memorialCond === 1) slidesToAdd.push(GlobalConstants.memorial1Id);
   if (memorialCond === 2) slidesToAdd.push(GlobalConstants.memorial2Id);
   if (memorialCond === 3) slidesToAdd.push(GlobalConstants.memorial3Id);
   if (amenCond) slidesToAdd.push(GlobalConstants.amenId);
   if (lambCond) slidesToAdd.push(GlobalConstants.lambId);
-  slidesToAdd.push(communion);
-  slidesToAdd.push(recessional);
+  slidesToAdd.push(communionId);
+  slidesToAdd.push(recessionalId);
 
   var transitionId = GlobalConstants.transitionId;
   var presentationId = null;
