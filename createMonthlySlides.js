@@ -8,6 +8,8 @@ function createMonthlySlides() {
   // var newPresentation = SlidesApp.create('Sunday, July 7, 2024');
   initializeData();
 
+  const scheduleData = GlobalConstants.scheduleData;
+
   // Test with one week
   var nextSunday = scheduleData[0];
   createSlidesForOneWeek(nextSunday);
