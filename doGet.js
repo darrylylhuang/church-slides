@@ -1,3 +1,3 @@
 function doGet(request) {
-  return HtmlService.createHtmlOutputFromFile('index');
+  return HtmlService.createHtmlOutputFromFile("index");
 }
