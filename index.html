@@ -4,7 +4,35 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mass Hymn Selection</title>
-    <link rel="stylesheet" href="styles.css" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      .columns {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .columns div {
+        flex: 1;
+        padding: 0 10px;
+      }
+
+      .columns div input {
+        margin-right: 5px;
+      }
+    </style>
   </head>
   <body>
     <h1>Mass Hymn Selection</h1>
@@ -45,6 +73,25 @@
           <label for="recessional">Recessional</label>
         </div>
       </div>
+      <div class="form-group columns">
+        <label>Week:</label>
+        <div>
+          <input type="radio" id="week1" name="week" value="Week 1" />
+          <label for="week1">Week 1</label>
+        </div>
+        <div>
+          <input type="radio" id="week2" name="week" value="Week 2" />
+          <label for="week2">Week 2</label>
+        </div>
+        <div>
+          <input type="radio" id="week3" name="week" value="Week 3" />
+          <label for="week3">Week 3</label>
+        </div>
+        <div>
+          <input type="radio" id="week4" name="week" value="Week 4" />
+          <label for="week4">Week 4</label>
+        </div>
+      </div>
       <button type="submit">Submit</button>
     </form>
     <div id="result"></div>
@@ -64,11 +111,15 @@
               parts.push(checkbox.value);
             });
 
+          const week = document.querySelector(
+            'input[name="week"]:checked'
+          ).value;
+
           google.script.run
             .withSuccessHandler((response) => {
               document.getElementById("result").innerText = response;
             })
-            .processForm(hymnNumber, hymnTitle, parts);
+            .processForm(hymnNumber, hymnTitle, parts, week);
         });
     </script>
   </body>
