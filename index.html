@@ -151,34 +151,39 @@
             <div id="form-column-${i}" class="form-column">
               <h3>${sunday}</h3>
               <div class="form-group">
-                <label for="gathering-hymn">Gathering Hymn</label>
+                <label for="gathering">Gathering Hymn</label>
                 <input
                   type="text"
-                  id="gathering-hymn"
-                  name="gathering-hymn"
+                  id="gathering-${i}"
+                  name="gathering-${i}"
                   required
                 />
               </div>
               <div class="form-group">
                 <label for="gloria">Gloria</label>
-                <input type="checkbox" id="gloria" name="gloria" value="included" />
+                <input type="checkbox" id="gloria-${i}" name="gloria-${i}" value="included" />
               </div>
               <div class="form-group">
                 <label for="psalm">Psalm</label>
-                <input type="text" id="psalm" name="psalm" required />
+                <input type="text" id="psalm-${i}" name="psalm-${i}" required />
               </div>
               <div class="form-group">
                 <label for="gospel-acclamation">Gospel Acclamation</label>
                 <div class="multiple-inputs">
                   <div class="labeled-radio">
-                    <input type="radio" id="gospel-none" name="gospel" value="none" />
+                    <input
+                      type="radio"
+                      id="gospel-none-${i}"
+                      name="gospel-${i}"
+                      value="none"
+                    />
                     <label for="gospel-none">None</label>
                   </div>
                   <div class="labeled-radio">
                     <input
                       type="radio"
-                      id="gospel-norm"
-                      name="gospel"
+                      id="gospel-norm-${i}"
+                      name="gospel-${i}"
                       value="normal"
                     />
                     <label for="gospel-norm">Normal</label>
@@ -186,8 +191,8 @@
                   <div class="labeled-radio">
                     <input
                       type="radio"
-                      id="gospel-lent"
-                      name="gospel"
+                      id="gospel-lent-${i}"
+                      name="gospel-${i}"
                       value="lenten"
                     />
                     <label for="gospel-lent">Lenten</label>
@@ -196,44 +201,44 @@
               </div>
               <div class="form-group">
                 <label for="offertory">Offertory Hymn</label>
-                <input type="text" id="offertory" name="offertory" required />
+                <input type="text" id="offertory-${i}" name="offertory-${i}" required />
               </div>
               <div class="form-group">
                 <label for="memorial">Memorial Acclamation</label>
                 <div class="multiple-inputs">
                   <div class="labeled-radio">
-                    <input type="radio" id="memorial0" name="memorial" value="0" />
+                    <input type="radio" id="memorial0-${i}" name="memorial-${i}" value="0" />
                     <label for="memorial0">None</label>
                   </div>
                   <div class="labeled-radio">
-                    <input type="radio" id="memorial1" name="memorial" value="1" />
+                    <input type="radio" id="memorial1-${i}" name="memorial-${i}" value="1" />
                     <label for="memorial1">When We Eat...</label>
                   </div>
                   <div class="labeled-radio">
-                    <input type="radio" id="memorial2" name="memorial" value="2" />
+                    <input type="radio" id="memorial2-${i}" name="memorial-${i}" value="2" />
                     <label for="memorial2">We Proclaim...</label>
                   </div>
                   <div class="labeled-radio">
-                    <input type="radio" id="memorial3" name="memorial" value="3" />
+                    <input type="radio" id="memorial3-${i}" name="memorial-${i}" value="3" />
                     <label for="memorial3">Save Us...</label>
                   </div>
                 </div>
               </div>
               <div class="form-group">
-                <label for="communion">Communion Hymn</label>
-                <input type="text" id="communion" name="communion" required />
-              </div>
-              <div class="form-group">
-                <label for="recessional">Recessional Hymn</label>
-                <input type="text" id="recessional" name="recessional" required />
-              </div>
-              <div class="form-group">
                 <label for="amen">Amen</label>
-                <input type="checkbox" id="amen" name="amen" value="included" />
+                <input type="checkbox" id="amen-${i}" name="amen-${i}" value="included" />
               </div>
               <div class="form-group">
                 <label for="lamb">Lamb of God</label>
-                <input type="checkbox" id="lamb" name="lamb" value="included" />
+                <input type="checkbox" id="lamb-${i}" name="lamb-${i}" value="included" />
+              </div>
+              <div class="form-group">
+                <label for="communion">Communion Hymn</label>
+                <input type="text" id="communion-${i}" name="communion-${i}" required />
+              </div>
+              <div class="form-group">
+                <label for="recessional">Recessional Hymn</label>
+                <input type="text" id="recessional-${i}" name="recessional-${i}" required />
               </div>
             </div>
           `;
