@@ -17,6 +17,19 @@
       label {
         margin-right: 10px;
       }
+
+      #hymn-form {
+        display: flex;
+        justify-content: space-between; /* Evenly distribute columns */
+        gap: 20px; /* Gap between columns */
+      }
+
+      /* CSS for each column */
+      .column {
+        flex: 1; /* Each column takes up equal space */
+        padding: 10px; /* Padding for content */
+        border: 1px solid #ccc; /* Border for clarity */
+      }
     </style>
   </head>
   <body>
@@ -124,6 +137,7 @@
           var div = document.createElement("div");
           // TODO: make real divs
           div.textContent = `Div ${i + 1}`;
+          div.classList.add("column");
           hymnForm.appendChild(div);
         }
       })();
