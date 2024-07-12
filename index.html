@@ -28,13 +28,14 @@
       /* Each form group (label + input pair) */
       .form-group {
         display: grid;
-        grid-template-columns: 150px 1fr;
+        grid-template-columns: 120px 1fr;
         align-items: center;
         margin-bottom: 10px;
       }
 
       /* Style for the labels */
       .form-group label {
+        width: 100px;
         text-align: right;
         padding-right: 10px;
       }
@@ -77,14 +78,13 @@
   </head>
   <body>
     <h1>Mass Hymn Selection</h1>
-    <form id="hymn-form">
-      <button type="submit">Submit</button>
-    </form>
+    <form id="hymn-form"></form>
     <div id="result"></div>
     <script>
       let _listSundaysInCurrentMonth = (function () {
         // Get current date
         var today = new Date();
+        // var today = new Date(2024, 8, 1); // test with September (has 5 Sundays)
 
         // Get the year and month
         var year = today.getFullYear();
@@ -126,7 +126,7 @@
           let sunday = sundaysThisMonth[i];
           let element = document.createElement("div");
           element.innerHTML = `
-            <h2>${sunday}</h2>
+            <h3>${sunday}</h3>
             <div id="form-column">
               <div class="form-group">
                 <label for="gathering-hymn">Gathering Hymn</label>
@@ -185,15 +185,15 @@
                   </div>
                   <div class="labeled-radio">
                     <input type="radio" id="memorial1" name="memorial" value="1" />
-                    <label for="memorial1">When We Eat This Bread...</label>
+                    <label for="memorial1">When We Eat...</label>
                   </div>
                   <div class="labeled-radio">
                     <input type="radio" id="memorial2" name="memorial" value="2" />
-                    <label for="memorial2">We Proclaim Your Death...</label>
+                    <label for="memorial2">We Proclaim...</label>
                   </div>
                   <div class="labeled-radio">
                     <input type="radio" id="memorial3" name="memorial" value="3" />
-                    <label for="memorial3">Save Us, Saviour of the World...</label>
+                    <label for="memorial3">Save Us...</label>
                   </div>
                 </div>
               </div>
@@ -216,8 +216,15 @@
             </div>
           `;
           element.classList.add("column");
-          document.getElementById("hymn-form").prepend(element);
+          document.getElementById("hymn-form").append(element);
         }
+        // Add submit button at the end of the form.
+        let submitButton = document.createElement("button");
+        submitButton.setAttribute("type", "submit");
+        submitButton.setAttribute("id", "hymn-form-submit-button");
+        submitButton.setAttribute("name", "submit");
+        submitButton.textContent = "Submit";
+        document.getElementById("hymn-form").append(submitButton);
       })();
       index;
     </script>
