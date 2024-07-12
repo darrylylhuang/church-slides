@@ -32,11 +32,30 @@
       .columns div input {
         margin-right: 5px;
       }
+
+      .checkbox-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .checkbox-container div {
+        display: flex;
+        align-items: center;
+      }
+
+      .checkbox-container div input {
+        margin-right: 5px;
+      }
     </style>
   </head>
   <body>
     <h1>Mass Hymn Selection</h1>
     <form id="hymn-form">
+      <div class="form-group">
+        <label for="gathering-hymn">Gathering Hymn:</label>
+        <input type="text" id="gathering-hymn" name="gathering-hymn" required />
+      </div>
       <div class="form-group">
         <label for="hymn-number">Hymn Number:</label>
         <input type="number" id="hymn-number" name="hymn-number" required />
@@ -47,30 +66,47 @@
       </div>
       <div class="form-group">
         <label>Parts of the Mass:</label>
-        <div>
-          <input type="checkbox" id="gathering" name="part" value="Gathering" />
-          <label for="gathering">Gathering</label>
-        </div>
-        <div>
-          <input type="checkbox" id="psalm" name="part" value="Psalm" />
-          <label for="psalm">Psalm</label>
-        </div>
-        <div>
-          <input type="checkbox" id="offertory" name="part" value="Offertory" />
-          <label for="offertory">Offertory</label>
-        </div>
-        <div>
-          <input type="checkbox" id="communion" name="part" value="Communion" />
-          <label for="communion">Communion</label>
-        </div>
-        <div>
-          <input
-            type="checkbox"
-            id="recessional"
-            name="part"
-            value="Recessional"
-          />
-          <label for="recessional">Recessional</label>
+        <div class="checkbox-container">
+          <div>
+            <input
+              type="checkbox"
+              id="gathering"
+              name="part"
+              value="Gathering"
+            />
+            <label for="gathering">Gathering</label>
+          </div>
+          <div>
+            <input type="checkbox" id="psalm" name="part" value="Psalm" />
+            <label for="psalm">Psalm</label>
+          </div>
+          <div>
+            <input
+              type="checkbox"
+              id="offertory"
+              name="part"
+              value="Offertory"
+            />
+            <label for="offertory">Offertory</label>
+          </div>
+          <div>
+            <input
+              type="checkbox"
+              id="communion"
+              name="part"
+              value="Communion"
+            />
+            <label for="communion">Communion</label>
+          </div>
+          <div>
+            <input
+              type="checkbox"
+              id="recessional"
+              name="part"
+              value="Recessional"
+            />
+            <label for="recessional">Recessional</label>
+          </div>
         </div>
       </div>
       <div class="form-group columns">
