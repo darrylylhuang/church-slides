@@ -41,7 +41,8 @@
       }
 
       /* Style for the input fields */
-      .form-group input {
+      .form-group input[type="text"],
+      .form-group input[type="checkbox"] {
         flex: 1;
         padding: 5px;
       }
@@ -74,12 +75,29 @@
           />
         </div>
         <div class="form-group">
+          <label for="gloria">Gloria</label>
+          <input type="checkbox" id="gloria" name="gloria" value="included" />
+        </div>
+        <div class="form-group">
           <label for="psalm">Psalm</label>
           <input type="text" id="psalm" name="psalm" required />
         </div>
         <div class="form-group">
+          <label for="gospel-acclamation">Gospel Acclamation</label>
+          <input type="radio" id="gospel-none" name="gospel" value="none" />
+          <input type="radio" id="gospel-norm" name="gospel" value="normal" />
+          <input type="radio" id="gospel-lent" name="gospel" value="lenten" />
+        </div>
+        <div class="form-group">
           <label for="offertory">Offertory Hymn</label>
           <input type="text" id="offertory" name="offertory" required />
+        </div>
+        <div class="form-group">
+          <label for="memorial">Memorial Acclamation</label>
+          <input type="radio" id="memorial0" name="memorial" value="0" />
+          <input type="radio" id="memorial1" name="memorial" value="1" />
+          <input type="radio" id="memorial2" name="memorial" value="2" />
+          <input type="radio" id="memorial3" name="memorial" value="3" />
         </div>
         <div class="form-group">
           <label for="communion">Communion Hymn</label>
@@ -90,48 +108,12 @@
           <input type="text" id="recessional" name="recessional" required />
         </div>
         <div class="form-group">
-          <div class="checkboxes-container">
-            <div class="checkbox-container">
-              <label for="gloria">Gloria</label>
-              <input
-                type="checkbox"
-                id="gloria"
-                name="gloria"
-                value="included"
-              />
-            </div>
-            <div class="checkbox-container">
-              <label for="psalm">Gospel Acclamation</label>
-              <input type="radio" id="gospel-none" name="gospel" value="none" />
-              <input
-                type="radio"
-                id="gospel-norm"
-                name="gospel"
-                value="normal"
-              />
-              <input
-                type="radio"
-                id="gospel-lent"
-                name="gospel"
-                value="lenten"
-              />
-            </div>
-            <div class="checkbox-container">
-              <label for="memorial">Memorial Acclamation</label>
-              <input type="radio" id="memorial0" name="memorial" value="0" />
-              <input type="radio" id="memorial1" name="memorial" value="1" />
-              <input type="radio" id="memorial2" name="memorial" value="2" />
-              <input type="radio" id="memorial3" name="memorial" value="3" />
-            </div>
-            <div class="checkbox-container">
-              <label for="amen">Amen</label>
-              <input type="checkbox" id="amen" name="amen" value="included" />
-            </div>
-            <div class="checkbox-container">
-              <label for="lamb">Lamb of God</label>
-              <input type="checkbox" id="lamb" name="lamb" value="included" />
-            </div>
-          </div>
+          <label for="amen">Amen</label>
+          <input type="checkbox" id="amen" name="amen" value="included" />
+        </div>
+        <div class="form-group">
+          <label for="lamb">Lamb of God</label>
+          <input type="checkbox" id="lamb" name="lamb" value="included" />
         </div>
       </div>
       <div class="form-group columns">
