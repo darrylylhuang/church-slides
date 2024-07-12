@@ -188,11 +188,11 @@
         var hymnForm = document.getElementById("hymn-form");
         var numberOfDivs = _countSundaysInCurrentMonth;
         for (let i = 0; i < numberOfDivs; i++) {
-          var div = document.createElement("div");
-          // TODO: make real divs
-          div.textContent = `Div ${i + 1}`;
-          div.classList.add("column");
-          hymnForm.appendChild(div);
+          var element = document.createElement("div");
+          element.innerHTML = ``;
+          element.textContent = `Div ${i + 1}`;
+          element.classList.add("column");
+          hymnForm.appendChild(element);
         }
       })();
       index;
