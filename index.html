@@ -35,17 +35,32 @@
   <body>
     <h1>Mass Hymn Selection</h1>
     <form id="hymn-form">
-      <div class="form-group">
-        <label for="gathering-hymn">Gathering Hymn:</label>
-        <input type="text" id="gathering-hymn" name="gathering-hymn" required />
-      </div>
-      <div class="form-group">
-        <label for="hymn-number">Hymn Number:</label>
-        <input type="number" id="hymn-number" name="hymn-number" required />
-      </div>
-      <div class="form-group">
-        <label for="hymn-title">Hymn Title:</label>
-        <input type="text" id="hymn-title" name="hymn-title" required />
+      <div id="form-column">
+        <div class="form-group">
+          <label for="gathering-hymn">Gathering Hymn</label>
+          <input
+            type="text"
+            id="gathering-hymn"
+            name="gathering-hymn"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="psalm">Psalm</label>
+          <input type="text" id="psalm" name="psalm" required />
+        </div>
+        <div class="form-group">
+          <label for="offertory">Offertory Hymn</label>
+          <input type="text" id="offertory" name="offertory" required />
+        </div>
+        <div class="form-group">
+          <label for="communion">Communion Hymn</label>
+          <input type="text" id="communion" name="communion" required />
+        </div>
+        <div class="form-group">
+          <label for="recessional">Recessional Hymn</label>
+          <input type="text" id="recessional" name="recessional" required />
+        </div>
       </div>
       <div class="form-group">
         <label>Parts of the Mass:</label>
@@ -128,7 +143,7 @@
         return sundaysCount;
       })();
 
-      (function () {
+      let index = (function () {
         "use strict";
 
         var hymnForm = document.getElementById("hymn-form");
@@ -141,6 +156,7 @@
           hymnForm.appendChild(div);
         }
       })();
+      index;
     </script>
     <script>
       document
