@@ -73,10 +73,16 @@
         margin-right: 10px;
       }
 
-      #hymn-form {
+      #mini-forms-container {
         display: flex;
         justify-content: space-between; /* Evenly distribute columns */
         gap: 20px; /* Gap between columns */
+      }
+
+      /* Center the submit button */
+      #hymn-form-submit-button {
+        margin: 20px auto; /* Center horizontally with top and bottom margin */
+        display: block; /* Ensure it's a block element */
       }
 
       /* CSS for each column */
@@ -91,7 +97,10 @@
     <div class="header-container">
       <h1>Mass Hymn Selection</h1>
     </div>
-    <form id="hymn-form"></form>
+    <form id="hymn-form">
+      <div id="mini-forms-container"></div>
+      <div id="hymn-form-submit-button-container"></div>
+    </form>
     <div id="result"></div>
     <script>
       let _listSundaysInCurrentMonth = (function () {
@@ -229,7 +238,7 @@
             </div>
           `;
           element.classList.add("column");
-          document.getElementById("hymn-form").append(element);
+          document.getElementById("mini-forms-container").append(element);
         }
         // Add submit button at the end of the form.
         let submitButton = document.createElement("button");
@@ -237,7 +246,9 @@
         submitButton.setAttribute("id", "hymn-form-submit-button");
         submitButton.setAttribute("name", "submit");
         submitButton.textContent = "Submit";
-        document.getElementById("hymn-form").append(submitButton);
+        document
+          .getElementById("hymn-form-submit-button-container")
+          .append(submitButton);
       })();
       index;
     </script>
