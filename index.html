@@ -42,9 +42,24 @@
 
       /* Style for the input fields */
       .form-group input[type="text"],
-      .form-group input[type="checkbox"] {
+      .form-group input[type="checkbox"],
+      .form-group input[type="radio"] {
         flex: 1;
         padding: 5px;
+        margin-right: 5px;
+      }
+
+      /* Ensure that multiple inputs in a form group are aligned */
+      .form-group .multiple-inputs {
+        flex: 1;
+        /* Do not use padding. It makes Gospel Acclamation radio buttons unaligned. */
+        margin-right: 5px;
+        /* Display flex also unaligns the Gospel Acclamation radio buttons. */
+      }
+
+      .multiple-inputs label {
+        margin-left: 5px;
+        margin-right: 10px;
       }
 
       #hymn-form {
@@ -84,9 +99,11 @@
         </div>
         <div class="form-group">
           <label for="gospel-acclamation">Gospel Acclamation</label>
-          <input type="radio" id="gospel-none" name="gospel" value="none" />
-          <input type="radio" id="gospel-norm" name="gospel" value="normal" />
-          <input type="radio" id="gospel-lent" name="gospel" value="lenten" />
+          <div class="multiple-inputs">
+            <input type="radio" id="gospel-none" name="gospel" value="none" />
+            <input type="radio" id="gospel-norm" name="gospel" value="normal" />
+            <input type="radio" id="gospel-lent" name="gospel" value="lenten" />
+          </div>
         </div>
         <div class="form-group">
           <label for="offertory">Offertory Hymn</label>
@@ -94,10 +111,24 @@
         </div>
         <div class="form-group">
           <label for="memorial">Memorial Acclamation</label>
-          <input type="radio" id="memorial0" name="memorial" value="0" />
-          <input type="radio" id="memorial1" name="memorial" value="1" />
-          <input type="radio" id="memorial2" name="memorial" value="2" />
-          <input type="radio" id="memorial3" name="memorial" value="3" />
+          <div class="multiple-inputs">
+            <div class="labeled-radio">
+              <input type="radio" id="memorial0" name="memorial" value="0" />
+              <label for="memorial0">0</label>
+            </div>
+            <div class="labeled-radio">
+              <input type="radio" id="memorial1" name="memorial" value="1" />
+              <label for="memorial1">1</label>
+            </div>
+            <div class="labeled-radio">
+              <input type="radio" id="memorial2" name="memorial" value="2" />
+              <label for="memorial2">2</label>
+            </div>
+            <div class="labeled-radio">
+              <input type="radio" id="memorial3" name="memorial" value="3" />
+              <label for="memorial3">3</label>
+            </div>
+          </div>
         </div>
         <div class="form-group">
           <label for="communion">Communion Hymn</label>
