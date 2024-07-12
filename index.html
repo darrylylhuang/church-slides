@@ -19,10 +19,17 @@
       }
 
       /* Container for the form columns */
-      #form-column {
+      .form-column {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+      }
+
+      .form-column h3 {
+        text-align: center;
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 10px;
       }
 
       /* Each form group (label + input pair) */
@@ -126,8 +133,8 @@
           let sunday = sundaysThisMonth[i];
           let element = document.createElement("div");
           element.innerHTML = `
-            <h3>${sunday}</h3>
-            <div id="form-column">
+            <div id="form-column-${i}" class="form-column">
+              <h3>${sunday}</h3>
               <div class="form-group">
                 <label for="gathering-hymn">Gathering Hymn</label>
                 <input
