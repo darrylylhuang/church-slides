@@ -78,93 +78,6 @@
   <body>
     <h1>Mass Hymn Selection</h1>
     <form id="hymn-form">
-      <div id="form-column">
-        <div class="form-group">
-          <label for="gathering-hymn">Gathering Hymn</label>
-          <input
-            type="text"
-            id="gathering-hymn"
-            name="gathering-hymn"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label for="gloria">Gloria</label>
-          <input type="checkbox" id="gloria" name="gloria" value="included" />
-        </div>
-        <div class="form-group">
-          <label for="psalm">Psalm</label>
-          <input type="text" id="psalm" name="psalm" required />
-        </div>
-        <div class="form-group">
-          <label for="gospel-acclamation">Gospel Acclamation</label>
-          <div class="multiple-inputs">
-            <div class="labeled-radio">
-              <input type="radio" id="gospel-none" name="gospel" value="none" />
-              <label for="gospel-none">None</label>
-            </div>
-            <div class="labeled-radio">
-              <input
-                type="radio"
-                id="gospel-norm"
-                name="gospel"
-                value="normal"
-              />
-              <label for="gospel-norm">Normal</label>
-            </div>
-            <div class="labeled-radio">
-              <input
-                type="radio"
-                id="gospel-lent"
-                name="gospel"
-                value="lenten"
-              />
-              <label for="gospel-lent">Lenten</label>
-            </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="offertory">Offertory Hymn</label>
-          <input type="text" id="offertory" name="offertory" required />
-        </div>
-        <div class="form-group">
-          <label for="memorial">Memorial Acclamation</label>
-          <div class="multiple-inputs">
-            <div class="labeled-radio">
-              <input type="radio" id="memorial0" name="memorial" value="0" />
-              <label for="memorial0">None</label>
-            </div>
-            <div class="labeled-radio">
-              <input type="radio" id="memorial1" name="memorial" value="1" />
-              <label for="memorial1">When We Eat This Bread...</label>
-            </div>
-            <div class="labeled-radio">
-              <input type="radio" id="memorial2" name="memorial" value="2" />
-              <label for="memorial2">We Proclaim Your Death...</label>
-            </div>
-            <div class="labeled-radio">
-              <input type="radio" id="memorial3" name="memorial" value="3" />
-              <label for="memorial3">Save Us, Saviour of the World...</label>
-            </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="communion">Communion Hymn</label>
-          <input type="text" id="communion" name="communion" required />
-        </div>
-        <div class="form-group">
-          <label for="recessional">Recessional Hymn</label>
-          <input type="text" id="recessional" name="recessional" required />
-        </div>
-        <div class="form-group">
-          <label for="amen">Amen</label>
-          <input type="checkbox" id="amen" name="amen" value="included" />
-        </div>
-        <div class="form-group">
-          <label for="lamb">Lamb of God</label>
-          <input type="checkbox" id="lamb" name="lamb" value="included" />
-        </div>
-      </div>
       <button type="submit">Submit</button>
     </form>
     <div id="result"></div>
@@ -204,10 +117,97 @@
         var numberOfDivs = _countSundaysInCurrentMonth;
         for (let i = 0; i < numberOfDivs; i++) {
           var element = document.createElement("div");
-          element.innerHTML = ``;
-          element.textContent = `Div ${i + 1}`;
+          element.innerHTML = `
+            <div id="form-column">
+              <div class="form-group">
+                <label for="gathering-hymn">Gathering Hymn</label>
+                <input
+                  type="text"
+                  id="gathering-hymn"
+                  name="gathering-hymn"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="gloria">Gloria</label>
+                <input type="checkbox" id="gloria" name="gloria" value="included" />
+              </div>
+              <div class="form-group">
+                <label for="psalm">Psalm</label>
+                <input type="text" id="psalm" name="psalm" required />
+              </div>
+              <div class="form-group">
+                <label for="gospel-acclamation">Gospel Acclamation</label>
+                <div class="multiple-inputs">
+                  <div class="labeled-radio">
+                    <input type="radio" id="gospel-none" name="gospel" value="none" />
+                    <label for="gospel-none">None</label>
+                  </div>
+                  <div class="labeled-radio">
+                    <input
+                      type="radio"
+                      id="gospel-norm"
+                      name="gospel"
+                      value="normal"
+                    />
+                    <label for="gospel-norm">Normal</label>
+                  </div>
+                  <div class="labeled-radio">
+                    <input
+                      type="radio"
+                      id="gospel-lent"
+                      name="gospel"
+                      value="lenten"
+                    />
+                    <label for="gospel-lent">Lenten</label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="offertory">Offertory Hymn</label>
+                <input type="text" id="offertory" name="offertory" required />
+              </div>
+              <div class="form-group">
+                <label for="memorial">Memorial Acclamation</label>
+                <div class="multiple-inputs">
+                  <div class="labeled-radio">
+                    <input type="radio" id="memorial0" name="memorial" value="0" />
+                    <label for="memorial0">None</label>
+                  </div>
+                  <div class="labeled-radio">
+                    <input type="radio" id="memorial1" name="memorial" value="1" />
+                    <label for="memorial1">When We Eat This Bread...</label>
+                  </div>
+                  <div class="labeled-radio">
+                    <input type="radio" id="memorial2" name="memorial" value="2" />
+                    <label for="memorial2">We Proclaim Your Death...</label>
+                  </div>
+                  <div class="labeled-radio">
+                    <input type="radio" id="memorial3" name="memorial" value="3" />
+                    <label for="memorial3">Save Us, Saviour of the World...</label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="communion">Communion Hymn</label>
+                <input type="text" id="communion" name="communion" required />
+              </div>
+              <div class="form-group">
+                <label for="recessional">Recessional Hymn</label>
+                <input type="text" id="recessional" name="recessional" required />
+              </div>
+              <div class="form-group">
+                <label for="amen">Amen</label>
+                <input type="checkbox" id="amen" name="amen" value="included" />
+              </div>
+              <div class="form-group">
+                <label for="lamb">Lamb of God</label>
+                <input type="checkbox" id="lamb" name="lamb" value="included" />
+              </div>
+            </div>
+          `;
           element.classList.add("column");
-          hymnForm.appendChild(element);
+          hymnForm.prepend(element);
         }
       })();
       index;
