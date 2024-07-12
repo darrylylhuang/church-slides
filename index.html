@@ -123,8 +123,10 @@
         const sundaysThisMonth = _listSundaysInCurrentMonth;
         const numberOfDivs = sundaysThisMonth.length;
         for (let i = 0; i < numberOfDivs; i++) {
+          let sunday = sundaysThisMonth[i];
           let element = document.createElement("div");
           element.innerHTML = `
+            <h2>${sunday}</h2>
             <div id="form-column">
               <div class="form-group">
                 <label for="gathering-hymn">Gathering Hymn</label>
