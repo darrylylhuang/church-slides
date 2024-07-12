@@ -82,7 +82,7 @@
     </form>
     <div id="result"></div>
     <script>
-      let _countSundaysInCurrentMonth = (function () {
+      let _listSundaysInCurrentMonth = (function () {
         // Get current date
         var today = new Date();
 
@@ -91,7 +91,14 @@
         var month = today.getMonth();
 
         // Initialize counter for Sundays
-        var sundaysCount = 0;
+        var sundaysList = [];
+
+        let options = {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        };
 
         // Loop through each day of the month
         for (
@@ -102,21 +109,21 @@
           var currentDate = new Date(year, month, day);
           // Check if the current day is a Sunday (day 0 in JavaScript Date object)
           if (currentDate.getDay() === 0) {
-            sundaysCount++;
+            sundaysList.push(currentDate.toLocaleDateString("en-US", options));
           }
         }
 
         // Return the number of Sundays found
-        return sundaysCount;
+        return sundaysList;
       })();
 
       let index = (function () {
         "use strict";
 
-        var hymnForm = document.getElementById("hymn-form");
-        var numberOfDivs = _countSundaysInCurrentMonth;
+        const sundaysThisMonth = _listSundaysInCurrentMonth;
+        const numberOfDivs = sundaysThisMonth.length;
         for (let i = 0; i < numberOfDivs; i++) {
-          var element = document.createElement("div");
+          let element = document.createElement("div");
           element.innerHTML = `
             <div id="form-column">
               <div class="form-group">
@@ -207,7 +214,7 @@
             </div>
           `;
           element.classList.add("column");
-          hymnForm.prepend(element);
+          document.getElementById("hymn-form").prepend(element);
         }
       })();
       index;
