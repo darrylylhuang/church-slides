@@ -58,6 +58,7 @@ function initializeData() {
   GlobalConstants.amenId = storringtonSlidesPresentationIds["Amen"];
   GlobalConstants.lambId = storringtonSlidesPresentationIds["Lamb of God"];
 
+  GlobalConstants.openingId = otherSlidesPresentationIds["Opening"];
   GlobalConstants.transitionId = otherSlidesPresentationIds["Transition"];
 
   Logger.log("Data initilization complete.");
