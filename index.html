@@ -109,7 +109,8 @@
       <h1>Monthly Music Schedule</h1>
     </div>
     <div id="how-to-use">
-      Please enter Hymn Numbers for hymns in the Gather, and Hymn Names for hymns in the Binder.
+      Please enter Hymn Numbers for hymns in the Gather, and Hymn Names for
+      hymns in the Binder.
     </div>
     <form id="hymn-form">
       <div id="mini-forms-container"></div>
@@ -174,7 +175,7 @@
                 />
               </div>
               <div class="form-group">
-                <label for="gloria-${i}">Gloria</label>
+                <label>Gloria</label>
                 <div class="labeled-radio">
                   <input type="checkbox" id="gloria-${i}" name="gloria-${i}" value="included" />
                   <label for="gloria-checbox-${i}">Include</label>
@@ -242,11 +243,11 @@
                 </div>
               </div>
               <div class="form-group">
-                <label for="amen-${i}">Amen</label>
+                <label>Amen</label>
                 <input type="checkbox" id="amen-${i}" name="amen-${i}" value="included" />
               </div>
               <div class="form-group">
-                <label for="lamb-${i}">Lamb of God</label>
+                <label>Lamb of God</label>
                 <input type="checkbox" id="lamb-${i}" name="lamb-${i}" value="included" />
               </div>
               <div class="form-group">
@@ -263,15 +264,18 @@
           document.getElementById("mini-forms-container").append(element);
         }
         // Add submit button at the end of the form.
-        let submitButton = document.createElement("button");
-        submitButton.classList.add("large-button");
-        submitButton.setAttribute("type", "submit");
-        submitButton.setAttribute("id", "hymn-form-submit-button");
-        submitButton.setAttribute("name", "submit");
-        submitButton.textContent = "Submit";
-        document
-          .getElementById("hymn-form-submit-button-container")
-          .append(submitButton);
+        let addSubmitButton = (function () {
+          let submitButton = document.createElement("button");
+          submitButton.classList.add("large-button");
+          submitButton.setAttribute("type", "submit");
+          submitButton.setAttribute("id", "hymn-form-submit-button");
+          submitButton.setAttribute("name", "submit");
+          submitButton.textContent = "Submit";
+          document
+            .getElementById("hymn-form-submit-button-container")
+            .append(submitButton);
+        })();
+        addSubmitButton;
       })();
       index;
     </script>
