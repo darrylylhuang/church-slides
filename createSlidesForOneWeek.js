@@ -34,7 +34,6 @@ function createSlidesForOneWeek(nextSunday) {
   const [gatheringId, psalmId, offertoryId, communionId, recessionalId] =
     hymnIdList;
 
-  // **************************************************** SLIDE ORDER ****************************************************
   // Array to store the slides to add in a specific order
   let slidesToAdd = [
     { id: gatheringId, type: "Gathering" },
@@ -84,15 +83,18 @@ function createSlidesForOneWeek(nextSunday) {
     type: slide.type,
   }));
 
-  // needs the date from nextSunday slice
+  // Make a new presentation for a single Sunday; needs the date from nextSunday slice
   var newPresentation = createPresentationInFolder(date);
-  var presentation = newPresentation;
-  presentation.getSlides()[0].remove();
+  var currentPresentation = newPresentation;
+  currentPresentation.getSlides()[0].remove();
 
   // Transition slide
   var transitionId = GlobalConstants.transitionId;
   var transitionPresentation = SlidesApp.openById(transitionId);
   var transitionSlide = transitionPresentation.getSlides()[0];
+
+  // Add opening slide before everything else
+  addOpeningSlide();
 
   // j will typically be 10 at the end of the iteration since we usually use 6 parts of the mass and 5 hymns
   for (let j = 0; j < slidesToAdd.length; j++) {
@@ -107,11 +109,11 @@ function createSlidesForOneWeek(nextSunday) {
       var existingPresentation = SlidesApp.openById(presentationId);
       // Duplicate and append slides from existingPresentation to currentPresentation
       var slides = existingPresentation.getSlides();
-      slides.forEach((slide) => copySlide(slide, presentation));
+      slides.forEach((slide) => copySlide(slide, currentPresentation));
 
       // Add a transition slide after every slide added
       Logger.log(`${date}: Adding a transition slide at position ${j}.`);
-      presentation.appendSlide(transitionSlide);
+      copySlide(transitionSlide, currentPresentation);
     } else {
       Logger.log(`Missing presentation: ${presentationType}`);
     }
@@ -120,4 +122,14 @@ function createSlidesForOneWeek(nextSunday) {
 
 function copySlide(sourceSlide, targetPresentation) {
   targetPresentation.appendSlide(sourceSlide);
+}
+
+function addOpeningSlide() {
+  let openingId = GlobalConstants.openingId;
+  let openingPresentation = SlidesApp.openById(openingId);
+  let openingSlide = openingPresentation.getSlides()[0];
+  let openingType = "Opening";
+
+  Logger.log(`${date}: Copying exisiting slides for ${openingType}.`);
+  copySlide(openingSlide, currentPresentation);
 }

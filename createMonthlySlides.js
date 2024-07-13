@@ -2,10 +2,6 @@ var SHEET_ID = "1f5dM3ppCNISYl6EgvFoC6irO-UwpIvJc_hoDnkEb6wQ"; // Open GoogleShe
 var GlobalConstants = {};
 
 function createMonthlySlides() {
-  // ************* TO UPDATE AN EXISTING PRESENTATION *************
-  // var PRESENTATION_ID = '1tzUskJ8-7IvJikkIX2gEHdH0NDN65OYbu_2AYGOZPXM';
-  // var presentation = SlidesApp.openById(PRESENTATION_ID);
-  // var newPresentation = SlidesApp.create('Sunday, July 7, 2024');
   initializeData();
 
   const scheduleData = GlobalConstants.scheduleData;
