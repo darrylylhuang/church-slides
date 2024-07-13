@@ -1,16 +1,310 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <base target="_top">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Monthly Music Schedule</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+
+      .header-container h1 {
+        text-align: center;
+      }
+
+      #how-to-use {
+        text-align: center;
+        margin-top: -20px;
+        margin-bottom: 20px;
+      }
+
+      .large-button {
+        width: 200px;
+        height: 50px;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      label {
+        margin-right: 10px;
+      }
+
+      /* Container for the form columns */
+      .form-column {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .form-column h3 {
+        text-align: center;
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+
+      /* Each form group (label + input pair) */
+      .form-group {
+        display: grid;
+        grid-template-columns: 120px 1fr;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      /* Style for the labels */
+      .form-group label {
+        width: 100px;
+        text-align: right;
+        padding-right: 10px;
+      }
+
+      /* Style for the input fields */
+      .form-group input[type="text"],
+      .form-group input[type="checkbox"],
+      .form-group input[type="radio"] {
+        flex: 1;
+        padding: 5px;
+        margin-right: 5px;
+      }
+
+      /* Ensure that multiple inputs in a form group are aligned */
+      .form-group .multiple-inputs {
+        flex: 1;
+        /* Do not use padding. It makes Gospel Acclamation radio buttons unaligned. */
+        margin-right: 5px;
+        /* Display flex also unaligns the Gospel Acclamation radio buttons. */
+      }
+
+      .multiple-inputs label {
+        margin-left: 5px;
+        margin-right: 10px;
+      }
+
+      #mini-forms-container {
+        display: flex;
+        justify-content: space-between; /* Evenly distribute columns */
+        gap: 20px; /* Gap between columns */
+      }
+
+      /* Center the submit button */
+      #hymn-form-submit-button {
+        margin: 20px auto; /* Center horizontally with top and bottom margin */
+        display: block; /* Ensure it's a block element */
+      }
+
+      /* CSS for each column */
+      .column {
+        flex: 1; /* Each column takes up equal space */
+        padding: 10px; /* Padding for content */
+        border: 1px solid #ccc; /* Border for clarity */
+      }
+    </style>
   </head>
   <body>
-    <button id="runButton">Run Script</button>
+    <div class="header-container">
+      <h1>Monthly Music Schedule</h1>
+    </div>
+    <div id="how-to-use">
+      Please enter Hymn Numbers for hymns in the Gather, and Hymn Names for
+      hymns in the Binder.
+    </div>
+    <form id="hymn-form">
+      <div id="mini-forms-container"></div>
+      <div id="hymn-form-submit-button-container"></div>
+    </form>
+    <div id="result"></div>
+    <script>
+      let _listSundaysInCurrentMonth = (function () {
+        // Get current date
+        var today = new Date();
+        // var today = new Date(2024, 8, 1); // test with September (has 5 Sundays)
 
-  <script>
-    // JavaScript function to execute when the button is clicked
-    document.getElementById("runButton").addEventListener("click", function() {
-      google.script.run.createMonthlySlides();
-    });
-  </script>
+        // Get the year and month
+        var year = today.getFullYear();
+        var month = today.getMonth();
+
+        // Initialize counter for Sundays
+        var sundaysList = [];
+
+        let options = {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        };
+
+        // Loop through each day of the month
+        for (
+          var day = 1;
+          day <= new Date(year, month + 1, 0).getDate();
+          day++
+        ) {
+          var currentDate = new Date(year, month, day);
+          // Check if the current day is a Sunday (day 0 in JavaScript Date object)
+          if (currentDate.getDay() === 0) {
+            sundaysList.push(currentDate.toLocaleDateString("en-US", options));
+          }
+        }
+
+        // Return the number of Sundays found
+        return sundaysList;
+      })();
+
+      let index = (function () {
+        "use strict";
+
+        const sundaysThisMonth = _listSundaysInCurrentMonth;
+        const numberOfDivs = sundaysThisMonth.length;
+        for (let i = 0; i < numberOfDivs; i++) {
+          let sunday = sundaysThisMonth[i];
+          let element = document.createElement("div");
+          element.innerHTML = `
+            <div id="form-column-${i}" class="form-column">
+              <h3>${sunday}</h3>
+              <div class="form-group">
+                <label for="gathering-${i}">Gathering Hymn</label>
+                <input
+                  type="text"
+                  id="gathering-${i}"
+                  name="gathering-${i}"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label>Gloria</label>
+                <div class="labeled-radio">
+                  <input type="checkbox" id="gloria-${i}" name="gloria-${i}" value="included" />
+                  <label for="gloria-checbox-${i}">Include</label>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="psalm-${i}">Psalm</label>
+                <input type="text" id="psalm-${i}" name="psalm-${i}" required />
+              </div>
+              <div class="form-group">
+                <label for="gospel-${i}">Gospel Acclamation</label>
+                <div class="multiple-inputs">
+                  <div class="labeled-radio">
+                    <input
+                      type="radio"
+                      id="gospel-none-${i}"
+                      name="gospel-${i}"
+                      value="none"
+                    />
+                    <label for="gospel-none-${i}">None</label>
+                  </div>
+                  <div class="labeled-radio">
+                    <input
+                      type="radio"
+                      id="gospel-norm-${i}"
+                      name="gospel-${i}"
+                      value="normal"
+                    />
+                    <label for="gospel-norm-${i}">Normal</label>
+                  </div>
+                  <div class="labeled-radio">
+                    <input
+                      type="radio"
+                      id="gospel-lent-${i}"
+                      name="gospel-${i}"
+                      value="lenten"
+                    />
+                    <label for="gospel-lent-${i}">Lenten</label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="offertory-${i}">Offertory Hymn</label>
+                <input type="text" id="offertory-${i}" name="offertory-${i}" required />
+              </div>
+              <div class="form-group">
+                <label for="memorial-${i}">Memorial Acclamation</label>
+                <div class="multiple-inputs">
+                  <div class="labeled-radio">
+                    <input type="radio" id="memorial0-${i}" name="memorial-${i}" value="0" />
+                    <label for="memorial0-${i}">None</label>
+                  </div>
+                  <div class="labeled-radio">
+                    <input type="radio" id="memorial1-${i}" name="memorial-${i}" value="1" />
+                    <label for="memorial1-${i}">When We Eat...</label>
+                  </div>
+                  <div class="labeled-radio">
+                    <input type="radio" id="memorial2-${i}" name="memorial-${i}" value="2" />
+                    <label for="memorial2-${i}">We Proclaim...</label>
+                  </div>
+                  <div class="labeled-radio">
+                    <input type="radio" id="memorial3-${i}" name="memorial-${i}" value="3" />
+                    <label for="memorial3-${i}">Save Us...</label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Amen</label>
+                <input type="checkbox" id="amen-${i}" name="amen-${i}" value="included" />
+              </div>
+              <div class="form-group">
+                <label>Lamb of God</label>
+                <input type="checkbox" id="lamb-${i}" name="lamb-${i}" value="included" />
+              </div>
+              <div class="form-group">
+                <label for="communion-${i}">Communion Hymn</label>
+                <input type="text" id="communion-${i}" name="communion-${i}" required />
+              </div>
+              <div class="form-group">
+                <label for="recessional-${i}">Recessional Hymn</label>
+                <input type="text" id="recessional-${i}" name="recessional-${i}" required />
+              </div>
+            </div>
+          `;
+          element.classList.add("column");
+          document.getElementById("mini-forms-container").append(element);
+        }
+        // Add submit button at the end of the form.
+        let addSubmitButton = (function () {
+          let submitButton = document.createElement("button");
+          submitButton.classList.add("large-button");
+          submitButton.setAttribute("type", "submit");
+          submitButton.setAttribute("id", "hymn-form-submit-button");
+          submitButton.setAttribute("name", "submit");
+          submitButton.textContent = "Submit";
+          document
+            .getElementById("hymn-form-submit-button-container")
+            .append(submitButton);
+        })();
+        addSubmitButton;
+      })();
+      index;
+    </script>
+    <script>
+      document
+        .getElementById("hymn-form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const hymnNumber = document.getElementById("hymn-number").value;
+          const hymnTitle = document.getElementById("hymn-title").value;
+
+          const parts = [];
+          document
+            .querySelectorAll('input[name="part"]:checked')
+            .forEach((checkbox) => {
+              parts.push(checkbox.value);
+            });
+
+          const week = document.querySelector(
+            'input[name="week"]:checked'
+          ).value;
+
+          google.script.run
+            .withSuccessHandler((response) => {
+              document.getElementById("result").innerText = response;
+            })
+            .processForm(hymnNumber, hymnTitle, parts, week);
+        });
+    </script>
   </body>
 </html>
