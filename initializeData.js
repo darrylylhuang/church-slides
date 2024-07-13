@@ -7,7 +7,7 @@ function initializeData() {
   var OTHER_SLIDES = SPREADSHEET.getSheetByName("Other Slides"); // Open the sheet that has transitions + additional slides
   var SCHEDULE = SPREADSHEET.getSheetByName("Current Month"); // Open the sheet that has the information on what we're playing each month
 
-  var gatherData = GATHER_COMPREHENSIVE.getRange("A2:C").getValues(); // Contains hymn number, name, and GoogleSlides ID
+  var gatherData = GATHER_COMPREHENSIVE.getRange("A2:B").getValues(); // Contains hymn number, name, and GoogleSlides ID
   var storringtonData = STORRINGTON_MASS.getRange("A2:B10").getValues(); // Contains part of the mass, and GoogleSlidesID
   // ************* THESE ARE LAZY; UPDATE THEM WHEN MORE HYMNS ARE ADDDED *************
   var binderData = BINDER.getRange("A2:B100").getValues(); // Contains hymn name, and GoogleSlides ID
@@ -19,20 +19,20 @@ function initializeData() {
   // Create an object for quick lookup of presentation IDs by hymn number
   const gatherPresentationIds = {};
   gatherData.forEach(function (column) {
-    gatherPresentationIds[column[0]] = column[2]; // column[0] is hymn number, column[2] is presentation ID
+    gatherPresentationIds[column[0]] = column[1]; // column[0] is hymn number, column[1] is presentation ID
   });
   GlobalConstants.gatherPresentationIds = gatherPresentationIds;
 
   // Storrington mass setting slides
   const storringtonSlidesPresentationIds = {};
   storringtonData.forEach(function (column) {
-    storringtonSlidesPresentationIds[column[0]] = column[1]; // column[0] is slide type, column[1] is presentation ID
+    storringtonSlidesPresentationIds[column[0]] = column[1]; // column[0] is part of the mass, column[1] is presentation ID
   });
 
   // presentation ID by hymn name for binder hymns
   const binderPresentationIds = {};
   binderData.forEach(function (column) {
-    binderPresentationIds[column[0]] = column[1]; // column[0] is slide type, column[1] is presentation ID
+    binderPresentationIds[column[0]] = column[1]; // column[0] is hymn name, column[1] is presentation ID
   });
   GlobalConstants.binderPresentationIds = binderPresentationIds;
 
