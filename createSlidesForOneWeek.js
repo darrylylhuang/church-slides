@@ -2,6 +2,75 @@ function createSlidesForOneWeek(nextSunday) {
   const gatherPresentationIds = GlobalConstants.gatherPresentationIds;
   const binderPresentationIds = GlobalConstants.binderPresentationIds;
 
+  const addOpeningSlide = function (date, presentation) {
+    let openingId = GlobalConstants.openingId;
+    let openingPresentation = SlidesApp.openById(openingId);
+    let openingSlide = openingPresentation.getSlides()[0];
+    let type = "Opening";
+
+    // Find the title
+    let openingSlideShapes = openingSlide.getShapes();
+    let openingSlideTextboxes = openingSlideShapes.filter(
+      (shape) => shape.getShapeType() === SlidesApp.ShapeType.TEXT_BOX
+    );
+
+    // Assumes the title is the first textbox
+    let titleShape = openingSlideTextboxes[0];
+
+    // Change the title of the opening slide to be the date
+    titleShape.getText().setText(formatDate(date));
+
+    Logger.log(`${date}: Copying exisiting slides for ${type}.`);
+    copySlide(openingSlide, presentation);
+  };
+
+  const addTheJubileePrayer = function (date, presentation) {
+    let prayerId = GlobalConstants.jubileePrayerId;
+    let prayerPresentation = SlidesApp.openById(prayerId);
+    let slides = prayerPresentation.getSlides();
+    let type = "The Jubilee Prayer";
+
+    Logger.log(`${date}: Copying exisiting slides for ${type}.`);
+    slides.forEach((slide) => copySlide(slide, presentation));
+  };
+
+  const editGospelAcclamationVerse = function (gospelSlide, line1, line2) {
+    let gospelSlideShapes = gospelSlide.getShapes();
+    let gospelSlideTextboxes = gospelSlideShapes.filter(
+      (shape) => shape.getShapeType() === SlidesApp.ShapeType.TEXT_BOX
+    );
+
+    // Assumes the verse is in the second textbox
+    let gospelVerseShape = gospelSlideTextboxes[1];
+
+    // Text to be added to the shape
+    let labelText = `Verse\n`;
+    let verseText = `${line1}\n${line2}`;
+
+    let textRange = gospelVerseShape.getText();
+    textRange.clear();
+
+    // Add the label at font size 30
+    textRange.appendText(labelText);
+    let label = textRange.getRange(0, labelText.length);
+    label.getTextStyle().setFontSize(30);
+
+    // Add the verse at font size 25
+    textRange.appendText(verseText);
+    let verse = textRange.getRange(
+      labelText.length,
+      textRange.asString().length
+    );
+
+    // No bold or italics
+    let verseTextStyle = verse.getTextStyle();
+    verseTextStyle.setBold(false);
+    verseTextStyle.setItalic(false);
+    verseTextStyle.setFontSize(25);
+
+    Logger.log("Successfully updated Gospel Acclamation verse.");
+  };
+
   // HYMNS
   const [
     date,
@@ -17,6 +86,8 @@ function createSlidesForOneWeek(nextSunday) {
     memorialCond,
     amenCond,
     lambCond,
+    gospelLine1,
+    gospelLine2,
   ] = nextSunday.slice();
 
   const hymnNumList = [
@@ -98,6 +169,13 @@ function createSlidesForOneWeek(nextSunday) {
   // Jubilee prayer comes right after the opening hymn
   addTheJubileePrayer(date, currentPresentation);
 
+  // Gosepl Acclamation is a special case where the verse needs to edited
+  let typeIsGospel = function (type) {
+    return (
+      type === "Gospel Acclamation" || type === "Lenten Gospel Acclamation"
+    );
+  };
+
   // j will typically be 10 at the end of the iteration since we usually use 6 parts of the mass and 5 hymns
   for (let j = 0; j < slidesToAdd.length; j++) {
     // Find the presentation ID for nextSundayHymnNumber
@@ -109,8 +187,15 @@ function createSlidesForOneWeek(nextSunday) {
       // Open the existing presentation by ID
       Logger.log(`${date}: Copying exisiting slides for ${presentationType}.`);
       var existingPresentation = SlidesApp.openById(presentationId);
-      // Duplicate and append slides from existingPresentation to currentPresentation
+
+      // Get all slides from existingPresentation
       var slides = existingPresentation.getSlides();
+
+      // Edit the verse if this presentation is a Gospel Acclamation type
+      if (typeIsGospel(presentationType))
+        editGospelAcclamationVerse(slides[0], gospelLine1, gospelLine2);
+
+      // Copy all slides to currentPresentation
       slides.forEach((slide) => copySlide(slide, currentPresentation));
 
       // Add a transition slide after every slide added
@@ -124,35 +209,4 @@ function createSlidesForOneWeek(nextSunday) {
 
 function copySlide(sourceSlide, targetPresentation) {
   targetPresentation.appendSlide(sourceSlide);
-}
-
-function addTheJubileePrayer(date, presentation) {
-  let prayerId = GlobalConstants.jubileePrayerId;
-  let prayerPresentation = SlidesApp.openById(prayerId);
-  let slides = prayerPresentation.getSlides();
-  let type = "The Jubilee Prayer";
-
-  Logger.log(`${date}: Copying exisiting slides for ${type}.`);
-  slides.forEach((slide) => copySlide(slide, presentation));
-}
-
-function addOpeningSlide(date, presentation) {
-  let openingId = GlobalConstants.openingId;
-  let openingPresentation = SlidesApp.openById(openingId);
-  let openingSlide = openingPresentation.getSlides()[0];
-  let type = "Opening";
-
-  // Find the title
-  let openingSlideShapes = openingSlide.getShapes();
-  let openingSlideTextboxes = openingSlideShapes.filter(
-    (shape) => shape.getShapeType() === SlidesApp.ShapeType.TEXT_BOX
-  );
-  // Assumes the title is the first textbox
-  let titleShape = openingSlideTextboxes[0];
-
-  // Change the title of the opening slide to be the date
-  titleShape.getText().setText(formatDate(date));
-
-  Logger.log(`${date}: Copying exisiting slides for ${type}.`);
-  copySlide(openingSlide, presentation);
 }
