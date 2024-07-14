@@ -14,7 +14,7 @@ function initializeData() {
   var otherSlideData = OTHER_SLIDES.getRange("A2:B10").getValues(); // Contains slide type + GoogleSlides ID
 
   // ************* CHANGE THIS RANGE AS NEEDED *************
-  GlobalConstants.scheduleData = SCHEDULE.getRange("A2:M6").getValues();
+  GlobalConstants.scheduleData = SCHEDULE.getRange("A2:O6").getValues();
 
   // Create an object for quick lookup of presentation IDs by hymn number
   const gatherPresentationIds = {};
