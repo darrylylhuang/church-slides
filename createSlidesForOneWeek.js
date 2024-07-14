@@ -139,7 +139,7 @@ function addOpeningSlide(date, presentation) {
   let titleShape = openingSlideTextboxes[0];
 
   // Change the title of the opening slide to be the date
-  titleShape.getText().setText(date);
+  titleShape.getText().setText(formatDate(date));
 
   Logger.log(`${date}: Copying exisiting slides for ${openingType}.`);
   copySlide(openingSlide, presentation);
