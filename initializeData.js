@@ -60,6 +60,7 @@ function initializeData() {
 
   GlobalConstants.openingId = otherSlidesPresentationIds["Opening"];
   GlobalConstants.transitionId = otherSlidesPresentationIds["Transition"];
+  GlobalConstants.jubileePrayerId = otherSlidesPresentationIds["The Jubilee Prayer"];
 
   Logger.log("Data initilization complete.");
 }
