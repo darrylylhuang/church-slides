@@ -94,7 +94,7 @@ function createSlidesForOneWeek(nextSunday) {
   var transitionSlide = transitionPresentation.getSlides()[0];
 
   // Add opening slide before everything else
-  addOpeningSlide();
+  addOpeningSlide(date);
 
   // j will typically be 10 at the end of the iteration since we usually use 6 parts of the mass and 5 hymns
   for (let j = 0; j < slidesToAdd.length; j++) {
@@ -124,11 +124,15 @@ function copySlide(sourceSlide, targetPresentation) {
   targetPresentation.appendSlide(sourceSlide);
 }
 
-function addOpeningSlide() {
+function addOpeningSlide(date) {
   let openingId = GlobalConstants.openingId;
   let openingPresentation = SlidesApp.openById(openingId);
   let openingSlide = openingPresentation.getSlides()[0];
   let openingType = "Opening";
+
+  // Change the title of the opening slide to be the date
+  let titleShape = openingSlide.getShapes(SlidesApp.ShapeType.TEXT_BOX)[0];
+  titleShape.getText().setText(date);
 
   Logger.log(`${date}: Copying exisiting slides for ${openingType}.`);
   copySlide(openingSlide, currentPresentation);
