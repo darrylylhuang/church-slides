@@ -2,6 +2,38 @@ function createSlidesForOneWeek(nextSunday) {
   const gatherPresentationIds = GlobalConstants.gatherPresentationIds;
   const binderPresentationIds = GlobalConstants.binderPresentationIds;
 
+  const addOpeningSlide = function (date, presentation) {
+    let openingId = GlobalConstants.openingId;
+    let openingPresentation = SlidesApp.openById(openingId);
+    let openingSlide = openingPresentation.getSlides()[0];
+    let type = "Opening";
+
+    // Find the title
+    let openingSlideShapes = openingSlide.getShapes();
+    let openingSlideTextboxes = openingSlideShapes.filter(
+      (shape) => shape.getShapeType() === SlidesApp.ShapeType.TEXT_BOX
+    );
+
+    // Assumes the title is the first textbox
+    let titleShape = openingSlideTextboxes[0];
+
+    // Change the title of the opening slide to be the date
+    titleShape.getText().setText(formatDate(date));
+
+    Logger.log(`${date}: Copying exisiting slides for ${type}.`);
+    copySlide(openingSlide, presentation);
+  };
+
+  const addTheJubileePrayer = function (date, presentation) {
+    let prayerId = GlobalConstants.jubileePrayerId;
+    let prayerPresentation = SlidesApp.openById(prayerId);
+    let slides = prayerPresentation.getSlides();
+    let type = "The Jubilee Prayer";
+
+    Logger.log(`${date}: Copying exisiting slides for ${type}.`);
+    slides.forEach((slide) => copySlide(slide, presentation));
+  };
+
   const editGospelAcclamationVerse = function (gospelSlide, line1, line2) {
     let gospelSlideShapes = gospelSlide.getShapes();
     let gospelSlideTextboxes = gospelSlideShapes.filter(
@@ -177,35 +209,4 @@ function createSlidesForOneWeek(nextSunday) {
 
 function copySlide(sourceSlide, targetPresentation) {
   targetPresentation.appendSlide(sourceSlide);
-}
-
-function addTheJubileePrayer(date, presentation) {
-  let prayerId = GlobalConstants.jubileePrayerId;
-  let prayerPresentation = SlidesApp.openById(prayerId);
-  let slides = prayerPresentation.getSlides();
-  let type = "The Jubilee Prayer";
-
-  Logger.log(`${date}: Copying exisiting slides for ${type}.`);
-  slides.forEach((slide) => copySlide(slide, presentation));
-}
-
-function addOpeningSlide(date, presentation) {
-  let openingId = GlobalConstants.openingId;
-  let openingPresentation = SlidesApp.openById(openingId);
-  let openingSlide = openingPresentation.getSlides()[0];
-  let type = "Opening";
-
-  // Find the title
-  let openingSlideShapes = openingSlide.getShapes();
-  let openingSlideTextboxes = openingSlideShapes.filter(
-    (shape) => shape.getShapeType() === SlidesApp.ShapeType.TEXT_BOX
-  );
-  // Assumes the title is the first textbox
-  let titleShape = openingSlideTextboxes[0];
-
-  // Change the title of the opening slide to be the date
-  titleShape.getText().setText(formatDate(date));
-
-  Logger.log(`${date}: Copying exisiting slides for ${type}.`);
-  copySlide(openingSlide, presentation);
 }
