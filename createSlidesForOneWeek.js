@@ -99,7 +99,7 @@ function createSlidesForOneWeek(nextSunday) {
   ];
 
   const hymnIdList = hymnNumList.map((key) =>
-    Number.isNaN(key) ? binderPresentationIds[key] : gatherPresentationIds[key]
+    isNaN(key) ? binderPresentationIds[key] : gatherPresentationIds[key]
   );
 
   const [gatheringId, psalmId, offertoryId, communionId, recessionalId] =
