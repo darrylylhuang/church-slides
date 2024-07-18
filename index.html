@@ -117,8 +117,14 @@
       <div id="hymn-form-submit-button-container"></div>
     </form>
     <div id="result"></div>
+    <!-- sundaysThisMonth.js -->
+    <!-- Executed once and used in index.js to auto-generate forms as well as determine future logic -->
     <script>
-      let _listSundaysInCurrentMonth = (function () {
+      /**
+       * Get a list of all Sundays in the current month formatted as strings.
+       * @returns {string[]} A list of formatted date strings for each Sunday in the current month.
+       */
+      const sundaysThisMonth = (function () {
         // Get current date
         var today = new Date();
         // var today = new Date(2024, 8, 1); // test with September (has 5 Sundays)
@@ -153,11 +159,12 @@
         // Return the number of Sundays found
         return sundaysList;
       })();
-
+    </script>
+    <!-- index.js -->
+    <script>
       let index = (function () {
         "use strict";
 
-        const sundaysThisMonth = _listSundaysInCurrentMonth;
         const numberOfDivs = sundaysThisMonth.length;
         for (let i = 0; i < numberOfDivs; i++) {
           let sunday = sundaysThisMonth[i];
@@ -178,7 +185,7 @@
                 <label>Gloria</label>
                 <div class="labeled-radio">
                   <input type="checkbox" id="gloria-${i}" name="gloria-${i}" value="included" />
-                  <label for="gloria-checbox-${i}">Include</label>
+                  <label for="gloria-${i}">Include</label>
                 </div>
               </div>
               <div class="form-group">
