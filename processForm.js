@@ -1,7 +1,5 @@
-function processForm(hymnNumber, hymnTitle, parts) {
+function processForm() {
   // Process the form data as needed
-  var response = `Received hymn number: ${hymnNumber}, hymn title: ${hymnTitle}, parts: ${parts.join(
-    ", "
-  )}`;
+  var response = `Hello World`;
   return response;
 }

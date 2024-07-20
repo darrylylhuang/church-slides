@@ -64,7 +64,6 @@
 
       /* Style for the input fields */
       .form-group input[type="text"],
-      .form-group input[type="checkbox"],
       .form-group input[type="radio"] {
         flex: 1;
         padding: 5px;
@@ -159,13 +158,16 @@
         // Return the number of Sundays found
         return sundaysList;
       })();
+
+      const numberOfDivs = (function () {
+        return sundaysThisMonth.length;
+      })();
     </script>
     <!-- index.js -->
     <script>
       let index = (function () {
         "use strict";
 
-        const numberOfDivs = sundaysThisMonth.length;
         for (let i = 0; i < numberOfDivs; i++) {
           let sunday = sundaysThisMonth[i];
           let element = document.createElement("div");
@@ -185,11 +187,11 @@
                 <label>Gloria</label>
                 <div class="multiple-inputs">
                   <div class="labelled-radio">
-                    <input type="radio" id="include-gloria-${i}" name="include-gloria-${i}" value="include" />
+                    <input type="radio" id="include-gloria-${i}" name="gloria-${i}" value="include" />
                     <label for="include-gloria-${i}">Include</label>
                   </div>
                   <div class="labelled-radio">
-                    <input type="radio" id="exclude-gloria-${i}" name="exclude-gloria-${i}" value="exclude" />
+                    <input type="radio" id="exclude-gloria-${i}" name="gloria-${i}" value="exclude" />
                     <label for="exclude-gloria-${i}">Exclude</label>
                   </div>
                 </div>
@@ -267,11 +269,11 @@
                 <label>Amen</label>
                 <div class="multiple-inputs">
                   <div class="labelled-radio">
-                    <input type="radio" id="include-amen-${i}" name="include-amen-${i}" value="include" />
+                    <input type="radio" id="include-amen-${i}" name="amen-${i}" value="include" />
                     <label for="include-amen-${i}">Include</label>
                   </div>
                   <div class="labelled-radio">
-                    <input type="radio" id="exclude-amen-${i}" name="exclude-amen-${i}" value="exclude" />
+                    <input type="radio" id="exclude-amen-${i}" name="amen-${i}" value="exclude" />
                     <label for="exclude-amen-${i}">Exclude</label>
                   </div>
                 </div>
@@ -280,11 +282,11 @@
                 <label>Lamb of God</label>
                 <div class="multiple-inputs">
                   <div class="labelled-radio">
-                    <input type="radio" id="include-lamb-${i}" name="include-lamb-${i}" value="include" />
+                    <input type="radio" id="include-lamb-${i}" name="lamb-${i}" value="include" />
                     <label for="include-lamb-${i}">Include</label>
                   </div>
                   <div class="labelled-radio">
-                    <input type="radio" id="exclude-lamb-${i}" name="exclude-lamb-${i}" value="exclude" />
+                    <input type="radio" id="exclude-lamb-${i}" name="lamb-${i}" value="exclude" />
                     <label for="exclude-lamb-${i}">Exclude</label>
                   </div>
                 </div>
@@ -318,31 +320,52 @@
       })();
       index;
     </script>
+    <!-- submitForm.js -->
     <script>
+      let getHymnTypes = function (type) {
+        const hymnTypeList = [];
+
+        for (let i = 0; i < numberOfDivs; i++) {
+          hymnTypeList.push(document.getElementById(`${type}-${i}`).value);
+        }
+
+        return hymnTypeList;
+      };
+
       document
         .getElementById("hymn-form")
         .addEventListener("submit", function (event) {
           event.preventDefault();
 
-          const hymnNumber = document.getElementById("hymn-number").value;
-          const hymnTitle = document.getElementById("hymn-title").value;
+          const hymnTypes = [
+            "gathering",
+            "psalm",
+            "offertory",
+            "communion",
+            "recessional",
+          ];
+          const [gatherings, psalms, offertories, communions, recessionals] =
+            hymnTypes.map(getHymnTypes);
 
-          const parts = [];
+          console.log(
+            gatherings,
+            psalms,
+            offertories,
+            communions,
+            recessionals
+          );
+
           document
             .querySelectorAll('input[name="part"]:checked')
             .forEach((checkbox) => {
               parts.push(checkbox.value);
             });
 
-          const week = document.querySelector(
-            'input[name="week"]:checked'
-          ).value;
-
           google.script.run
             .withSuccessHandler((response) => {
               document.getElementById("result").innerText = response;
             })
-            .processForm(hymnNumber, hymnTitle, parts, week);
+            .processForm();
         });
     </script>
   </body>
