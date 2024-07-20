@@ -183,9 +183,15 @@
               </div>
               <div class="form-group">
                 <label>Gloria</label>
-                <div class="labeled-radio">
-                  <input type="checkbox" id="gloria-${i}" name="gloria-${i}" value="included" />
-                  <label for="gloria-${i}">Include</label>
+                <div class="multiple-inputs">
+                  <div class="labelled-radio">
+                    <input type="radio" id="include-gloria-${i}" name="include-gloria-${i}" value="include" />
+                    <label for="include-gloria-${i}">Include</label>
+                  </div>
+                  <div class="labelled-radio">
+                    <input type="radio" id="exclude-gloria-${i}" name="exclude-gloria-${i}" value="exclude" />
+                    <label for="exclude-gloria-${i}">Exclude</label>
+                  </div>
                 </div>
               </div>
               <div class="form-group">
@@ -195,7 +201,7 @@
               <div class="form-group">
                 <label for="gospel-${i}">Gospel Acclamation</label>
                 <div class="multiple-inputs">
-                  <div class="labeled-radio">
+                  <div class="labelled-radio">
                     <input
                       type="radio"
                       id="gospel-none-${i}"
@@ -204,7 +210,7 @@
                     />
                     <label for="gospel-none-${i}">None</label>
                   </div>
-                  <div class="labeled-radio">
+                  <div class="labelled-radio">
                     <input
                       type="radio"
                       id="gospel-norm-${i}"
@@ -213,7 +219,7 @@
                     />
                     <label for="gospel-norm-${i}">Normal</label>
                   </div>
-                  <div class="labeled-radio">
+                  <div class="labelled-radio">
                     <input
                       type="radio"
                       id="gospel-lent-${i}"
@@ -239,19 +245,19 @@
               <div class="form-group">
                 <label for="memorial-${i}">Memorial Acclamation</label>
                 <div class="multiple-inputs">
-                  <div class="labeled-radio">
+                  <div class="labelled-radio">
                     <input type="radio" id="memorial0-${i}" name="memorial-${i}" value="0" />
                     <label for="memorial0-${i}">None</label>
                   </div>
-                  <div class="labeled-radio">
+                  <div class="labelled-radio">
                     <input type="radio" id="memorial1-${i}" name="memorial-${i}" value="1" />
                     <label for="memorial1-${i}">When We Eat...</label>
                   </div>
-                  <div class="labeled-radio">
+                  <div class="labelled-radio">
                     <input type="radio" id="memorial2-${i}" name="memorial-${i}" value="2" />
                     <label for="memorial2-${i}">We Proclaim...</label>
                   </div>
-                  <div class="labeled-radio">
+                  <div class="labelled-radio">
                     <input type="radio" id="memorial3-${i}" name="memorial-${i}" value="3" />
                     <label for="memorial3-${i}">Save Us...</label>
                   </div>
@@ -259,11 +265,29 @@
               </div>
               <div class="form-group">
                 <label>Amen</label>
-                <input type="checkbox" id="amen-${i}" name="amen-${i}" value="included" />
+                <div class="multiple-inputs">
+                  <div class="labelled-radio">
+                    <input type="radio" id="include-amen-${i}" name="include-amen-${i}" value="include" />
+                    <label for="include-amen-${i}">Include</label>
+                  </div>
+                  <div class="labelled-radio">
+                    <input type="radio" id="exclude-amen-${i}" name="exclude-amen-${i}" value="exclude" />
+                    <label for="exclude-amen-${i}">Exclude</label>
+                  </div>
+                </div>
               </div>
               <div class="form-group">
                 <label>Lamb of God</label>
-                <input type="checkbox" id="lamb-${i}" name="lamb-${i}" value="included" />
+                <div class="multiple-inputs">
+                  <div class="labelled-radio">
+                    <input type="radio" id="include-lamb-${i}" name="include-lamb-${i}" value="include" />
+                    <label for="include-lamb-${i}">Include</label>
+                  </div>
+                  <div class="labelled-radio">
+                    <input type="radio" id="exclude-lamb-${i}" name="exclude-lamb-${i}" value="exclude" />
+                    <label for="exclude-lamb-${i}">Exclude</label>
+                  </div>
+                </div>
               </div>
               <div class="form-group">
                 <label for="communion-${i}">Communion Hymn</label>
