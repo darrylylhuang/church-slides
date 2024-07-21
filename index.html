@@ -176,22 +176,28 @@
               <h3>${sunday}</h3>
               <div class="form-group">
                 <label for="gathering-${i}">Gathering Hymn</label>
-                <input
-                  type="text"
-                  id="gathering-${i}"
-                  name="gathering-${i}"
-                  required
-                />
+                <input type="text" id="gathering-${i}" name="gathering-${i}" required />
               </div>
               <div class="form-group">
                 <label>Gloria</label>
                 <div class="multiple-inputs">
                   <div class="labelled-radio">
-                    <input type="radio" id="include-gloria-${i}" name="gloria-${i}" value="include" />
+                    <input
+                      type="radio"
+                      id="include-gloria-${i}"
+                      name="gloria-${i}"
+                      value="include"
+                      checked
+                    />
                     <label for="include-gloria-${i}">Include</label>
                   </div>
                   <div class="labelled-radio">
-                    <input type="radio" id="exclude-gloria-${i}" name="gloria-${i}" value="exclude" />
+                    <input
+                      type="radio"
+                      id="exclude-gloria-${i}"
+                      name="gloria-${i}"
+                      value="exclude"
+                    />
                     <label for="exclude-gloria-${i}">Exclude</label>
                   </div>
                 </div>
@@ -218,6 +224,7 @@
                       id="gospel-norm-${i}"
                       name="gospel-${i}"
                       value="normal"
+                      checked
                     />
                     <label for="gospel-norm-${i}">Normal</label>
                   </div>
@@ -234,11 +241,21 @@
               </div>
               <div class="form-group">
                 <label for="gospel-line-1-${i}">Verse: Line 1</label>
-                <input type="text" id="gospel-line-1-${i}" name="gospel-line-1-${i}" required />
+                <input
+                  type="text"
+                  id="gospel-line-1-${i}"
+                  name="gospel-line-1-${i}"
+                  required
+                />
               </div>
               <div class="form-group">
                 <label for="gospel-line-2-${i}">Verse: Line 2</label>
-                <input type="text" id="gospel-line-2-${i}" name="gospel-line-2-${i}" required />
+                <input
+                  type="text"
+                  id="gospel-line-2-${i}"
+                  name="gospel-line-2-${i}"
+                  required
+                />
               </div>
               <div class="form-group">
                 <label for="offertory-${i}">Offertory Hymn</label>
@@ -248,19 +265,40 @@
                 <label for="memorial-${i}">Memorial Acclamation</label>
                 <div class="multiple-inputs">
                   <div class="labelled-radio">
-                    <input type="radio" id="memorial0-${i}" name="memorial-${i}" value="0" />
+                    <input
+                      type="radio"
+                      id="memorial0-${i}"
+                      name="memorial-${i}"
+                      value="0"
+                    />
                     <label for="memorial0-${i}">None</label>
                   </div>
                   <div class="labelled-radio">
-                    <input type="radio" id="memorial1-${i}" name="memorial-${i}" value="1" />
+                    <input
+                      type="radio"
+                      id="memorial1-${i}"
+                      name="memorial-${i}"
+                      value="1"
+                      checked
+                    />
                     <label for="memorial1-${i}">When We Eat...</label>
                   </div>
                   <div class="labelled-radio">
-                    <input type="radio" id="memorial2-${i}" name="memorial-${i}" value="2" />
+                    <input
+                      type="radio"
+                      id="memorial2-${i}"
+                      name="memorial-${i}"
+                      value="2"
+                    />
                     <label for="memorial2-${i}">We Proclaim...</label>
                   </div>
                   <div class="labelled-radio">
-                    <input type="radio" id="memorial3-${i}" name="memorial-${i}" value="3" />
+                    <input
+                      type="radio"
+                      id="memorial3-${i}"
+                      name="memorial-${i}"
+                      value="3"
+                    />
                     <label for="memorial3-${i}">Save Us...</label>
                   </div>
                 </div>
@@ -269,11 +307,22 @@
                 <label>Amen</label>
                 <div class="multiple-inputs">
                   <div class="labelled-radio">
-                    <input type="radio" id="include-amen-${i}" name="amen-${i}" value="include" />
+                    <input
+                      type="radio"
+                      id="include-amen-${i}"
+                      name="amen-${i}"
+                      value="include"
+                      checked
+                    />
                     <label for="include-amen-${i}">Include</label>
                   </div>
                   <div class="labelled-radio">
-                    <input type="radio" id="exclude-amen-${i}" name="amen-${i}" value="exclude" />
+                    <input
+                      type="radio"
+                      id="exclude-amen-${i}"
+                      name="amen-${i}"
+                      value="exclude"
+                    />
                     <label for="exclude-amen-${i}">Exclude</label>
                   </div>
                 </div>
@@ -282,11 +331,22 @@
                 <label>Lamb of God</label>
                 <div class="multiple-inputs">
                   <div class="labelled-radio">
-                    <input type="radio" id="include-lamb-${i}" name="lamb-${i}" value="include" />
+                    <input
+                      type="radio"
+                      id="include-lamb-${i}"
+                      name="lamb-${i}"
+                      value="include"
+                      checked
+                    />
                     <label for="include-lamb-${i}">Include</label>
                   </div>
                   <div class="labelled-radio">
-                    <input type="radio" id="exclude-lamb-${i}" name="lamb-${i}" value="exclude" />
+                    <input
+                      type="radio"
+                      id="exclude-lamb-${i}"
+                      name="lamb-${i}"
+                      value="exclude"
+                    />
                     <label for="exclude-lamb-${i}">Exclude</label>
                   </div>
                 </div>
@@ -322,7 +382,7 @@
     </script>
     <!-- submitForm.js -->
     <script>
-      let getHymnTypes = function (type) {
+      let getHymnsOfType = function (type) {
         const hymnTypeList = [];
 
         for (let i = 0; i < numberOfDivs; i++) {
@@ -345,15 +405,7 @@
             "recessional",
           ];
           const [gatherings, psalms, offertories, communions, recessionals] =
-            hymnTypes.map(getHymnTypes);
-
-          console.log(
-            gatherings,
-            psalms,
-            offertories,
-            communions,
-            recessionals
-          );
+            hymnTypes.map(getHymnsOfType);
 
           document
             .querySelectorAll('input[name="part"]:checked')
