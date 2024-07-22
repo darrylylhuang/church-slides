@@ -230,20 +230,20 @@
               </div>
             </div>
             <div class="form-group">
-              <label for="gospel-line-1-${i}">Verse: Line 1</label>
+              <label for="gospel-line1-${i}">Verse: Line 1</label>
               <input
                 type="text"
-                id="gospel-line-1-${i}"
-                name="gospel-line-1-${i}"
+                id="gospel-line1-${i}"
+                name="gospel-line1-${i}"
                 required
               />
             </div>
             <div class="form-group">
-              <label for="gospel-line-2-${i}">Verse: Line 2</label>
+              <label for="gospel-line2-${i}">Verse: Line 2</label>
               <input
                 type="text"
-                id="gospel-line-2-${i}"
-                name="gospel-line-2-${i}"
+                id="gospel-line2-${i}"
+                name="gospel-line2-${i}"
                 required
               />
             </div>
@@ -383,6 +383,20 @@
         return hymnTypeList;
       };
     </script>
+    <script>
+      let getGospelVerses = function () {
+        const gospelVerses = [];
+
+        for (let i = 0; i < numberOfDivs; i++) {
+          gospelVerses.push({
+            line1: document.getElementById(`gospel-line1-${i}`).value,
+            line2: document.getElementById(`gospel-line2-${i}`).value,
+          });
+        }
+
+        return gospelVerses;
+      };
+    </script>
     <!-- submitForm.js -->
     <script>
       document
@@ -402,11 +416,13 @@
           const [gatherings, psalms, offertories, communions, recessionals] =
             hymnTypes.map(getHymnsOfType);
 
+          const gospelVerses = getGospelVerses();
+
           // Add all the checkboxes to be processed
-          const storringtonPartsIncluded = [];
+          const storringtonParts = [];
 
           document.querySelectorAll("input:checked").forEach((input) =>
-            storringtonPartsIncluded.push({
+            storringtonParts.push({
               name: input.name,
               value: input.value,
             })
@@ -416,7 +432,15 @@
             .withSuccessHandler((response) => {
               document.getElementById("result").innerText = response;
             })
-            .processForm();
+            .processForm(
+              gatherings,
+              psalms,
+              offertories,
+              communions,
+              recessionals,
+              gospelVerses,
+              storringtonParts
+            );
         });
     </script>
   </body>
