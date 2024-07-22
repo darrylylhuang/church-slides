@@ -187,7 +187,7 @@
                   type="checkbox"
                   id="gloria-${i}"
                   name="gloria-${i}"
-                  value="included"
+                  value="true"
                   checked
                 />
               </div>
@@ -305,7 +305,7 @@
                   type="checkbox"
                   id="amen-${i}"
                   name="amen-${i}"
-                  value="included"
+                  value="true"
                   checked
                 />
               </div>
@@ -317,7 +317,7 @@
                   type="checkbox"
                   id="lamb-${i}"
                   name="lamb-${i}"
-                  value="included"
+                  value="true"
                   checked
                 />
               </div>
@@ -346,6 +346,20 @@
         document.getElementById("mini-forms-container").append(element);
       };
     </script>
+    <!-- addSubmitButton -->
+    <script>
+      let addSubmitButton = (function () {
+        let submitButton = document.createElement("button");
+        submitButton.classList.add("large-button");
+        submitButton.setAttribute("type", "submit");
+        submitButton.setAttribute("id", "hymn-form-submit-button");
+        submitButton.setAttribute("name", "submit");
+        submitButton.textContent = "Submit";
+        document
+          .getElementById("hymn-form-submit-button-container")
+          .append(submitButton);
+      })();
+    </script>
     <!-- index.js -->
     <script>
       let index = (function () {
@@ -354,21 +368,7 @@
         for (let i = 0; i < numberOfDivs; i++) {
           generateMiniForm(i);
         }
-        // Add submit button at the end of the form.
-        let addSubmitButton = (function () {
-          let submitButton = document.createElement("button");
-          submitButton.classList.add("large-button");
-          submitButton.setAttribute("type", "submit");
-          submitButton.setAttribute("id", "hymn-form-submit-button");
-          submitButton.setAttribute("name", "submit");
-          submitButton.textContent = "Submit";
-          document
-            .getElementById("hymn-form-submit-button-container")
-            .append(submitButton);
-        })();
-        addSubmitButton;
       })();
-      index;
     </script>
 
     <!-- getHymnsOfType.js -->
@@ -397,14 +397,20 @@
             "communion",
             "recessional",
           ];
+
+          // Add all the hymns to be processed
           const [gatherings, psalms, offertories, communions, recessionals] =
             hymnTypes.map(getHymnsOfType);
 
-          document
-            .querySelectorAll('input[name="part"]:checked')
-            .forEach((checkbox) => {
-              parts.push(checkbox.value);
-            });
+          // Add all the checkboxes to be processed
+          const storringtonPartsIncluded = [];
+
+          document.querySelectorAll("input:checked").forEach((input) =>
+            storringtonPartsIncluded.push({
+              name: input.name,
+              value: input.value,
+            })
+          );
 
           google.script.run
             .withSuccessHandler((response) => {
