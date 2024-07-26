@@ -6,6 +6,6 @@ function formatDate(date) {
     day: "numeric",
   };
   var dateObject = new Date(date);
-  var formattedDate = dateObject.toLocaleDateString("en-US", options);
+  var formattedDate = dateObject.toLocaleDateString("en-CA", options);
   return formattedDate;
 }

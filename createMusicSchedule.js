@@ -10,7 +10,7 @@ function createMusicSchedule(
 ) {
   // The title of the new doc is this month of this year
   const today = new Date();
-  const month = today.getMonth();
+  const month = date.toLocaleString("en-CA", { month: "long" });
   const year = today.getFullYear();
   const doc = DocumentApp.create(`Music Schedule - ${month} ${year}`);
 
