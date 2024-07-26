@@ -132,7 +132,7 @@
         var year = today.getFullYear();
         var month = today.getMonth();
 
-        // Initialize counter for Sundays
+        // Initialize list of Sundays
         var sundaysList = [];
 
         let options = {
@@ -155,7 +155,7 @@
           }
         }
 
-        // Return the number of Sundays found
+        // Return the list of Sundays found
         return sundaysList;
       })();
 
@@ -416,9 +416,10 @@
           const [gatherings, psalms, offertories, communions, recessionals] =
             hymnTypes.map(getHymnsOfType);
 
+          // Add the Gospel verse lines to be processed
           const gospelVerses = getGospelVerses();
 
-          // Add all the checkboxes to be processed
+          // Add all the checkboxes and selected radios to be processed
           const storringtonParts = [];
 
           document.querySelectorAll("input:checked").forEach((input) =>
@@ -428,6 +429,7 @@
             })
           );
 
+          // Send to backend
           google.script.run
             .withSuccessHandler((response) => {
               document.getElementById("result").innerText = response;
