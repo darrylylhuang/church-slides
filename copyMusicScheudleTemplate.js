@@ -1,22 +1,27 @@
 TEMPLATE_ID = "1NF0pdUpADSXyh8a6m4alZyViMKz1h4LJ04TP4yyLqJo";
 
 function copyMusicScheudleTemplate(currentDoc) {
-  const sourceDocId = TEMPLATE_ID;
+  const templateDocId = TEMPLATE_ID;
 
   // Open the source document
-  var sourceDoc = DocumentApp.openById(sourceDocId);
-  var sourceBody = sourceDoc.getBody();
+  var templateDoc = DocumentApp.openById(templateDocId);
+  var templateBody = templateDoc.getBody();
 
   // Copy into current docuemnt
-  var newBody = currentDoc.getBody();
+  const body = currentDoc.getBody();
 
   // Copy each element from the source document to the new document
-  var numChildren = sourceBody.getNumChildren();
+  var numChildren = templateBody.getNumChildren();
   for (var i = 0; i < numChildren; i++) {
-    var element = sourceBody.getChild(i).copy();
-    newBody.appendParagraph("").appendInlineImage(element.getImages());
-    newBody.appendParagraph("").appendText(element.getText());
-    newBody.appendPageBreak();
-    newBody.appendParagraph(element);
+    let element = templateBody.getChild(i).copy();
+    let type = element.getType();
+    Logger.log(element.getText());
+    if (type === DocumentApp.ElementType.PARAGRAPH) {
+      body.appendParagraph(element);
+    } else if (type === DocumentApp.ElementType.TABLE) {
+      body.appendTable(element);
+    } else {
+      throw new Error(`Unidentified type: ${type}`);
+    }
   }
 }

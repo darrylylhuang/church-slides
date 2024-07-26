@@ -15,4 +15,8 @@ function createMusicSchedule(
   const doc = DocumentApp.create(`Music Schedule - ${month} ${year}`);
 
   copyMusicScheudleTemplate(doc);
+
+  // Remove blank paragraph generated with new doc
+  const body = doc.getBody();
+  body.removeChild(body.getChild(0));
 }
