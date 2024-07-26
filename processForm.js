@@ -1,4 +1,5 @@
 function processForm(
+  sundays,
   gatherings,
   psalms,
   offertories,
@@ -9,6 +10,7 @@ function processForm(
 ) {
   // Process the form data as needed
   console.log(
+    sundays,
     gatherings,
     psalms,
     offertories,
