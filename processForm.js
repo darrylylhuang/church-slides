@@ -1,7 +1,22 @@
-function processForm(hymnNumber, hymnTitle, parts) {
+function processForm(
+  gatherings,
+  psalms,
+  offertories,
+  communions,
+  recessionals,
+  gospelVerses,
+  storringtonParts
+) {
   // Process the form data as needed
-  var response = `Received hymn number: ${hymnNumber}, hymn title: ${hymnTitle}, parts: ${parts.join(
-    ", "
-  )}`;
+  console.log(
+    gatherings,
+    psalms,
+    offertories,
+    communions,
+    recessionals,
+    gospelVerses,
+    storringtonParts
+  );
+  var response = `Hello World`;
   return response;
 }

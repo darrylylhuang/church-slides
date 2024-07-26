@@ -64,7 +64,6 @@
 
       /* Style for the input fields */
       .form-group input[type="text"],
-      .form-group input[type="checkbox"],
       .form-group input[type="radio"] {
         flex: 1;
         padding: 5px;
@@ -117,8 +116,14 @@
       <div id="hymn-form-submit-button-container"></div>
     </form>
     <div id="result"></div>
+    <!-- sundaysThisMonth.js -->
+    <!-- Executed once and used in index.js to auto-generate forms as well as determine future logic -->
     <script>
-      let _listSundaysInCurrentMonth = (function () {
+      /**
+       * Get a list of all Sundays in the current month formatted as strings.
+       * @returns {string[]} A list of formatted date strings for each Sunday in the current month.
+       */
+      const sundaysThisMonth = (function () {
         // Get current date
         var today = new Date();
         // var today = new Date(2024, 8, 1); // test with September (has 5 Sundays)
@@ -127,7 +132,7 @@
         var year = today.getFullYear();
         var month = today.getMonth();
 
-        // Initialize counter for Sundays
+        // Initialize list of Sundays
         var sundaysList = [];
 
         let options = {
@@ -150,168 +155,294 @@
           }
         }
 
-        // Return the number of Sundays found
+        // Return the list of Sundays found
         return sundaysList;
       })();
 
+      const numberOfDivs = (function () {
+        return sundaysThisMonth.length;
+      })();
+    </script>
+    <!-- generateMiniForm.js -->
+    <script>
+      let generateMiniForm = function (i) {
+        let sunday = sundaysThisMonth[i];
+        let element = document.createElement("div");
+        element.innerHTML = `
+          <div id="form-column-${i}" class="form-column">
+            <h3>${sunday}</h3>
+            <div class="form-group">
+              <label for="gathering-${i}">Gathering Hymn</label>
+              <input
+                type="text"
+                id="gathering-${i}"
+                name="gathering-${i}"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label>Gloria</label>
+              <div class="labelled-checkbox">
+                <input
+                  type="checkbox"
+                  id="gloria-${i}"
+                  name="gloria-${i}"
+                  value="true"
+                  checked
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="psalm-${i}">Psalm</label>
+              <input type="text" id="psalm-${i}" name="psalm-${i}" required />
+            </div>
+            <div class="form-group">
+              <label for="gospel-${i}">Gospel Acclamation</label>
+              <div class="multiple-inputs">
+                <div class="labelled-radio">
+                  <input
+                    type="radio"
+                    id="gospel-none-${i}"
+                    name="gospel-${i}"
+                    value="none"
+                  />
+                  <label for="gospel-none-${i}">None</label>
+                </div>
+                <div class="labelled-radio">
+                  <input
+                    type="radio"
+                    id="gospel-norm-${i}"
+                    name="gospel-${i}"
+                    value="normal"
+                    checked
+                  />
+                  <label for="gospel-norm-${i}">Normal</label>
+                </div>
+                <div class="labelled-radio">
+                  <input
+                    type="radio"
+                    id="gospel-lent-${i}"
+                    name="gospel-${i}"
+                    value="lenten"
+                  />
+                  <label for="gospel-lent-${i}">Lenten</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="gospel-line1-${i}">Verse: Line 1</label>
+              <input
+                type="text"
+                id="gospel-line1-${i}"
+                name="gospel-line1-${i}"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="gospel-line2-${i}">Verse: Line 2</label>
+              <input
+                type="text"
+                id="gospel-line2-${i}"
+                name="gospel-line2-${i}"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="offertory-${i}">Offertory Hymn</label>
+              <input
+                type="text"
+                id="offertory-${i}"
+                name="offertory-${i}"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="memorial-${i}">Memorial Acclamation</label>
+              <div class="multiple-inputs">
+                <div class="labelled-radio">
+                  <input
+                    type="radio"
+                    id="memorial0-${i}"
+                    name="memorial-${i}"
+                    value="0"
+                  />
+                  <label for="memorial0-${i}">None</label>
+                </div>
+                <div class="labelled-radio">
+                  <input
+                    type="radio"
+                    id="memorial1-${i}"
+                    name="memorial-${i}"
+                    value="1"
+                    checked
+                  />
+                  <label for="memorial1-${i}">When We Eat...</label>
+                </div>
+                <div class="labelled-radio">
+                  <input
+                    type="radio"
+                    id="memorial2-${i}"
+                    name="memorial-${i}"
+                    value="2"
+                  />
+                  <label for="memorial2-${i}">We Proclaim...</label>
+                </div>
+                <div class="labelled-radio">
+                  <input
+                    type="radio"
+                    id="memorial3-${i}"
+                    name="memorial-${i}"
+                    value="3"
+                  />
+                  <label for="memorial3-${i}">Save Us...</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Amen</label>
+              <div class="labelled-checkbox">
+                <input
+                  type="checkbox"
+                  id="amen-${i}"
+                  name="amen-${i}"
+                  value="true"
+                  checked
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Lamb of God</label>
+              <div class="labelled-checkbox">
+                <input
+                  type="checkbox"
+                  id="lamb-${i}"
+                  name="lamb-${i}"
+                  value="true"
+                  checked
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="communion-${i}">Communion Hymn</label>
+              <input
+                type="text"
+                id="communion-${i}"
+                name="communion-${i}"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="recessional-${i}">Recessional Hymn</label>
+              <input
+                type="text"
+                id="recessional-${i}"
+                name="recessional-${i}"
+                required
+              />
+            </div>
+          </div>
+          `;
+        element.classList.add("column");
+        document.getElementById("mini-forms-container").append(element);
+      };
+    </script>
+    <!-- addSubmitButton -->
+    <script>
+      let addSubmitButton = (function () {
+        let submitButton = document.createElement("button");
+        submitButton.classList.add("large-button");
+        submitButton.setAttribute("type", "submit");
+        submitButton.setAttribute("id", "hymn-form-submit-button");
+        submitButton.setAttribute("name", "submit");
+        submitButton.textContent = "Submit";
+        document
+          .getElementById("hymn-form-submit-button-container")
+          .append(submitButton);
+      })();
+    </script>
+    <!-- index.js -->
+    <script>
       let index = (function () {
         "use strict";
 
-        const sundaysThisMonth = _listSundaysInCurrentMonth;
-        const numberOfDivs = sundaysThisMonth.length;
         for (let i = 0; i < numberOfDivs; i++) {
-          let sunday = sundaysThisMonth[i];
-          let element = document.createElement("div");
-          element.innerHTML = `
-            <div id="form-column-${i}" class="form-column">
-              <h3>${sunday}</h3>
-              <div class="form-group">
-                <label for="gathering-${i}">Gathering Hymn</label>
-                <input
-                  type="text"
-                  id="gathering-${i}"
-                  name="gathering-${i}"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label>Gloria</label>
-                <div class="labeled-radio">
-                  <input type="checkbox" id="gloria-${i}" name="gloria-${i}" value="included" />
-                  <label for="gloria-checbox-${i}">Include</label>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="psalm-${i}">Psalm</label>
-                <input type="text" id="psalm-${i}" name="psalm-${i}" required />
-              </div>
-              <div class="form-group">
-                <label for="gospel-${i}">Gospel Acclamation</label>
-                <div class="multiple-inputs">
-                  <div class="labeled-radio">
-                    <input
-                      type="radio"
-                      id="gospel-none-${i}"
-                      name="gospel-${i}"
-                      value="none"
-                    />
-                    <label for="gospel-none-${i}">None</label>
-                  </div>
-                  <div class="labeled-radio">
-                    <input
-                      type="radio"
-                      id="gospel-norm-${i}"
-                      name="gospel-${i}"
-                      value="normal"
-                    />
-                    <label for="gospel-norm-${i}">Normal</label>
-                  </div>
-                  <div class="labeled-radio">
-                    <input
-                      type="radio"
-                      id="gospel-lent-${i}"
-                      name="gospel-${i}"
-                      value="lenten"
-                    />
-                    <label for="gospel-lent-${i}">Lenten</label>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="gospel-line-1-${i}">Verse: Line 1</label>
-                <input type="text" id="gospel-line-1-${i}" name="gospel-line-1-${i}" required />
-              </div>
-              <div class="form-group">
-                <label for="gospel-line-2-${i}">Verse: Line 2</label>
-                <input type="text" id="gospel-line-2-${i}" name="gospel-line-2-${i}" required />
-              </div>
-              <div class="form-group">
-                <label for="offertory-${i}">Offertory Hymn</label>
-                <input type="text" id="offertory-${i}" name="offertory-${i}" required />
-              </div>
-              <div class="form-group">
-                <label for="memorial-${i}">Memorial Acclamation</label>
-                <div class="multiple-inputs">
-                  <div class="labeled-radio">
-                    <input type="radio" id="memorial0-${i}" name="memorial-${i}" value="0" />
-                    <label for="memorial0-${i}">None</label>
-                  </div>
-                  <div class="labeled-radio">
-                    <input type="radio" id="memorial1-${i}" name="memorial-${i}" value="1" />
-                    <label for="memorial1-${i}">When We Eat...</label>
-                  </div>
-                  <div class="labeled-radio">
-                    <input type="radio" id="memorial2-${i}" name="memorial-${i}" value="2" />
-                    <label for="memorial2-${i}">We Proclaim...</label>
-                  </div>
-                  <div class="labeled-radio">
-                    <input type="radio" id="memorial3-${i}" name="memorial-${i}" value="3" />
-                    <label for="memorial3-${i}">Save Us...</label>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label>Amen</label>
-                <input type="checkbox" id="amen-${i}" name="amen-${i}" value="included" />
-              </div>
-              <div class="form-group">
-                <label>Lamb of God</label>
-                <input type="checkbox" id="lamb-${i}" name="lamb-${i}" value="included" />
-              </div>
-              <div class="form-group">
-                <label for="communion-${i}">Communion Hymn</label>
-                <input type="text" id="communion-${i}" name="communion-${i}" required />
-              </div>
-              <div class="form-group">
-                <label for="recessional-${i}">Recessional Hymn</label>
-                <input type="text" id="recessional-${i}" name="recessional-${i}" required />
-              </div>
-            </div>
-          `;
-          element.classList.add("column");
-          document.getElementById("mini-forms-container").append(element);
+          generateMiniForm(i);
         }
-        // Add submit button at the end of the form.
-        let addSubmitButton = (function () {
-          let submitButton = document.createElement("button");
-          submitButton.classList.add("large-button");
-          submitButton.setAttribute("type", "submit");
-          submitButton.setAttribute("id", "hymn-form-submit-button");
-          submitButton.setAttribute("name", "submit");
-          submitButton.textContent = "Submit";
-          document
-            .getElementById("hymn-form-submit-button-container")
-            .append(submitButton);
-        })();
-        addSubmitButton;
       })();
-      index;
     </script>
+
+    <!-- getHymnsOfType.js -->
+    <script>
+      let getHymnsOfType = function (type) {
+        const hymnTypeList = [];
+
+        for (let i = 0; i < numberOfDivs; i++) {
+          hymnTypeList.push(document.getElementById(`${type}-${i}`).value);
+        }
+
+        return hymnTypeList;
+      };
+    </script>
+    <script>
+      let getGospelVerses = function () {
+        const gospelVerses = [];
+
+        for (let i = 0; i < numberOfDivs; i++) {
+          gospelVerses.push({
+            line1: document.getElementById(`gospel-line1-${i}`).value,
+            line2: document.getElementById(`gospel-line2-${i}`).value,
+          });
+        }
+
+        return gospelVerses;
+      };
+    </script>
+    <!-- submitForm.js -->
     <script>
       document
         .getElementById("hymn-form")
         .addEventListener("submit", function (event) {
           event.preventDefault();
 
-          const hymnNumber = document.getElementById("hymn-number").value;
-          const hymnTitle = document.getElementById("hymn-title").value;
+          const hymnTypes = [
+            "gathering",
+            "psalm",
+            "offertory",
+            "communion",
+            "recessional",
+          ];
 
-          const parts = [];
-          document
-            .querySelectorAll('input[name="part"]:checked')
-            .forEach((checkbox) => {
-              parts.push(checkbox.value);
-            });
+          // Add all the hymns to be processed
+          const [gatherings, psalms, offertories, communions, recessionals] =
+            hymnTypes.map(getHymnsOfType);
 
-          const week = document.querySelector(
-            'input[name="week"]:checked'
-          ).value;
+          // Add the Gospel verse lines to be processed
+          const gospelVerses = getGospelVerses();
 
+          // Add all the checkboxes and selected radios to be processed
+          const storringtonParts = [];
+
+          document.querySelectorAll("input:checked").forEach((input) =>
+            storringtonParts.push({
+              name: input.name,
+              value: input.value,
+            })
+          );
+
+          // Send to backend
           google.script.run
             .withSuccessHandler((response) => {
               document.getElementById("result").innerText = response;
             })
-            .processForm(hymnNumber, hymnTitle, parts, week);
+            .processForm(
+              gatherings,
+              psalms,
+              offertories,
+              communions,
+              recessionals,
+              gospelVerses,
+              storringtonParts
+            );
         });
     </script>
   </body>
