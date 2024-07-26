@@ -8,8 +8,7 @@ function processForm(
   gospelVerses,
   storringtonParts
 ) {
-  // Process the form data as needed
-  console.log(
+  createMusicSchedule(
     sundays,
     gatherings,
     psalms,
@@ -19,6 +18,7 @@ function processForm(
     gospelVerses,
     storringtonParts
   );
-  var response = `Hello World`;
+
+  var response = `Success`;
   return response;
 }
