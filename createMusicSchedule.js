@@ -43,13 +43,11 @@ function createMusicSchedule(
 
     copyMusicScheudleTemplate(doc);
     insertWeeklySchedule(doc, week);
-    // Two weeks can fit on a page
-    if (i % 2 === 0) {
-      body.appendHorizontalRule();
-      // The horizontal rule adds a paragraph; remove it
-      let newParagraphChildIndex = body.getNumChildren() - 1;
-      body.removeChild(body.getChild(newParagraphChildIndex));
-    }
+    // Two weeks can fit on a page; put a rule between the two
+    if (i % 2 === 0) body.appendHorizontalRule();
+    // The horizontal rule adds a paragraph; remove paragraph after the table
+    let newParagraphChildIndex = body.getNumChildren() - 2;
+    body.removeChild(body.getChild(newParagraphChildIndex));
   }
 
   // Remove blank paragraph generated with new doc
