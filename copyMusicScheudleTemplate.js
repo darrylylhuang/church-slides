@@ -15,7 +15,6 @@ function copyMusicScheudleTemplate(currentDoc) {
   for (var i = 0; i < numChildren; i++) {
     let element = templateBody.getChild(i).copy();
     let type = element.getType();
-    Logger.log(element.getText());
     if (type === DocumentApp.ElementType.PARAGRAPH) {
       body.appendParagraph(element);
     } else if (type === DocumentApp.ElementType.TABLE) {
