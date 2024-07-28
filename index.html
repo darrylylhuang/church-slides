@@ -116,24 +116,19 @@
       <div id="hymn-form-submit-button-container"></div>
     </form>
     <div id="result"></div>
-    <!-- sundaysThisMonth.js -->
-    <!-- Executed once and used in index.js to auto-generate forms as well as determine future logic -->
+    <!-- sundaysInAMonth.js -->
     <script>
       /**
        * Get a list of all Sundays in the current month formatted as strings.
        * @returns {string[]} A list of formatted date strings for each Sunday in the current month.
        */
-      const sundaysThisMonth = (function () {
-        // Get current date
-        var today = new Date();
-        // var today = new Date(2024, 8, 1); // test with September (has 5 Sundays)
-
+      const sundaysInAMonth = (today) => {
         // Get the year and month
-        var year = today.getFullYear();
-        var month = today.getMonth();
+        const year = today.getFullYear();
+        const month = today.getMonth();
 
         // Initialize list of Sundays
-        var sundaysList = [];
+        let sundaysList = [];
 
         let options = {
           weekday: "long",
@@ -144,11 +139,11 @@
 
         // Loop through each day of the month
         for (
-          var day = 1;
+          let day = 1;
           day <= new Date(year, month + 1, 0).getDate();
           day++
         ) {
-          var currentDate = new Date(year, month, day);
+          let currentDate = new Date(year, month, day);
           // Check if the current day is a Sunday (day 0 in JavaScript Date object)
           if (currentDate.getDay() === 0) {
             sundaysList.push(currentDate.toLocaleDateString("en-CA", options));
@@ -157,6 +152,22 @@
 
         // Return the list of Sundays found
         return sundaysList;
+      };
+    </script>
+    <!-- Sundays this month and next month -->
+    <script>
+      const sundaysThisMonth = (function () {
+        const today = new Date();
+        return sundaysInAMonth(today);
+      })();
+
+      const sundaysNextMonth = (function () {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = today.getMonth();
+        const nextMonth = (month + 1) % 12;
+        const firstOfNextMonth = new Date(year, nextMonth, 1);
+        return sundaysInAMonth(firstOfNextMonth);
       })();
 
       const numberOfDivs = (function () {
