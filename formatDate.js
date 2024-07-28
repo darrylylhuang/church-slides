@@ -5,7 +5,7 @@ function formatDate(date) {
     month: "long",
     day: "numeric",
   };
-  var dateObject = new Date(date);
-  var formattedDate = dateObject.toLocaleDateString("en-CA", options);
+  const dateObject = new Date(date);
+  const formattedDate = dateObject.toLocaleDateString("en-CA", options);
   return formattedDate;
 }
