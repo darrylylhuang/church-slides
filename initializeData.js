@@ -1,5 +1,6 @@
-var SHEET_ID = "1f5dM3ppCNISYl6EgvFoC6irO-UwpIvJc_hoDnkEb6wQ"; // Open GoogleSheets with all info
+const SHEET_ID = "1f5dM3ppCNISYl6EgvFoC6irO-UwpIvJc_hoDnkEb6wQ"; // Open GoogleSheets with all info
 var GlobalConstants = {};
+GlobalConstants.missingTitles = [];
 
 function initializeData() {
   Logger.log("Initializing data.");

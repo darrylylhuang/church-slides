@@ -72,7 +72,7 @@ function getHymnTitles(key) {
   } else {
     title = gatherTitles[key] ? `${gatherTitles[key]} (${key})` : "";
   }
-  if (title === "") GlobalConstants.missingTitles.append(key);
+  if (title === "") GlobalConstants.missingTitles.push(key);
   return title;
 }
 
