@@ -1,27 +1,36 @@
+var SHEET_ID = "1f5dM3ppCNISYl6EgvFoC6irO-UwpIvJc_hoDnkEb6wQ"; // Open GoogleSheets with all info
+var GlobalConstants = {};
+
 function initializeData() {
   Logger.log("Initializing data.");
-  var SPREADSHEET = SpreadsheetApp.openById(SHEET_ID);
-  var GATHER_COMPREHENSIVE = SPREADSHEET.getSheetByName("Gather Comprehensive"); // Open specific sheet with Gather Comprehensive hymn info
-  var STORRINGTON_MASS = SPREADSHEET.getSheetByName("Storrington Mass"); // Open the sheet that has Storrington mass settings
-  var BINDER = SPREADSHEET.getSheetByName("Binder");
-  var OTHER_SLIDES = SPREADSHEET.getSheetByName("Other Slides"); // Open the sheet that has transitions + additional slides
-  var SCHEDULE = SPREADSHEET.getSheetByName("Current Month"); // Open the sheet that has the information on what we're playing each month
+  const SPREADSHEET = SpreadsheetApp.openById(SHEET_ID);
+  const GATHER_COMPREHENSIVE = SPREADSHEET.getSheetByName(
+    "Gather Comprehensive"
+  ); // Open specific sheet with Gather Comprehensive hymn info
+  const STORRINGTON_MASS = SPREADSHEET.getSheetByName("Storrington Mass"); // Open the sheet that has Storrington mass settings
+  const BINDER = SPREADSHEET.getSheetByName("Binder");
+  const OTHER_SLIDES = SPREADSHEET.getSheetByName("Other Slides"); // Open the sheet that has transitions + additional slides
+  const SCHEDULE = SPREADSHEET.getSheetByName("Current Month"); // Open the sheet that has the information on what we're playing each month
 
-  var gatherData = GATHER_COMPREHENSIVE.getRange("A2:B").getValues(); // Contains hymn number, name, and GoogleSlides ID
-  var storringtonData = STORRINGTON_MASS.getRange("A2:B10").getValues(); // Contains part of the mass, and GoogleSlidesID
+  const gatherData = GATHER_COMPREHENSIVE.getRange("A2:D").getValues(); // Contains hymn number, name, and GoogleSlides ID
+  const storringtonData = STORRINGTON_MASS.getRange("A2:B10").getValues(); // Contains part of the mass, and GoogleSlidesID
   // ************* THESE ARE LAZY; UPDATE THEM WHEN MORE HYMNS ARE ADDDED *************
-  var binderData = BINDER.getRange("A2:B100").getValues(); // Contains hymn name, and GoogleSlides ID
-  var otherSlideData = OTHER_SLIDES.getRange("A2:B10").getValues(); // Contains slide type + GoogleSlides ID
+  const binderData = BINDER.getRange("A2:B100").getValues(); // Contains hymn name, and GoogleSlides ID
+  const otherSlideData = OTHER_SLIDES.getRange("A2:B10").getValues(); // Contains slide type + GoogleSlides ID
 
   // ************* CHANGE THIS RANGE AS NEEDED *************
   GlobalConstants.scheduleData = SCHEDULE.getRange("A2:O6").getValues();
 
   // Create an object for quick lookup of presentation IDs by hymn number
   const gatherPresentationIds = {};
+  // And quick lookup for hymn titles
+  const gatherComprehensiveHymnNames = {};
   gatherData.forEach(function (column) {
     gatherPresentationIds[column[0]] = column[1]; // column[0] is hymn number, column[1] is presentation ID
+    gatherComprehensiveHymnNames[column[0]] = column[3]; // # ; name
   });
   GlobalConstants.gatherPresentationIds = gatherPresentationIds;
+  GlobalConstants.gatherComprehensiveHymnNames = gatherComprehensiveHymnNames;
 
   // Storrington mass setting slides
   const storringtonSlidesPresentationIds = {};
@@ -60,7 +69,8 @@ function initializeData() {
 
   GlobalConstants.openingId = otherSlidesPresentationIds["Opening"];
   GlobalConstants.transitionId = otherSlidesPresentationIds["Transition"];
-  GlobalConstants.jubileePrayerId = otherSlidesPresentationIds["The Jubilee Prayer"];
+  GlobalConstants.jubileePrayerId =
+    otherSlidesPresentationIds["The Jubilee Prayer"];
 
   Logger.log("Data initilization complete.");
 }
