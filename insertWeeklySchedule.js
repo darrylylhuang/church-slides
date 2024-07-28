@@ -5,14 +5,38 @@ const memorial3Label = "Save us, Savior of the World...";
 function insertWeeklySchedule(doc, week) {
   const body = doc.getBody();
 
-  body.replaceText("{date}", week.sunday);
-  body.replaceText("{gathering-hymn}", week.gathering);
-  body.replaceText("{psalm}", week.psalm);
-  body.replaceText("{offertory-hymn}", week.offertory);
-  body.replaceText("{communion-hymn}", week.offertory);
-  body.replaceText("{recessional-hymn}", week.offertory);
-  body.replaceText("{line1}", week.gospelVerse.line1);
-  body.replaceText("{line2}", week.gospelVerse.line2);
+  let [
+    sunday,
+    gathering,
+    psalm,
+    offertory,
+    communion,
+    recessional,
+    line1,
+    line2,
+  ] = [
+    week.sunday,
+    week.gathering,
+    week.psalm,
+    week.offertory,
+    week.communion,
+    week.recessional,
+    week.gospelVerse.line1,
+    week.gospelVerse.line2,
+  ];
+
+  let hymns = [gathering, psalm, offertory, communion, recessional];
+  [gathering, psalm, offertory, communion, recessional] =
+    hymns.map(getHymnTitles);
+
+  body.replaceText("{date}", sunday);
+  body.replaceText("{gathering-hymn}", gathering);
+  body.replaceText("{psalm}", psalm);
+  body.replaceText("{offertory-hymn}", offertory);
+  body.replaceText("{communion-hymn}", communion);
+  body.replaceText("{recessional-hymn}", recessional);
+  body.replaceText("{line1}", line1);
+  body.replaceText("{line2}", line2);
 
   const storringtonParts = week.storrington;
   storringtonParts.forEach((element) => {
@@ -34,6 +58,22 @@ function insertWeeklySchedule(doc, week) {
         break;
     }
   });
+}
+
+function getHymnTitles(key) {
+  const gatherTitles = GlobalConstants.gatherComprehensiveHymnNames;
+  const binderPresentationIds = GlobalConstants.binderPresentationIds;
+
+  let title;
+  if (isNaN(key)) {
+    // TODO: test
+    // Concept here is that binder titles are keys themselves; existence implies correctness
+    title = binderPresentationIds[key] ? `${key} (Binder)` : "";
+  } else {
+    title = gatherTitles[key] ? `${gatherTitles[key]} (${key})` : "";
+  }
+  if (title === "") GlobalConstants.missingTitles.append(key);
+  return title;
 }
 
 function insertMemorialLabel(body, value) {

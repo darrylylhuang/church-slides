@@ -9,6 +9,7 @@ function createMusicSchedule(
   storringtonParts
 ) {
   // The title of the new doc is this month of this year
+  // TODO: function that creates the document
   const today = new Date();
   const month = today.toLocaleString("en-CA", { month: "long" });
   const year = today.getFullYear();

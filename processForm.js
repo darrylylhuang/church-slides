@@ -8,6 +8,7 @@ function processForm(
   gospelVerses,
   storringtonParts
 ) {
+  initializeData();
   createMusicSchedule(
     sundays,
     gatherings,
