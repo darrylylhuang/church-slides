@@ -155,14 +155,14 @@ function createSlidesForOneWeek(nextSunday) {
   }));
 
   // Make a new presentation for a single Sunday; needs the date from nextSunday slice
-  var newPresentation = createPresentationInFolder(date);
-  var currentPresentation = newPresentation;
+  const newPresentation = createPresentationInFolder(date);
+  const currentPresentation = newPresentation;
   currentPresentation.getSlides()[0].remove();
 
   // Transition slide
-  var transitionId = GlobalConstants.transitionId;
-  var transitionPresentation = SlidesApp.openById(transitionId);
-  var transitionSlide = transitionPresentation.getSlides()[0];
+  const transitionId = GlobalConstants.transitionId;
+  const transitionPresentation = SlidesApp.openById(transitionId);
+  const transitionSlide = transitionPresentation.getSlides()[0];
 
   // Add opening slide before everything else
   addOpeningSlide(date, currentPresentation);
