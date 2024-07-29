@@ -17,6 +17,11 @@
       #how-to-use {
         text-align: center;
         margin-top: -20px;
+        margin-bottom: 10px;
+      }
+
+      #month-selection-container {
+        text-align: center;
         margin-bottom: 20px;
       }
 
@@ -83,7 +88,7 @@
         margin-right: 10px;
       }
 
-      #mini-forms-container {
+      .mini-forms-container {
         display: flex;
         justify-content: space-between; /* Evenly distribute columns */
         gap: 20px; /* Gap between columns */
@@ -101,6 +106,10 @@
         padding: 10px; /* Padding for content */
         border: 1px solid #ccc; /* Border for clarity */
       }
+
+      .hidden {
+        display: none;
+      }
     </style>
   </head>
   <body>
@@ -111,8 +120,15 @@
       Please enter Hymn Numbers for hymns in the Gather, and Hymn Names for
       hymns in the Binder.
     </div>
+    <div id="month-selection-container">
+      <input type="radio" id="this-month" name="this-month" />
+      <label for="this-month"></label>
+      <input type="radio" id="next-month" name="next-month" />
+      <label for="next-month"></label>
+    </div>
     <form id="hymn-form">
-      <div id="mini-forms-container"></div>
+      <div id="mini-forms-container-0" class="mini-forms-container"></div>
+      <div id="mini-forms-container-1" class="mini-forms-container"></div>
       <div id="hymn-form-submit-button-container"></div>
     </form>
     <div id="result"></div>
@@ -154,30 +170,49 @@
         return sundaysList;
       };
     </script>
-    <!-- Sundays this month and next month -->
+    <!-- Sundays this month and next month + constants for today and the first of next month -->
     <script>
-      const sundaysThisMonth = (function () {
+      const today = (function () {
         const today = new Date();
-        return sundaysInAMonth(today);
+        return today;
       })();
 
-      const sundaysNextMonth = (function () {
-        const today = new Date();
+      const firstOfNextMonth = (function () {
         const year = today.getFullYear();
         const month = today.getMonth();
         const nextMonth = (month + 1) % 12;
         const firstOfNextMonth = new Date(year, nextMonth, 1);
-        return sundaysInAMonth(firstOfNextMonth);
+        return firstOfNextMonth;
       })();
 
-      const numberOfDivs = (function () {
-        return sundaysThisMonth.length;
+      const sundaysThisMonth = (function () {
+        return sundaysInAMonth(today);
+      })();
+
+      const sundaysNextMonth = (function () {
+        return sundaysInAMonth(firstOfNextMonth);
+      })();
+    </script>
+    <!-- Month names for this month and next month -->
+    <script>
+      const thisMonth = (function () {
+        const thisMonth = today.toLocaleString("en-CA", { month: "long" });
+        return thisMonth;
+      })();
+
+      const nextMonth = (function () {
+        const nextMonth = firstOfNextMonth.toLocaleString("en-CA", {
+          month: "long",
+        });
+        return nextMonth;
       })();
     </script>
     <!-- generateMiniForm.js -->
     <script>
-      let generateMiniForm = function (i) {
-        let sunday = sundaysThisMonth[i];
+      let generateMiniForm = function (i, month) {
+        let sundays = sundaysThisMonth;
+        if (month === 1) sundays = sundaysNextMonth;
+        let sunday = sundays[i];
         let element = document.createElement("div");
         element.innerHTML = `
           <div id="form-column-${i}" class="form-column">
@@ -354,7 +389,9 @@
           </div>
           `;
         element.classList.add("column");
-        document.getElementById("mini-forms-container").append(element);
+        document
+          .getElementById(`mini-forms-container-${month}`)
+          .append(element);
       };
     </script>
     <!-- addSubmitButton -->
@@ -376,8 +413,14 @@
       let index = (function () {
         "use strict";
 
-        for (let i = 0; i < numberOfDivs; i++) {
-          generateMiniForm(i);
+        const numberOfDivs0 = sundaysThisMonth.length;
+        for (let i = 0; i < numberOfDivs0; i++) {
+          generateMiniForm(i, 0);
+        }
+
+        const numberOfDivs1 = sundaysNextMonth.length;
+        for (let i = 0; i < numberOfDivs1; i++) {
+          generateMiniForm(i, 1);
         }
       })();
     </script>
@@ -456,6 +499,10 @@
               storringtonParts
             );
         });
+    </script>
+    <script>
+      let nextMonthsForms = document.getElementById("mini-forms-container-1");
+      nextMonthsForms.classList.add("hidden");
     </script>
   </body>
 </html>
