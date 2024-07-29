@@ -121,10 +121,10 @@
       hymns in the Binder.
     </div>
     <div id="month-selection-container">
-      <input type="radio" id="this-month" name="this-month" />
-      <label for="this-month"></label>
-      <input type="radio" id="next-month" name="next-month" />
-      <label for="next-month"></label>
+      <input type="radio" id="this-month" name="schedule-month" checked />
+      <label for="this-month">This Month</label>
+      <input type="radio" id="next-month" name="schedule-month" />
+      <label for="next-month">Next Month</label>
     </div>
     <form id="hymn-form">
       <div id="mini-forms-container-0" class="mini-forms-container"></div>
@@ -501,8 +501,30 @@
         });
     </script>
     <script>
+      let thisMonthsForms = document.getElementById("mini-forms-container-0");
       let nextMonthsForms = document.getElementById("mini-forms-container-1");
       nextMonthsForms.classList.add("hidden");
+
+      const swapToForm = function (month) {
+        if (month === 0) {
+          thisMonthsForms.classList.remove("hidden");
+          nextMonthsForms.classList.add("hidden");
+        } else if (month === 1) {
+          thisMonthsForms.classList.add("hidden");
+          nextMonthsForms.classList.remove("hidden");
+        }
+      };
+
+      document
+        .getElementById("this-month")
+        .addEventListener("click", function (e) {
+          swapToForm(0);
+        });
+      document
+        .getElementById("next-month")
+        .addEventListener("click", function (e) {
+          swapToForm(1);
+        });
     </script>
   </body>
 </html>
