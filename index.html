@@ -413,14 +413,14 @@
       let index = (function () {
         "use strict";
 
-        const numberOfDivs0 = sundaysThisMonth.length;
-        for (let i = 0; i < numberOfDivs0; i++) {
-          generateMiniForm(i, 0);
-        }
-
         const numberOfDivs1 = sundaysNextMonth.length;
         for (let i = 0; i < numberOfDivs1; i++) {
           generateMiniForm(i, 1);
+        }
+
+        const numberOfDivs0 = sundaysThisMonth.length;
+        for (let i = 0; i < numberOfDivs0; i++) {
+          generateMiniForm(i, 0);
         }
       })();
     </script>
