@@ -346,7 +346,7 @@
             class="${month}"
             name="${month}-${part}-${i}"
             value="${value}"
-            required
+            ${type === "text" ? "required" : ""}
             ${checked ? "checked" : ""}
           />
         `;
