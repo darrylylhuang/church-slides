@@ -26,10 +26,14 @@ function createMusicSchedule(
       el.name.endsWith(`-${i}`)
     );
     // once this week's parts have been filtered based on i value, strip this suffix for convenience
-    thisWeekStorrington = thisWeekStorrington.map((el) => ({
-      name: el.name.substring(0, el.name.length - 2),
-      value: el.value,
-    }));
+    thisWeekStorrington = thisWeekStorrington.map((el) => {
+      // also strip the "thisMonth-" / "nextMonth-" prefix
+      const start = 10;
+      return {
+        name: el.name.substring(start, el.name.length - 2),
+        value: el.value,
+      };
+    });
 
     let week = {
       sunday: sundays[i],
