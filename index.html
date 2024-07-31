@@ -521,7 +521,9 @@
 
         for (let i = 0; i < numberOfDivs(); i++) {
           hymnTypeList.push(
-            document.querySelector(`#${type}-${i}.${getCurrentMonth()}`).value
+            document.querySelector(
+              `#${getCurrentMonth()}-${type}-${i}.${getCurrentMonth()}`
+            ).value
           );
         }
 
@@ -535,10 +537,10 @@
         for (let i = 0; i < numberOfDivs(); i++) {
           gospelVerses.push({
             line1: document.querySelector(
-              `#gospel-line1-${i}.${getCurrentMonth()}`
+              `#${getCurrentMonth()}-gospel-line1-${i}.${getCurrentMonth()}`
             ).value,
             line2: document.querySelector(
-              `#gospel-line2-${i}.${getCurrentMonth()}`
+              `#${getCurrentMonth()}-gospel-line2-${i}.${getCurrentMonth()}`
             ).value,
           });
         }
