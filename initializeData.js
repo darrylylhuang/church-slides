@@ -25,13 +25,13 @@ function initializeData() {
   // Create an object for quick lookup of presentation IDs by hymn number
   const gatherPresentationIds = {};
   // And quick lookup for hymn titles
-  const gatherComprehensiveHymnNames = {};
+  const gatherComprehensiveTitles = {};
   gatherData.forEach(function (column) {
     gatherPresentationIds[column[0]] = column[1]; // column[0] is hymn number, column[1] is presentation ID
-    gatherComprehensiveHymnNames[column[0]] = column[3]; // # ; name
+    gatherComprehensiveTitles[column[0]] = column[3]; // # ; name
   });
   GlobalConstants.gatherPresentationIds = gatherPresentationIds;
-  GlobalConstants.gatherComprehensiveHymnNames = gatherComprehensiveHymnNames;
+  GlobalConstants.gatherComprehensiveTitles = gatherComprehensiveTitles;
 
   // Storrington mass setting slides
   const storringtonSlidesPresentationIds = {};
@@ -41,10 +41,14 @@ function initializeData() {
 
   // presentation ID by hymn name for binder hymns
   const binderPresentationIds = {};
+  // Binder hymns that exist
+  const binderTitles = [];
   binderData.forEach(function (column) {
     binderPresentationIds[column[0]] = column[1]; // column[0] is hymn name, column[1] is presentation ID
+    binderTitles.push(column[0]);
   });
   GlobalConstants.binderPresentationIds = binderPresentationIds;
+  GlobalConstants.binderTitles = binderTitles;
 
   // Other slides e.g. transition, opening slide, etc.
   const otherSlidesPresentationIds = {};
