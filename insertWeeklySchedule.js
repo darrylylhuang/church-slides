@@ -62,10 +62,10 @@ function getHymnTitles(key) {
 
   let title;
   if (isNaN(key)) {
-    title = binderTitles.find((el) => ciEquals(title, el));
+    title = binderTitles.find((el) => ciEquals(key, el));
     if (title === undefined) {
-      title = key;
       GlobalConstants.missingTitles.push(key);
+      title = key;
     }
     title += " (Binder)";
   } else {
