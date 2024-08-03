@@ -54,7 +54,7 @@ function createMusicSchedule(
       // This needs to be after the next week's template has been appended
       if (i !== 0) body.removeChild(body.getChild(newParagraphChildIndex));
       // Two weeks can fit on a page; put a rule between the two unless it's the last
-      if (i !== numSundays) body.appendHorizontalRule();
+      if (i !== numSundays - 1) body.appendHorizontalRule();
     }
     // The horizontal rule adds a paragraph; remove paragraph after the table
     var newParagraphChildIndex = body.getNumChildren() - 2;
