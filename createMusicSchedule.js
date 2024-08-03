@@ -8,11 +8,11 @@ function createMusicSchedule(
   gospelVerses,
   storringtonParts
 ) {
-  // The title of the new doc is this month of this year
+  // The title of the new doc is the month of this year of the Sundays given
   // TODO: function that creates the document
-  const today = new Date();
-  const month = today.toLocaleString("en-CA", { month: "long" });
-  const year = today.getFullYear();
+  const firstSundayofMonth = new Date(sundays[0]);
+  const month = firstSundayofMonth.toLocaleString("en-CA", { month: "long" });
+  const year = firstSundayofMonth.getFullYear();
   const doc = DocumentApp.create(`Music Schedule - ${month} ${year}`);
 
   const body = doc.getBody();
