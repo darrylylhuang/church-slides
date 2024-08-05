@@ -9,7 +9,8 @@ function processForm(
   storringtonParts
 ) {
   initializeData();
-  createMusicSchedule(
+
+  let weeks = processWeeks(
     sundays,
     gatherings,
     psalms,
@@ -19,6 +20,8 @@ function processForm(
     gospelVerses,
     storringtonParts
   );
+
+  createMusicSchedule(weeks);
 
   var response = `Success`;
   return response;
