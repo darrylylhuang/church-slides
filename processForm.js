@@ -22,6 +22,7 @@ function processForm(
   );
 
   createMusicSchedule(weeks);
+  pushGoogleSheets(weeks);
 
   var response = `Success`;
   return response;
