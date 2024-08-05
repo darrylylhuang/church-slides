@@ -218,20 +218,6 @@
         return null;
       };
     </script>
-    <!-- Month names for this month and next month -->
-    <script>
-      const thisMonth = (function () {
-        const thisMonth = today.toLocaleString("en-CA", { month: "long" });
-        return thisMonth;
-      })();
-
-      const nextMonth = (function () {
-        const nextMonth = firstOfNextMonth.toLocaleString("en-CA", {
-          month: "long",
-        });
-        return nextMonth;
-      })();
-    </script>
     <!-- generateMiniForm.js -->
     <script>
       const generateMiniFormPart = function (
