@@ -1,7 +1,3 @@
-const memorial1Label = "When We Eat This Bread...";
-const memorial2Label = "We Proclaim Your Death...";
-const memorial3Label = "Save us, Savior of the World...";
-
 function insertWeeklySchedule(doc, week) {
   const body = doc.getBody();
 
@@ -61,22 +57,30 @@ function insertWeeklySchedule(doc, week) {
 }
 
 function getHymnTitles(key) {
-  const gatherTitles = GlobalConstants.gatherComprehensiveHymnNames;
-  const binderPresentationIds = GlobalConstants.binderPresentationIds;
+  const gatherTitles = GlobalConstants.gatherComprehensiveTitles;
+  const binderTitles = GlobalConstants.binderTitles;
 
   let title;
   if (isNaN(key)) {
-    // TODO: test
-    // Concept here is that binder titles are keys themselves; existence implies correctness
-    title = binderPresentationIds[key] ? `${key} (Binder)` : "";
+    title = binderTitles.find((el) => ciEquals(key, el));
+    if (title === undefined) {
+      GlobalConstants.missingTitles.push(key);
+      title = key;
+    }
+    title += " (Binder)";
   } else {
     title = gatherTitles[key] ? `${gatherTitles[key]} (${key})` : "";
+    if (title === "") GlobalConstants.missingTitles.push(key);
   }
-  if (title === "") GlobalConstants.missingTitles.push(key);
+
   return title;
 }
 
 function insertMemorialLabel(body, value) {
+  const memorial1Label = "When We Eat This Bread...";
+  const memorial2Label = "We Proclaim Your Death...";
+  const memorial3Label = "Save us, Savior of the World...";
+
   if (value === "1") {
     body.replaceText("{memorial-acclamation}", memorial1Label);
   } else if (value === "2") {
@@ -86,4 +90,16 @@ function insertMemorialLabel(body, value) {
   } else {
     // TODO: delete Memorial Acclamation
   }
+}
+
+/**
+ * Case insensitive equals
+ * @param {string} a
+ * @param {string} b
+ * @returns {boolean} a === b (case insensitive)
+ */
+function ciEquals(a, b) {
+  return typeof a === "string" && typeof b === "string"
+    ? a.localeCompare(b, undefined, { sensitivity: "accent" }) === 0
+    : a === b;
 }

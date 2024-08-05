@@ -17,6 +17,11 @@
       #how-to-use {
         text-align: center;
         margin-top: -20px;
+        margin-bottom: 10px;
+      }
+
+      #month-selection-container {
+        text-align: center;
         margin-bottom: 20px;
       }
 
@@ -83,7 +88,7 @@
         margin-right: 10px;
       }
 
-      #mini-forms-container {
+      .mini-forms-container {
         display: flex;
         justify-content: space-between; /* Evenly distribute columns */
         gap: 20px; /* Gap between columns */
@@ -97,9 +102,16 @@
 
       /* CSS for each column */
       .column {
-        flex: 1; /* Each column takes up equal space */
-        padding: 10px; /* Padding for content */
-        border: 1px solid #ccc; /* Border for clarity */
+        /* Each column takes up equal space */
+        flex: 1;
+        /* Padding for content */
+        padding: 10px;
+        /* Border for clarity */
+        border: 1px solid #ccc;
+      }
+
+      .hidden {
+        display: none;
       }
     </style>
   </head>
@@ -111,29 +123,31 @@
       Please enter Hymn Numbers for hymns in the Gather, and Hymn Names for
       hymns in the Binder.
     </div>
+    <div id="month-selection-container">
+      <input type="radio" id="this-month" name="schedule-month" checked />
+      <label for="this-month">This Month</label>
+      <input type="radio" id="next-month" name="schedule-month" />
+      <label for="next-month">Next Month</label>
+    </div>
     <form id="hymn-form">
-      <div id="mini-forms-container"></div>
+      <div id="mini-forms-container-0" class="mini-forms-container"></div>
+      <div id="mini-forms-container-1" class="mini-forms-container"></div>
       <div id="hymn-form-submit-button-container"></div>
     </form>
     <div id="result"></div>
-    <!-- sundaysThisMonth.js -->
-    <!-- Executed once and used in index.js to auto-generate forms as well as determine future logic -->
+    <!-- sundaysInAMonth.js -->
     <script>
       /**
        * Get a list of all Sundays in the current month formatted as strings.
        * @returns {string[]} A list of formatted date strings for each Sunday in the current month.
        */
-      const sundaysThisMonth = (function () {
-        // Get current date
-        var today = new Date();
-        // var today = new Date(2024, 8, 1); // test with September (has 5 Sundays)
-
+      const sundaysInAMonth = (today) => {
         // Get the year and month
-        var year = today.getFullYear();
-        var month = today.getMonth();
+        const year = today.getFullYear();
+        const month = today.getMonth();
 
         // Initialize list of Sundays
-        var sundaysList = [];
+        let sundaysList = [];
 
         let options = {
           weekday: "long",
@@ -144,11 +158,11 @@
 
         // Loop through each day of the month
         for (
-          var day = 1;
+          let day = 1;
           day <= new Date(year, month + 1, 0).getDate();
           day++
         ) {
-          var currentDate = new Date(year, month, day);
+          let currentDate = new Date(year, month, day);
           // Check if the current day is a Sunday (day 0 in JavaScript Date object)
           if (currentDate.getDay() === 0) {
             sundaysList.push(currentDate.toLocaleDateString("en-CA", options));
@@ -157,193 +171,308 @@
 
         // Return the list of Sundays found
         return sundaysList;
+      };
+    </script>
+    <!-- Sundays this month and next month + constants for today and the first of next month -->
+    <!-- getCurrentMonth.js -->
+    <script>
+      const today = (function () {
+        const today = new Date();
+        return today;
       })();
 
-      const numberOfDivs = (function () {
-        return sundaysThisMonth.length;
+      const firstOfNextMonth = (function () {
+        const year = today.getFullYear();
+        const month = today.getMonth();
+        const nextMonth = (month + 1) % 12;
+        const firstOfNextMonth = new Date(year, nextMonth, 1);
+        return firstOfNextMonth;
       })();
+
+      const sundaysThisMonth = (function () {
+        return sundaysInAMonth(today);
+      })();
+
+      const sundaysNextMonth = (function () {
+        return sundaysInAMonth(firstOfNextMonth);
+      })();
+
+      const getCurrentMonth = function () {
+        if (nextMonthForms.classList.contains("hidden")) return "thisMonth";
+        else if (thisMonthForms.classList.contains("hidden"))
+          return "nextMonth";
+        return null;
+      };
+
+      const sendTheseSundays = function () {
+        const month = getCurrentMonth();
+        if (month === "thisMonth") return sundaysThisMonth;
+        else if (month === "nextMonth") return sundaysNextMonth;
+      };
+
+      const numberOfDivs = function () {
+        const currentMonth = getCurrentMonth();
+
+        if (currentMonth === "thisMonth") return sundaysThisMonth.length;
+        else if (currentMonth === "nextMonth") return sundaysNextMonth.length;
+        return null;
+      };
     </script>
     <!-- generateMiniForm.js -->
     <script>
-      let generateMiniForm = function (i) {
-        let sunday = sundaysThisMonth[i];
+      const generateMiniFormPart = function (
+        month,
+        part,
+        i,
+        type,
+        labelText,
+        value = "",
+        checked = false
+      ) {
         let element = document.createElement("div");
+        element.classList.add("form-group");
         element.innerHTML = `
-          <div id="form-column-${i}" class="form-column">
-            <h3>${sunday}</h3>
-            <div class="form-group">
-              <label for="gathering-${i}">Gathering Hymn</label>
-              <input
-                type="text"
-                id="gathering-${i}"
-                name="gathering-${i}"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label>Gloria</label>
-              <div class="labelled-checkbox">
-                <input
-                  type="checkbox"
-                  id="gloria-${i}"
-                  name="gloria-${i}"
-                  value="true"
-                  checked
-                />
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="psalm-${i}">Psalm</label>
-              <input type="text" id="psalm-${i}" name="psalm-${i}" required />
-            </div>
-            <div class="form-group">
-              <label for="gospel-${i}">Gospel Acclamation</label>
+          <label for="${month}-${part}-${i}">${labelText}</label>
+        `;
+
+        // Gospel Acclamation radio selection
+        if (part === "gospel") {
+          element.innerHTML += `
               <div class="multiple-inputs">
                 <div class="labelled-radio">
                   <input
-                    type="radio"
-                    id="gospel-none-${i}"
-                    name="gospel-${i}"
+                    type="${type}"
+                    id="${month}-${part}-none-${i}"
+                    class="${month}"
+                    name="${month}-${part}-${i}"
                     value="none"
                   />
-                  <label for="gospel-none-${i}">None</label>
+                  <label for="${month}-${part}-none-${i}">None</label>
                 </div>
                 <div class="labelled-radio">
                   <input
-                    type="radio"
-                    id="gospel-norm-${i}"
-                    name="gospel-${i}"
+                    type="${type}"
+                    id="${month}-${part}-norm-${i}"
+                    class="${month}"
+                    name="${month}-${part}-${i}"
                     value="normal"
                     checked
                   />
-                  <label for="gospel-norm-${i}">Normal</label>
+                  <label for="${month}-${part}-norm-${i}">Normal</label>
                 </div>
                 <div class="labelled-radio">
                   <input
-                    type="radio"
-                    id="gospel-lent-${i}"
-                    name="gospel-${i}"
+                    type="${type}"
+                    id="${month}-${part}-lent-${i}"
+                    class="${month}"
+                    name="${month}-${part}-${i}"
                     value="lenten"
                   />
-                  <label for="gospel-lent-${i}">Lenten</label>
+                  <label for="${month}-${part}-lent-${i}">Lenten</label>
                 </div>
               </div>
-            </div>
-            <div class="form-group">
-              <label for="gospel-line1-${i}">Verse: Line 1</label>
-              <input
-                type="text"
-                id="gospel-line1-${i}"
-                name="gospel-line1-${i}"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label for="gospel-line2-${i}">Verse: Line 2</label>
-              <input
-                type="text"
-                id="gospel-line2-${i}"
-                name="gospel-line2-${i}"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label for="offertory-${i}">Offertory Hymn</label>
-              <input
-                type="text"
-                id="offertory-${i}"
-                name="offertory-${i}"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label for="memorial-${i}">Memorial Acclamation</label>
-              <div class="multiple-inputs">
-                <div class="labelled-radio">
-                  <input
-                    type="radio"
-                    id="memorial0-${i}"
-                    name="memorial-${i}"
-                    value="0"
-                  />
-                  <label for="memorial0-${i}">None</label>
-                </div>
-                <div class="labelled-radio">
-                  <input
-                    type="radio"
-                    id="memorial1-${i}"
-                    name="memorial-${i}"
-                    value="1"
-                    checked
-                  />
-                  <label for="memorial1-${i}">When We Eat...</label>
-                </div>
-                <div class="labelled-radio">
-                  <input
-                    type="radio"
-                    id="memorial2-${i}"
-                    name="memorial-${i}"
-                    value="2"
-                  />
-                  <label for="memorial2-${i}">We Proclaim...</label>
-                </div>
-                <div class="labelled-radio">
-                  <input
-                    type="radio"
-                    id="memorial3-${i}"
-                    name="memorial-${i}"
-                    value="3"
-                  />
-                  <label for="memorial3-${i}">Save Us...</label>
-                </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <label>Amen</label>
-              <div class="labelled-checkbox">
-                <input
-                  type="checkbox"
-                  id="amen-${i}"
-                  name="amen-${i}"
-                  value="true"
-                  checked
-                />
-              </div>
-            </div>
-            <div class="form-group">
-              <label>Lamb of God</label>
-              <div class="labelled-checkbox">
-                <input
-                  type="checkbox"
-                  id="lamb-${i}"
-                  name="lamb-${i}"
-                  value="true"
-                  checked
-                />
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="communion-${i}">Communion Hymn</label>
-              <input
-                type="text"
-                id="communion-${i}"
-                name="communion-${i}"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label for="recessional-${i}">Recessional Hymn</label>
-              <input
-                type="text"
-                id="recessional-${i}"
-                name="recessional-${i}"
-                required
-              />
-            </div>
-          </div>
           `;
-        element.classList.add("column");
-        document.getElementById("mini-forms-container").append(element);
+          return element;
+        }
+
+        // Memorial Acclamation radio selection
+        if (part === "memorial") {
+          const memorial0Label = "None";
+          const memorial1Label = "When We Eat...";
+          const memorial2Label = "We Proclaim...";
+          const memorial3Label = "Save Us...";
+
+          element.innerHTML += `
+            <div class="multiple-inputs">
+              <div class="labelled-radio">
+                <input
+                  type="${type}"
+                  id="${month}-${part}0-${i}"
+                  class="${month}"
+                  name="${month}-${part}-${i}"
+                  value="0"
+                />
+                <label for="${month}-${part}0-${i}">${memorial0Label}</label>
+              </div>
+              <div class="labelled-radio">
+                <input
+                  type="${type}"
+                  id="${month}-${part}1-${i}"
+                  class="${month}"
+                  name="${month}-${part}-${i}"
+                  value="1"
+                  checked
+                />
+                <label for="${month}-${part}1-${i}">${memorial1Label}</label>
+              </div>
+              <div class="labelled-radio">
+                <input
+                  type="${type}"
+                  id="${month}-${part}2-${i}"
+                  class="${month}"
+                  name="${month}-${part}-${i}"
+                  value="2"
+                />
+                <label for="${month}-${part}2-${i}">${memorial2Label}</label>
+              </div>
+              <div class="labelled-radio">
+                <input
+                  type="${type}"
+                  id="${month}-${part}3-${i}"
+                  class="${month}"
+                  name="${month}-${part}-${i}"
+                  value="3"
+                />
+                <label for="${month}-${part}3-${i}">${memorial3Label}</label>
+              </div>
+            </div>
+          `;
+          return element;
+        }
+
+        // Default case; only require text inputs
+        element.innerHTML += `
+          <input
+            type="${type}"
+            id="${month}-${part}-${i}"
+            class="${month}"
+            name="${month}-${part}-${i}"
+            value="${value}"
+            ${type === "text" ? "required" : ""}
+            ${checked ? "checked" : ""}
+          />
+        `;
+        return element;
+      };
+
+      let generateMiniForm = function (i, month) {
+        let sundays = sundaysThisMonth;
+        let currentMonth = "thisMonth";
+        if (month === 1) {
+          sundays = sundaysNextMonth;
+          currentMonth = "nextMonth";
+        }
+        let sunday = sundays[i];
+        let element = document.createElement("div");
+
+        element.id = `${currentMonth}-form-column-${i}`;
+        // Apply form column CSS
+        element.classList.add("column", "form-column");
+
+        element.innerHTML = `
+            <h3>${sunday}</h3>
+          `;
+
+        const gathering = generateMiniFormPart(
+          currentMonth,
+          "gathering",
+          i,
+          "text",
+          "Gathering Hymn"
+        );
+        const gloria = generateMiniFormPart(
+          currentMonth,
+          "gloria",
+          i,
+          "checkbox",
+          "Gloria",
+          "true",
+          true
+        );
+        const psalm = generateMiniFormPart(
+          currentMonth,
+          "psalm",
+          i,
+          "text",
+          "Psalm"
+        );
+        const gospel = generateMiniFormPart(
+          currentMonth,
+          "gospel",
+          i,
+          "radio",
+          "Gospel Acclamation"
+        );
+        const gospelLine1 = generateMiniFormPart(
+          currentMonth,
+          "gospel-line1",
+          i,
+          "text",
+          "Verse: Line 1"
+        );
+        const gospelLine2 = generateMiniFormPart(
+          currentMonth,
+          "gospel-line2",
+          i,
+          "text",
+          "Verse: Line 2"
+        );
+        const offertory = generateMiniFormPart(
+          currentMonth,
+          "offertory",
+          i,
+          "text",
+          "Offertory Hymn"
+        );
+        const memorial = generateMiniFormPart(
+          currentMonth,
+          "memorial",
+          i,
+          "radio",
+          "Memorial Acclamation"
+        );
+        const amen = generateMiniFormPart(
+          currentMonth,
+          "amen",
+          i,
+          "checkbox",
+          "Amen",
+          "true",
+          true
+        );
+        const lamb = generateMiniFormPart(
+          currentMonth,
+          "lamb",
+          i,
+          "checkbox",
+          "Lamb of God",
+          "true",
+          true
+        );
+        const communion = generateMiniFormPart(
+          currentMonth,
+          "communion",
+          i,
+          "text",
+          "Communion Hymn"
+        );
+        const recessional = generateMiniFormPart(
+          currentMonth,
+          "recessional",
+          i,
+          "text",
+          "Recessional Hymn"
+        );
+
+        // Add all parts to the mini form
+        element.append(
+          gathering,
+          gloria,
+          psalm,
+          gospel,
+          gospelLine1,
+          gospelLine2,
+          offertory,
+          memorial,
+          amen,
+          lamb,
+          communion,
+          recessional
+        );
+
+        document
+          .getElementById(`mini-forms-container-${month}`)
+          .append(element);
       };
     </script>
     <!-- addSubmitButton -->
@@ -365,8 +494,14 @@
       let index = (function () {
         "use strict";
 
-        for (let i = 0; i < numberOfDivs; i++) {
-          generateMiniForm(i);
+        const numberOfDivs1 = sundaysNextMonth.length;
+        for (let i = 0; i < numberOfDivs1; i++) {
+          generateMiniForm(i, 1);
+        }
+
+        const numberOfDivs0 = sundaysThisMonth.length;
+        for (let i = 0; i < numberOfDivs0; i++) {
+          generateMiniForm(i, 0);
         }
       })();
     </script>
@@ -376,8 +511,12 @@
       let getHymnsOfType = function (type) {
         const hymnTypeList = [];
 
-        for (let i = 0; i < numberOfDivs; i++) {
-          hymnTypeList.push(document.getElementById(`${type}-${i}`).value);
+        for (let i = 0; i < numberOfDivs(); i++) {
+          hymnTypeList.push(
+            document.querySelector(
+              `#${getCurrentMonth()}-${type}-${i}.${getCurrentMonth()}`
+            ).value
+          );
         }
 
         return hymnTypeList;
@@ -387,10 +526,14 @@
       let getGospelVerses = function () {
         const gospelVerses = [];
 
-        for (let i = 0; i < numberOfDivs; i++) {
+        for (let i = 0; i < numberOfDivs(); i++) {
           gospelVerses.push({
-            line1: document.getElementById(`gospel-line1-${i}`).value,
-            line2: document.getElementById(`gospel-line2-${i}`).value,
+            line1: document.querySelector(
+              `#${getCurrentMonth()}-gospel-line1-${i}.${getCurrentMonth()}`
+            ).value,
+            line2: document.querySelector(
+              `#${getCurrentMonth()}-gospel-line2-${i}.${getCurrentMonth()}`
+            ).value,
           });
         }
 
@@ -422,12 +565,14 @@
           // Add all the checkboxes and selected radios to be processed
           const storringtonParts = [];
 
-          document.querySelectorAll("input:checked").forEach((input) =>
-            storringtonParts.push({
-              name: input.name,
-              value: input.value,
-            })
-          );
+          document
+            .querySelectorAll(`input:checked.${getCurrentMonth()}`)
+            .forEach((input) =>
+              storringtonParts.push({
+                name: input.name,
+                value: input.value,
+              })
+            );
 
           // Send to backend
           google.script.run
@@ -435,7 +580,7 @@
               document.getElementById("result").innerText = response;
             })
             .processForm(
-              sundaysThisMonth,
+              sendTheseSundays(),
               gatherings,
               psalms,
               offertories,
@@ -444,6 +589,54 @@
               gospelVerses,
               storringtonParts
             );
+        });
+    </script>
+    <!-- swapToForm.js -->
+    <script>
+      const thisMonthForms = document.getElementById("mini-forms-container-0");
+      const nextMonthForms = document.getElementById("mini-forms-container-1");
+
+      const thisMonthInputs = document.querySelectorAll(".thisMonth");
+      const nextMonthInputs = document.querySelectorAll(".nextMonth");
+
+      nextMonthForms.classList.add("hidden");
+      nextMonthInputs.forEach((input) => {
+        input.required = false;
+      });
+
+      const swapToForm = function (month) {
+        if (month === 0) {
+          thisMonthForms.classList.remove("hidden");
+          nextMonthForms.classList.add("hidden");
+
+          thisMonthInputs.forEach((input) => {
+            input.required = true;
+          });
+          nextMonthInputs.forEach((input) => {
+            input.required = false;
+          });
+        } else if (month === 1) {
+          thisMonthForms.classList.add("hidden");
+          nextMonthForms.classList.remove("hidden");
+
+          nextMonthInputs.forEach((input) => {
+            input.required = true;
+          });
+          thisMonthInputs.forEach((input) => {
+            input.required = false;
+          });
+        }
+      };
+
+      document
+        .getElementById("this-month")
+        .addEventListener("click", function (e) {
+          swapToForm(0);
+        });
+      document
+        .getElementById("next-month")
+        .addEventListener("click", function (e) {
+          swapToForm(1);
         });
     </script>
   </body>

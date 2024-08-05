@@ -8,11 +8,11 @@ function createMusicSchedule(
   gospelVerses,
   storringtonParts
 ) {
-  // The title of the new doc is this month of this year
+  // The title of the new doc is the month of this year of the Sundays given
   // TODO: function that creates the document
-  const today = new Date();
-  const month = today.toLocaleString("en-CA", { month: "long" });
-  const year = today.getFullYear();
+  const firstSundayofMonth = new Date(sundays[0]);
+  const month = firstSundayofMonth.toLocaleString("en-CA", { month: "long" });
+  const year = firstSundayofMonth.getFullYear();
   const doc = DocumentApp.create(`Music Schedule - ${month} ${year}`);
 
   const body = doc.getBody();
@@ -26,10 +26,14 @@ function createMusicSchedule(
       el.name.endsWith(`-${i}`)
     );
     // once this week's parts have been filtered based on i value, strip this suffix for convenience
-    thisWeekStorrington = thisWeekStorrington.map((el) => ({
-      name: el.name.substring(0, el.name.length - 2),
-      value: el.value,
-    }));
+    thisWeekStorrington = thisWeekStorrington.map((el) => {
+      // also strip the "thisMonth-" / "nextMonth-" prefix
+      const start = 10;
+      return {
+        name: el.name.substring(start, el.name.length - 2),
+        value: el.value,
+      };
+    });
 
     let week = {
       sunday: sundays[i],
@@ -50,7 +54,7 @@ function createMusicSchedule(
       // This needs to be after the next week's template has been appended
       if (i !== 0) body.removeChild(body.getChild(newParagraphChildIndex));
       // Two weeks can fit on a page; put a rule between the two unless it's the last
-      if (i !== numSundays) body.appendHorizontalRule();
+      if (i !== numSundays - 1) body.appendHorizontalRule();
     }
     // The horizontal rule adds a paragraph; remove paragraph after the table
     var newParagraphChildIndex = body.getNumChildren() - 2;
