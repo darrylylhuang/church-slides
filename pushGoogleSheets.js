@@ -1,14 +1,17 @@
 function pushGoogleSheets(weeks) {
   const schedule = GlobalConstants.schedule;
+  const timeZone = GlobalConstants.timeZone;
   weeks.forEach((week) => {
-    Logger.log(week);
-    Logger.log(week.sunday);
+    const sunday = Utilities.formatDate(
+      new Date(week.sunday),
+      timeZone,
+      "MM/dd/yyyy"
+    );
+    const findThisSunday = schedule.createTextFinder(sunday);
+    const thisSundayRange = findThisSunday.findNext();
+    const thisSundayRowIndex = thisSundayRange.getRowIndex();
+    
   });
-
-  // let findThisSunday = schedule.createTextFinder(week.sunday);
-  // const thisSundayRange = findThisSunday.getCurrentMatch();
-  // const thisSundayRowIndex = thisSundayRange.getRowIndex();
-  // Logger.log(thisSundayRowIndex);
   // gathering: gatherings[i],
   // psalm: psalms[i],
   // offertory: offertories[i],

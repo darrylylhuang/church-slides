@@ -5,6 +5,7 @@ GlobalConstants.missingTitles = [];
 function initializeData() {
   Logger.log("Initializing data.");
   const SPREADSHEET = SpreadsheetApp.openById(SHEET_ID);
+  const SPREADSHEET_TIMEZONE = SPREADSHEET.getSpreadsheetTimeZone();
   const GATHER_COMPREHENSIVE = SPREADSHEET.getSheetByName(
     "Gather Comprehensive"
   ); // Open specific sheet with Gather Comprehensive hymn info
@@ -21,7 +22,8 @@ function initializeData() {
   const otherSlideData = OTHER_SLIDES.getRange("A2:B10").getValues(); // Contains slide type + GoogleSlides ID
 
   // ************* CHANGE THIS RANGE AS NEEDED *************
-  GlobalConstants.schedule = SCHEDULE.getRange("A2:O100");
+  GlobalConstants.schedule = SCHEDULE;
+  GlobalConstants.timeZone = SPREADSHEET_TIMEZONE;
   GlobalConstants.scheduleData = CURRENT_MONTH.getRange("A2:O6").getValues();
 
   // Create an object for quick lookup of presentation IDs by hymn number
