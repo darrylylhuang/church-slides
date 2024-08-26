@@ -414,6 +414,15 @@
           "text",
           "Offertory Hymn"
         );
+        const sanctus = generateMiniFormPart(
+          currentMonth,
+          "sanctus",
+          i,
+          "checkbox",
+          "Sanctus",
+          "true",
+          true
+        );
         const memorial = generateMiniFormPart(
           currentMonth,
           "memorial",
@@ -463,6 +472,7 @@
           gospelLine1,
           gospelLine2,
           offertory,
+          sanctus,
           memorial,
           amen,
           lamb,
