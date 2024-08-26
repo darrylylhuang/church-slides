@@ -1,7 +1,7 @@
 function createMusicSchedule(weeks) {
   // The title of the new doc is the month of this year of the Sundays given
   // TODO: function that creates the document
-  const firstSundayofMonth = new Date(sundays[0]);
+  const firstSundayofMonth = new Date(weeks[0].sunday);
   const month = firstSundayofMonth.toLocaleString("en-CA", { month: "long" });
   const year = firstSundayofMonth.getFullYear();
   const doc = DocumentApp.create(`Music Schedule - ${month} ${year}`);
