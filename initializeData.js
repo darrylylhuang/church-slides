@@ -24,7 +24,7 @@ function initializeData() {
   // ************* CHANGE THIS RANGE AS NEEDED *************
   GlobalConstants.schedule = SCHEDULE;
   GlobalConstants.timeZone = SPREADSHEET_TIMEZONE;
-  GlobalConstants.scheduleData = CURRENT_MONTH.getRange("A2:O6").getValues();
+  GlobalConstants.scheduleData = CURRENT_MONTH.getRange("A2:N6").getValues();
 
   // Create an object for quick lookup of presentation IDs by hymn number
   const gatherPresentationIds = {};
