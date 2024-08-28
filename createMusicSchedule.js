@@ -33,5 +33,6 @@ function createMusicSchedule(weeks) {
 
   // Remove blank paragraph generated with new doc
   body.removeChild(body.getChild(0));
+  doc.addEditors(["darrylylhuang@gmail.com", "michael.a.cole65@gmail.com"]);
   return doc.getUrl();
 }
