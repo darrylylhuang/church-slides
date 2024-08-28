@@ -21,9 +21,7 @@ function processForm(
     storringtonParts
   );
 
-  // createMusicSchedule(weeks);
   pushGoogleSheets(weeks);
-
-  var response = `Success`;
+  const response = createMusicSchedule(weeks);
   return response;
 }

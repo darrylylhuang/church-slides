@@ -1,3 +1,7 @@
+/**
+ * @param {Object[]} weeks
+ * @returns String
+ */
 function createMusicSchedule(weeks) {
   // The title of the new doc is the month of this year of the Sundays given
   // TODO: function that creates the document
@@ -29,4 +33,5 @@ function createMusicSchedule(weeks) {
 
   // Remove blank paragraph generated with new doc
   body.removeChild(body.getChild(0));
+  return doc.getUrl();
 }
