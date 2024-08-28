@@ -40,6 +40,24 @@ function processWeeks(
       };
     });
 
+    const allStorringtonParts = [
+      "gloria",
+      "gospel",
+      "sanctus",
+      "memorial",
+      "amen",
+      "lamb",
+    ];
+
+    // Make sure all Storrington Mass Parts have been accounted for
+    for (let i = 0; i < allStorringtonParts.length; i++) {
+      const part = allStorringtonParts[i];
+      // If it wasn't checked as an input, it wouldn't have been sent
+      if (!thisWeekStorrington.some((el) => el.name === part))
+        // So what we'll do is add an entry with the value false
+        thisWeekStorrington.splice(i, 0, { name: part, value: false });
+    }
+
     // consolidate all information relevant to the week
     let week = {
       sunday: sundays[i],
