@@ -587,7 +587,9 @@
           // Send to backend
           google.script.run
             .withSuccessHandler((response) => {
-              document.getElementById("result").innerText = response;
+              document.getElementById("result").innerText = `
+                <a href="${response}">Google Docs - Music Schedule</a>
+              `;
             })
             .processForm(
               sendTheseSundays(),
