@@ -25,6 +25,10 @@
         margin-bottom: 20px;
       }
 
+      #result {
+        text-align: center;
+      }
+
       .large-button {
         width: 200px;
         height: 50px;
@@ -245,7 +249,7 @@
                     id="${month}-${part}-none-${i}"
                     class="${month}"
                     name="${month}-${part}-${i}"
-                    value="none"
+                    value="0"
                   />
                   <label for="${month}-${part}-none-${i}">None</label>
                 </div>
@@ -255,7 +259,7 @@
                     id="${month}-${part}-norm-${i}"
                     class="${month}"
                     name="${month}-${part}-${i}"
-                    value="normal"
+                    value="1"
                     checked
                   />
                   <label for="${month}-${part}-norm-${i}">Normal</label>
@@ -266,7 +270,7 @@
                     id="${month}-${part}-lent-${i}"
                     class="${month}"
                     name="${month}-${part}-${i}"
-                    value="lenten"
+                    value="2"
                   />
                   <label for="${month}-${part}-lent-${i}">Lenten</label>
                 </div>
@@ -414,6 +418,15 @@
           "text",
           "Offertory Hymn"
         );
+        const sanctus = generateMiniFormPart(
+          currentMonth,
+          "sanctus",
+          i,
+          "checkbox",
+          "Sanctus",
+          "true",
+          true
+        );
         const memorial = generateMiniFormPart(
           currentMonth,
           "memorial",
@@ -463,6 +476,7 @@
           gospelLine1,
           gospelLine2,
           offertory,
+          sanctus,
           memorial,
           amen,
           lamb,
@@ -577,7 +591,9 @@
           // Send to backend
           google.script.run
             .withSuccessHandler((response) => {
-              document.getElementById("result").innerText = response;
+              document.getElementById("result").innerHTML = `
+                <a href="${response}">Google Docs - Music Schedule</a>
+              `;
             })
             .processForm(
               sendTheseSundays(),

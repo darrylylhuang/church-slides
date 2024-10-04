@@ -44,6 +44,8 @@ function insertWeeklySchedule(doc, week) {
         break;
       case "gospel":
         break;
+      case "sanctus":
+        break;
       case "memorial":
         insertMemorialLabel(body, value);
       case "amen":

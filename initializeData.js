@@ -5,13 +5,15 @@ GlobalConstants.missingTitles = [];
 function initializeData() {
   Logger.log("Initializing data.");
   const SPREADSHEET = SpreadsheetApp.openById(SHEET_ID);
+  const SPREADSHEET_TIMEZONE = SPREADSHEET.getSpreadsheetTimeZone();
   const GATHER_COMPREHENSIVE = SPREADSHEET.getSheetByName(
     "Gather Comprehensive"
   ); // Open specific sheet with Gather Comprehensive hymn info
   const STORRINGTON_MASS = SPREADSHEET.getSheetByName("Storrington Mass"); // Open the sheet that has Storrington mass settings
   const BINDER = SPREADSHEET.getSheetByName("Binder");
   const OTHER_SLIDES = SPREADSHEET.getSheetByName("Other Slides"); // Open the sheet that has transitions + additional slides
-  const SCHEDULE = SPREADSHEET.getSheetByName("Current Month"); // Open the sheet that has the information on what we're playing each month
+  const CURRENT_MONTH = SPREADSHEET.getSheetByName("Current Month"); // Open the sheet that has the information on what we're playing this month
+  const SCHEDULE = SPREADSHEET.getSheetByName("Schedule"); // Open the sheet that has the all time schedule
 
   const gatherData = GATHER_COMPREHENSIVE.getRange("A2:D").getValues(); // Contains hymn number, name, and GoogleSlides ID
   const storringtonData = STORRINGTON_MASS.getRange("A2:B10").getValues(); // Contains part of the mass, and GoogleSlidesID
@@ -20,7 +22,9 @@ function initializeData() {
   const otherSlideData = OTHER_SLIDES.getRange("A2:B10").getValues(); // Contains slide type + GoogleSlides ID
 
   // ************* CHANGE THIS RANGE AS NEEDED *************
-  GlobalConstants.scheduleData = SCHEDULE.getRange("A2:O6").getValues();
+  GlobalConstants.schedule = SCHEDULE;
+  GlobalConstants.timeZone = SPREADSHEET_TIMEZONE;
+  GlobalConstants.scheduleData = CURRENT_MONTH.getRange("A2:N6").getValues();
 
   // Create an object for quick lookup of presentation IDs by hymn number
   const gatherPresentationIds = {};

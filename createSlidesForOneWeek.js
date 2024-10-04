@@ -81,7 +81,6 @@ function createSlidesForOneWeek(nextSunday) {
     recessionalNum,
     gloriaCond,
     gospelCond,
-    lentenCond,
     sanctusCond,
     memorialCond,
     amenCond,
@@ -112,12 +111,12 @@ function createSlidesForOneWeek(nextSunday) {
     { id: psalmId, type: "Psalm" },
     {
       id: GlobalConstants.gospelId,
-      condition: gospelCond,
+      condition: gospelCond === 1,
       type: "Gospel Acclamation",
     },
     {
       id: GlobalConstants.lentenId,
-      condition: lentenCond,
+      condition: gospelCond === 2,
       type: "Lenten Gospel Acclamation",
     },
     { id: offertoryId, type: "Offertory" },

@@ -9,7 +9,8 @@ function processForm(
   storringtonParts
 ) {
   initializeData();
-  createMusicSchedule(
+
+  let weeks = processWeeks(
     sundays,
     gatherings,
     psalms,
@@ -20,6 +21,7 @@ function processForm(
     storringtonParts
   );
 
-  var response = `Success`;
+  pushGoogleSheets(weeks);
+  const response = createMusicSchedule(weeks);
   return response;
 }
