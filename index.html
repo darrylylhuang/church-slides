@@ -335,14 +335,19 @@
           return element;
         }
 
-        // DEFAULT CASE FOR TEXT INPUTS; only text inputs required
+        // DEFAULT CASE FOR TEXT INPUTS and checkboxes; only text inputs required
+        // do not use the datalist for Gospel Verses
         element.innerHTML += `
           <input
             type="${type}"
             id="${month}-${part}-${i}"
             class="${month}"
             name="${month}-${part}-${i}"
-            list="all-hymns-list"
+            list=${
+              part === "gospel-line1" || part === "gospel-line2"
+                ? ""
+                : "all-hymns-list"
+            }
             value="${value}"
             ${type === "text" ? "required" : ""}
             ${checked ? "checked" : ""}
