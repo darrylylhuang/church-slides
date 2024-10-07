@@ -3,14 +3,14 @@ function createMonthlySlides() {
 
   const scheduleData = GlobalConstants.scheduleData;
 
-  // Test with one week
-  var nextSunday = scheduleData[0];
-  createSlidesForOneWeek(nextSunday);
+  // // Test with one week
+  // var nextSunday = scheduleData[0];
+  // createSlidesForOneWeek(nextSunday);
 
-  // // Make the slides for the whole month
-  // scheduleData.forEach((week) => {
-  //   createSlidesForOneWeek(week);
-  // });
+  // Make the slides for the whole month
+  scheduleData.forEach((week) => {
+    createSlidesForOneWeek(week);
+  });
 }
 
 function addHymnTypeToTitle(slides) {}
