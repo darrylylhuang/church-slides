@@ -59,13 +59,15 @@ function processWeeks(
     }
 
     // consolidate all information relevant to the week
+    // frontend now submits data: "{Hymn Number} - {Hymn Name}" for Gather
+    // Binder hymns unaffected
     let week = {
       sunday: sundays[i],
-      gathering: gatherings[i],
-      psalm: psalms[i],
-      offertory: offertories[i],
-      communion: communions[i],
-      recessional: recessionals[i],
+      gathering: gatherings[i].split(" - ")[0],
+      psalm: psalms[i].split(" - ")[0],
+      offertory: offertories[i].split(" - ")[0],
+      communion: communions[i].split(" - ")[0],
+      recessional: recessionals[i].split(" - ")[0],
       gospelVerse: gospelVerses[i],
       storrington: thisWeekStorrington,
     };
