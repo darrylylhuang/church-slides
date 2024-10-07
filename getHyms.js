@@ -22,8 +22,9 @@ function getHymns() {
 
   const response = [];
   // Flatten Gather Comprehensive into a list and concat binder hymns after
-  gatherComprehensiveTitles.forEach(function (key, element) {
-    response.push(`${key} - ${element}`);
-  });
+  for (let key in gatherComprehensiveTitles) {
+    response.push(`${key} - ${gatherComprehensiveTitles[key]}`);
+  }
+
   return response.concat(binderTitles);
 }
