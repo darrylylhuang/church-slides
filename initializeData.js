@@ -9,16 +9,18 @@ function initializeData() {
   const GATHER_COMPREHENSIVE = SPREADSHEET.getSheetByName(
     "Gather Comprehensive"
   ); // Open specific sheet with Gather Comprehensive hymn info
-  const STORRINGTON_MASS = SPREADSHEET.getSheetByName("Storrington Mass"); // Open the sheet that has Storrington mass settings
   const BINDER = SPREADSHEET.getSheetByName("Binder");
+  const STORRINGTON_MASS = SPREADSHEET.getSheetByName("Storrington Mass"); // Open the sheet that has Storrington mass settings
   const OTHER_SLIDES = SPREADSHEET.getSheetByName("Other Slides"); // Open the sheet that has transitions + additional slides
   const CURRENT_MONTH = SPREADSHEET.getSheetByName("Current Month"); // Open the sheet that has the information on what we're playing this month
   const SCHEDULE = SPREADSHEET.getSheetByName("Schedule"); // Open the sheet that has the all time schedule
 
+  // ************* HYMN DATA *************
   const gatherData = GATHER_COMPREHENSIVE.getRange("A2:D").getValues(); // Contains hymn number, name, and GoogleSlides ID
+  const binderData = BINDER.getRange("A2:B").getValues(); // Contains hymn name, and GoogleSlides ID
+
+  // ************* THESE ARE LAZY; UPDATE THEM WHEN MORE INFO IS ADDDED *************
   const storringtonData = STORRINGTON_MASS.getRange("A2:B10").getValues(); // Contains part of the mass, and GoogleSlidesID
-  // ************* THESE ARE LAZY; UPDATE THEM WHEN MORE HYMNS ARE ADDDED *************
-  const binderData = BINDER.getRange("A2:B100").getValues(); // Contains hymn name, and GoogleSlides ID
   const otherSlideData = OTHER_SLIDES.getRange("A2:B10").getValues(); // Contains slide type + GoogleSlides ID
 
   // ************* CHANGE THIS RANGE AS NEEDED *************
@@ -37,12 +39,6 @@ function initializeData() {
   GlobalConstants.gatherPresentationIds = gatherPresentationIds;
   GlobalConstants.gatherComprehensiveTitles = gatherComprehensiveTitles;
 
-  // Storrington mass setting slides
-  const storringtonSlidesPresentationIds = {};
-  storringtonData.forEach(function (column) {
-    storringtonSlidesPresentationIds[column[0]] = column[1]; // column[0] is part of the mass, column[1] is presentation ID
-  });
-
   // presentation ID by hymn name for binder hymns
   const binderPresentationIds = {};
   // Binder hymns that exist
@@ -53,6 +49,12 @@ function initializeData() {
   });
   GlobalConstants.binderPresentationIds = binderPresentationIds;
   GlobalConstants.binderTitles = binderTitles;
+
+  // Storrington mass setting slides
+  const storringtonSlidesPresentationIds = {};
+  storringtonData.forEach(function (column) {
+    storringtonSlidesPresentationIds[column[0]] = column[1]; // column[0] is part of the mass, column[1] is presentation ID
+  });
 
   // Other slides e.g. transition, opening slide, etc.
   const otherSlidesPresentationIds = {};

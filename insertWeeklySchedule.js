@@ -23,7 +23,7 @@ function insertWeeklySchedule(doc, week) {
 
   let hymns = [gathering, psalm, offertory, communion, recessional];
   [gathering, psalm, offertory, communion, recessional] =
-    hymns.map(getHymnTitles);
+    hymns.map(_getHymnTitles);
 
   body.replaceText("{date}", sunday);
   body.replaceText("{gathering-hymn}", gathering);
@@ -58,7 +58,7 @@ function insertWeeklySchedule(doc, week) {
   });
 }
 
-function getHymnTitles(key) {
+function _getHymnTitles(key) {
   const gatherTitles = GlobalConstants.gatherComprehensiveTitles;
   const binderTitles = GlobalConstants.binderTitles;
 

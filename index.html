@@ -134,6 +134,7 @@
       <label for="next-month">Next Month</label>
     </div>
     <form id="hymn-form">
+      <datalist id="all-hymns-list"></datalist>
       <div id="mini-forms-container-0" class="mini-forms-container"></div>
       <div id="mini-forms-container-1" class="mini-forms-container"></div>
       <div id="hymn-form-submit-button-container"></div>
@@ -334,13 +335,19 @@
           return element;
         }
 
-        // Default case; only require text inputs
+        // DEFAULT CASE FOR TEXT INPUTS and checkboxes; only text inputs required
+        // do not use the datalist for Gospel Verses
         element.innerHTML += `
           <input
             type="${type}"
             id="${month}-${part}-${i}"
             class="${month}"
             name="${month}-${part}-${i}"
+            list=${
+              part === "gospel-line1" || part === "gospel-line2"
+                ? ""
+                : "all-hymns-list"
+            }
             value="${value}"
             ${type === "text" ? "required" : ""}
             ${checked ? "checked" : ""}
@@ -503,6 +510,25 @@
           .append(submitButton);
       })();
     </script>
+
+    <!-- datalist.js -->
+    <script>
+      let fragment = new DocumentFragment();
+      google.script.run
+        .withSuccessHandler((response) => {
+          // Populate the fragment with options from the response list which contains all hymn titles
+          response.forEach((element) => {
+            let option = document.createElement("option");
+            option.value = element;
+            fragment.appendChild(option);
+          });
+
+          // Append the fragment to the datalist
+          document.getElementById("all-hymns-list").appendChild(fragment);
+        })
+        .getHymnOptions();
+    </script>
+
     <!-- index.js -->
     <script>
       let index = (function () {
