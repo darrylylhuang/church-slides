@@ -47,7 +47,7 @@ function insertWeeklySchedule(doc, week) {
       case "sanctus":
         break;
       case "memorial":
-        insertMemorialLabel(body, value);
+        _insertMemorialLabel(body, value);
       case "amen":
         break;
       case "lamb":
@@ -78,7 +78,7 @@ function _getHymnTitles(key) {
   return title;
 }
 
-function insertMemorialLabel(body, value) {
+function _insertMemorialLabel(body, value) {
   const memorial1Label = "When We Eat This Bread...";
   const memorial2Label = "We Proclaim Your Death...";
   const memorial3Label = "Save us, Savior of the World...";
