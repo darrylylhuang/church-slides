@@ -83,6 +83,10 @@ function _insertMemorialLabel(body, value) {
   const memorial2Label = "We Proclaim Your Death...";
   const memorial3Label = "Save us, Savior of the World...";
 
+  const memorial1Page = "25";
+  const memorial2Page = "24";
+  const memorial3Page = "27";
+
   switch (value) {
     case "0":
       break;
