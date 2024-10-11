@@ -79,6 +79,9 @@ function _getHymnTitles(key) {
 }
 
 function _insertMemorialLabel(body, value) {
+  const memorialLabelTemplate = "{memorial-acclamation}";
+  const memorialPageTemplate = "{memorial-page}";
+
   const memorial1Label = "When We Eat This Bread...";
   const memorial2Label = "We Proclaim Your Death...";
   const memorial3Label = "Save us, Savior of the World...";
@@ -87,18 +90,27 @@ function _insertMemorialLabel(body, value) {
   const memorial2Page = "24";
   const memorial3Page = "27";
 
+  let memorialLabel;
+  let memorialPage;
+
   switch (value) {
     case "0":
       break;
     case "1":
-      body.replaceText("{memorial-acclamation}", memorial1Label);
+      memorialLabel = memorial1Label;
+      memorialPage = memorial1Page;
     case "2":
-      body.replaceText("{memorial-acclamation}", memorial2Label);
+      memorialLabel = memorial2Label;
+      memorialPage = memorial2Page;
     case "3":
-      body.replaceText("{memorial-acclamation}", memorial3Label);
+      memorialLabel = memorial3Label;
+      memorialPage = memorial3Page;
     default:
       break;
   }
+
+  body.replaceText(memorialLabelTemplate, memorialLabel);
+  body.replaceText(memorialPageTemplate, memorialPage);
 }
 
 /**
