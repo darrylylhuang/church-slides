@@ -47,7 +47,7 @@ function insertWeeklySchedule(doc, week) {
       case "sanctus":
         break;
       case "memorial":
-        insertMemorialLabel(body, value);
+        _handleMemorial(body, value);
       case "amen":
         break;
       case "lamb":
@@ -78,20 +78,45 @@ function _getHymnTitles(key) {
   return title;
 }
 
-function insertMemorialLabel(body, value) {
+function _handleMemorial(body, value) {
+  const memorialLabelTemplate = "{memorial-acclamation}";
+  const memorialPageTemplate = "{memorial-page}";
+
   const memorial1Label = "When We Eat This Bread...";
   const memorial2Label = "We Proclaim Your Death...";
   const memorial3Label = "Save us, Savior of the World...";
 
-  if (value === "1") {
-    body.replaceText("{memorial-acclamation}", memorial1Label);
-  } else if (value === "2") {
-    body.replaceText("{memorial-acclamation}", memorial2Label);
-  } else if (value === "3") {
-    body.replaceText("{memorial-acclamation}", memorial3Label);
-  } else {
-    // TODO: delete Memorial Acclamation
+  const memorial1Page = "25";
+  const memorial2Page = "24";
+  const memorial3Page = "27";
+
+  let memorialLabel = "";
+  let memorialPage = "";
+
+  switch (value) {
+    case "0":
+      body.replaceText("\\(page {memorial-page}", "NONE");
+      body.replaceText("Storrington Mass\\) ", "");
+      body.replaceText("{memorial-acclamation}", "NO MEMORIAL ACCLAMATION");
+      break;
+    case "1":
+      memorialLabel = memorial1Label;
+      memorialPage = memorial1Page;
+      break;
+    case "2":
+      memorialLabel = memorial2Label;
+      memorialPage = memorial2Page;
+      break;
+    case "3":
+      memorialLabel = memorial3Label;
+      memorialPage = memorial3Page;
+      break;
+    default:
+      break;
   }
+
+  body.replaceText(memorialLabelTemplate, memorialLabel);
+  body.replaceText(memorialPageTemplate, memorialPage);
 }
 
 /**

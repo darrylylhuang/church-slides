@@ -618,7 +618,9 @@
           google.script.run
             .withSuccessHandler((response) => {
               document.getElementById("result").innerHTML = `
-                <a href="${response}">Google Docs - Music Schedule</a>
+                <a href="${response}" target="_blank" rel="noopener noreferrer">
+                  Google Docs - Music Schedule
+                </a>
               `;
             })
             .processForm(
