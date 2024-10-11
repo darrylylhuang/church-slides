@@ -79,8 +79,6 @@ function _getHymnTitles(key) {
 }
 
 function _insertMemorialLabel(body, value) {
-  const memorialTemplate =
-    "(page {memorial-page} – Storrington Mass) {memorial-acclamation}";
   const memorialLabelTemplate = "{memorial-acclamation}";
   const memorialPageTemplate = "{memorial-page}";
 
@@ -97,7 +95,9 @@ function _insertMemorialLabel(body, value) {
 
   switch (value) {
     case "0":
-      body.replaceText(memorialTemplate, "NO MEMORIAL ACCLAMATION");
+      body.replaceText("\\(page {memorial-page}", "NONE");
+      body.replaceText("Storrington Mass\\) ", "");
+      body.replaceText("{memorial-acclamation}", "NO MEMORIAL ACCLAMATION");
       break;
     case "1":
       memorialLabel = memorial1Label;
