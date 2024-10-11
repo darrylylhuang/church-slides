@@ -92,22 +92,25 @@ function _insertMemorialLabel(body, value) {
   const memorial2Page = "24";
   const memorial3Page = "27";
 
-  let memorialLabel;
-  let memorialPage;
+  let memorialLabel = "";
+  let memorialPage = "";
 
   switch (value) {
     case "0":
       body.replaceText(memorialTemplate, "NO MEMORIAL ACCLAMATION");
-      return;
+      break;
     case "1":
       memorialLabel = memorial1Label;
       memorialPage = memorial1Page;
+      break;
     case "2":
       memorialLabel = memorial2Label;
       memorialPage = memorial2Page;
+      break;
     case "3":
       memorialLabel = memorial3Label;
       memorialPage = memorial3Page;
+      break;
     default:
       break;
   }
