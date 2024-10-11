@@ -47,7 +47,7 @@ function insertWeeklySchedule(doc, week) {
       case "sanctus":
         break;
       case "memorial":
-        _insertMemorialLabel(body, value);
+        _handleMemorial(body, value);
       case "amen":
         break;
       case "lamb":
@@ -78,7 +78,7 @@ function _getHymnTitles(key) {
   return title;
 }
 
-function _insertMemorialLabel(body, value) {
+function _handleMemorial(body, value) {
   const memorialLabelTemplate = "{memorial-acclamation}";
   const memorialPageTemplate = "{memorial-page}";
 
