@@ -83,14 +83,17 @@ function _insertMemorialLabel(body, value) {
   const memorial2Label = "We Proclaim Your Death...";
   const memorial3Label = "Save us, Savior of the World...";
 
-  if (value === "1") {
-    body.replaceText("{memorial-acclamation}", memorial1Label);
-  } else if (value === "2") {
-    body.replaceText("{memorial-acclamation}", memorial2Label);
-  } else if (value === "3") {
-    body.replaceText("{memorial-acclamation}", memorial3Label);
-  } else {
-    // TODO: delete Memorial Acclamation
+  switch (value) {
+    case "0":
+      break;
+    case "1":
+      body.replaceText("{memorial-acclamation}", memorial1Label);
+    case "2":
+      body.replaceText("{memorial-acclamation}", memorial2Label);
+    case "3":
+      body.replaceText("{memorial-acclamation}", memorial3Label);
+    default:
+      break;
   }
 }
 
