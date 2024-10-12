@@ -83,13 +83,12 @@ function _getHymnTitles(key) {
 function _removeStorringtonPart(body, part) {
   let template1 = "";
   let template2 = "Storrington Mass\\) ";
-  let template3 = "";
   let noPart = "";
 
   switch (part) {
     case "gloria":
       template1 = "\\(page 6";
-      template3 = "{gloria}";
+      template2 += "{gloria}";
       noPart = "GLORIA";
       break;
     default:
@@ -97,8 +96,7 @@ function _removeStorringtonPart(body, part) {
   }
 
   body.replaceText(template1, "NONE");
-  body.replaceText(template2, "");
-  body.replaceText(template3, `NO ${noPart}`);
+  body.replaceText(templat2, `NO ${noPart}`);
 }
 
 function _handleGloria(body, value) {
