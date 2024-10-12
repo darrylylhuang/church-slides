@@ -41,6 +41,7 @@ function insertWeeklySchedule(doc, week) {
     // TODO: include / remove Storrington mass parts
     switch (name) {
       case "gloria":
+        _handleGloria(body, value);
         break;
       case "gospel":
         break;
@@ -48,6 +49,7 @@ function insertWeeklySchedule(doc, week) {
         break;
       case "memorial":
         _handleMemorial(body, value);
+        break;
       case "amen":
         break;
       case "lamb":
@@ -97,6 +99,24 @@ function _removeStorringtonPart(body, part) {
   body.replaceText(template1, "NONE");
   body.replaceText(template2, "");
   body.replaceText(template3, `NO ${noPart}`);
+}
+
+function _handleGloria(body, value) {
+  let template = "{gloria}";
+  let replacement = "INVALID VALUE ENTERED";
+
+  switch (value) {
+    case "0":
+      _removeStorringtonPart(body, "gloria");
+      break;
+    case "1":
+      replacement = "";
+      break;
+    default:
+      break;
+  }
+
+  body.replaceText(template, replacement);
 }
 
 function _handleMemorial(body, value) {
