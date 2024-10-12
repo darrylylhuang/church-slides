@@ -80,26 +80,12 @@ function _getHymnTitles(key) {
   return title;
 }
 
-function _removeStorringtonPart(body, part) {
-  let template1 = "\\(page ";
-  let template2 = "Storrington Mass\\) ";
-  let noPart = "";
+function _removeStorringtonPart(body, part, pageTemplate, labelTemplate) {
+  const page = "\\(page ";
+  const label = "Storrington Mass\\) ";
 
-  const gloriaLabelTemplate = "{gloria}";
-  const gloriaPageTemplate = "{gloria-page}";
-
-  switch (part) {
-    case "gloria":
-      template1 += gloriaPageTemplate;
-      template2 += gloriaLabelTemplate;
-      noPart = "GLORIA";
-      break;
-    default:
-      break;
-  }
-
-  body.replaceText(template1, "NONE");
-  body.replaceText(template2, `NO ${noPart}`);
+  body.replaceText(page + pageTemplate, "NONE");
+  body.replaceText(label + labelTemplate, `NO ${part}`);
 }
 
 function _handleGloria(body, value) {
@@ -112,7 +98,7 @@ function _handleGloria(body, value) {
     page = "6";
     label = "";
   } else {
-    _removeStorringtonPart(body, "gloria");
+    _removeStorringtonPart(body, "GLORIA", pageTemplate, labelTemplate);
     return;
   }
 
