@@ -81,14 +81,17 @@ function _getHymnTitles(key) {
 }
 
 function _removeStorringtonPart(body, part) {
-  let template1 = "";
+  let template1 = "\\(page ";
   let template2 = "Storrington Mass\\) ";
   let noPart = "";
 
+  const gloriaLabelTemplate = "{gloria}";
+  const gloriaPageTemplate = "{gloria-page}";
+
   switch (part) {
     case "gloria":
-      template1 = "\\(page {gloria-page}";
-      template2 += "{gloria}";
+      template1 += gloriaPageTemplate;
+      template2 += gloriaLabelTemplate;
       noPart = "GLORIA";
       break;
     default:
