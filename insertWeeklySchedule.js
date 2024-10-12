@@ -41,6 +41,7 @@ function insertWeeklySchedule(doc, week) {
     // TODO: include / remove Storrington mass parts
     switch (name) {
       case "gloria":
+        _handleGloria(body, value);
         break;
       case "gospel":
         break;
@@ -48,6 +49,7 @@ function insertWeeklySchedule(doc, week) {
         break;
       case "memorial":
         _handleMemorial(body, value);
+        break;
       case "amen":
         break;
       case "lamb":
@@ -76,6 +78,32 @@ function _getHymnTitles(key) {
   }
 
   return title;
+}
+
+function _removeStorringtonPart(body, part, pageTemplate, labelTemplate) {
+  const page = "\\(page ";
+  const label = "Storrington Mass\\) ";
+
+  body.replaceText(page + pageTemplate, "NONE");
+  body.replaceText(label + labelTemplate, `NO ${part}`);
+}
+
+function _handleGloria(body, value) {
+  const pageTemplate = "{gloria-page}";
+  const labelTemplate = "{gloria}";
+  let page = "INVALID PAGE NUMBER";
+  let label = "INVALID VALUE ENTERED";
+
+  if (value) {
+    page = "6";
+    label = "";
+  } else {
+    _removeStorringtonPart(body, "GLORIA", pageTemplate, labelTemplate);
+    return;
+  }
+
+  body.replaceText(pageTemplate, page);
+  body.replaceText(labelTemplate, label);
 }
 
 function _handleMemorial(body, value) {
