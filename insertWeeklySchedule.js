@@ -87,7 +87,7 @@ function _removeStorringtonPart(body, part) {
 
   switch (part) {
     case "gloria":
-      template1 = "\\(page 6";
+      template1 = "\\(page {gloria-page}";
       template2 += "{gloria}";
       noPart = "GLORIA";
       break;
@@ -96,20 +96,24 @@ function _removeStorringtonPart(body, part) {
   }
 
   body.replaceText(template1, "NONE");
-  body.replaceText(templat2, `NO ${noPart}`);
+  body.replaceText(template2, `NO ${noPart}`);
 }
 
 function _handleGloria(body, value) {
-  let labelTemplate = "{gloria}";
+  const pageTemplate = "{gloria-page}";
+  const labelTemplate = "{gloria}";
+  let page = "INVALID PAGE NUMBER";
   let label = "INVALID VALUE ENTERED";
 
   if (value) {
+    page = "6";
     label = "";
   } else {
     _removeStorringtonPart(body, "gloria");
     return;
   }
 
+  body.replaceText(pageTemplate, page);
   body.replaceText(labelTemplate, label);
 }
 
