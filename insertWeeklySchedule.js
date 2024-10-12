@@ -78,6 +78,27 @@ function _getHymnTitles(key) {
   return title;
 }
 
+function _removeStorringtonPart(body, part) {
+  let template1 = "";
+  let template2 = "Storrington Mass\\) ";
+  let template3 = "";
+  let noPart = "";
+
+  switch (part) {
+    case "gloria":
+      template1 = "\\(page 6";
+      template3 = "{gloria}";
+      noPart = "GLORIA";
+      break;
+    default:
+      break;
+  }
+
+  body.replaceText(template1, "NONE");
+  body.replaceText(template2, "");
+  body.replaceText(template3, `NO ${noPart}`);
+}
+
 function _handleMemorial(body, value) {
   const memorialLabelTemplate = "{memorial-acclamation}";
   const memorialPageTemplate = "{memorial-page}";
