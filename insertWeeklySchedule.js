@@ -102,21 +102,17 @@ function _removeStorringtonPart(body, part) {
 }
 
 function _handleGloria(body, value) {
-  let template = "{gloria}";
-  let replacement = "INVALID VALUE ENTERED";
+  let labelTemplate = "{gloria}";
+  let label = "INVALID VALUE ENTERED";
 
-  switch (value) {
-    case "0":
-      _removeStorringtonPart(body, "gloria");
-      break;
-    case "1":
-      replacement = "";
-      break;
-    default:
-      break;
+  if (value) {
+    label = "";
+  } else {
+    _removeStorringtonPart(body, "gloria");
+    return;
   }
 
-  body.replaceText(template, replacement);
+  body.replaceText(labelTemplate, label);
 }
 
 function _handleMemorial(body, value) {
