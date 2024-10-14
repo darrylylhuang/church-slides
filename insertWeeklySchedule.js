@@ -97,7 +97,6 @@ function _handleGloria(body, value) {
 
   if (!value) {
     _removeStorringtonPart(body, "GLORIA", pageTemplate, labelTemplate);
-    return;
   } else {
     page = "6";
     label = "";
