@@ -81,7 +81,7 @@ function _getHymnTitles(key) {
   return title;
 }
 
-function _removeStorringtonPart(body, part, pageTemplate, labelTemplate) {
+function _removeStorringtonPart(body, pageTemplate, labelTemplate, part) {
   const page = "\\(page ";
   const label = "Storrington Mass\\) ";
 
@@ -96,7 +96,7 @@ function _handleGloria(body, value) {
   let label = "INVALID VALUE ENTERED";
 
   if (!value) {
-    _removeStorringtonPart(body, "GLORIA", pageTemplate, labelTemplate);
+    _removeStorringtonPart(body, pageTemplate, labelTemplate, "GLORIA");
   } else {
     page = "6";
     label = "";
@@ -118,9 +118,9 @@ function _handleGospel(body, value) {
   if (value === "0") {
     _removeStorringtonPart(
       body,
-      "GOSPEL ACCLAMATION",
       pageTemplate,
-      labelTemplate
+      labelTemplate,
+      "GOSPEL ACCLAMATION"
     );
   } else if (value === "1") {
     page = "14";
@@ -134,6 +134,15 @@ function _handleGospel(body, value) {
   body.replaceText(pageTemplate, page);
   body.replaceText(labelTemplate, label);
   body.replaceText(lentenTemplate, lenten);
+}
+
+function _handleSanctus(body, value) {
+  const pageTemplate = "{sanctus-page}";
+  const labelTemplate = "{sanctus}";
+
+  if (!value) {
+    _removeStorringtonPart(body, pageTemplate, labelTemplate, "SANCTUS");
+  }
 }
 
 function _handleMemorial(body, value) {
