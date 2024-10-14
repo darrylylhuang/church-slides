@@ -47,6 +47,7 @@ function insertWeeklySchedule(doc, week) {
         _handleGospel(body, value);
         break;
       case "sanctus":
+        _handleSanctus(body, value);
         break;
       case "memorial":
         _handleMemorial(body, value);
