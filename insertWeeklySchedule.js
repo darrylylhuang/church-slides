@@ -47,6 +47,7 @@ function insertWeeklySchedule(doc, week) {
         _handleGospel(body, value);
         break;
       case "sanctus":
+        _handleSanctus(body, value);
         break;
       case "memorial":
         _handleMemorial(body, value);
@@ -81,7 +82,7 @@ function _getHymnTitles(key) {
   return title;
 }
 
-function _removeStorringtonPart(body, part, pageTemplate, labelTemplate) {
+function _removeStorringtonPart(body, pageTemplate, labelTemplate, part) {
   const page = "\\(page ";
   const label = "Storrington Mass\\) ";
 
@@ -89,51 +90,61 @@ function _removeStorringtonPart(body, part, pageTemplate, labelTemplate) {
   body.replaceText(label + labelTemplate, `NO ${part}`);
 }
 
+function _insertStorringtonPart(
+  body,
+  pageTemplate,
+  labelTemplate,
+  page = "INVALID PAGE NUMBER",
+  label = "INVALID VALUE ENTERED"
+) {
+  body.replaceText(pageTemplate, page);
+  body.replaceText(labelTemplate, label);
+}
+
 function _handleGloria(body, value) {
   const pageTemplate = "{gloria-page}";
   const labelTemplate = "{gloria}";
-  let page = "INVALID PAGE NUMBER";
-  let label = "INVALID VALUE ENTERED";
 
   if (!value) {
-    _removeStorringtonPart(body, "GLORIA", pageTemplate, labelTemplate);
+    _removeStorringtonPart(body, pageTemplate, labelTemplate, "GLORIA");
   } else {
-    page = "6";
-    label = "";
+    _insertStorringtonPart(body, pageTemplate, labelTemplate, "6", "");
   }
-
-  body.replaceText(pageTemplate, page);
-  body.replaceText(labelTemplate, label);
 }
 
 function _handleGospel(body, value) {
   const pageTemplate = "{gospel-page}";
   const labelTemplate = "{gospel-acclamation}";
   const lentenTemplate = "{lenten} ";
-  let page = "INVALID PAGE NUMBER";
-  let label = "INVALID VALUE ENTERED";
 
   let lenten = "";
 
   if (value === "0") {
     _removeStorringtonPart(
       body,
-      "GOSPEL ACCLAMATION",
       pageTemplate,
-      labelTemplate
+      labelTemplate,
+      "GOSPEL ACCLAMATION"
     );
   } else if (value === "1") {
-    page = "14";
-    label = "";
+    _insertStorringtonPart(body, pageTemplate, labelTemplate, "14", "");
   } else if (value === "2") {
-    page = "17";
-    label = "";
+    _insertStorringtonPart(body, pageTemplate, labelTemplate, "17", "");
     lenten = "Lenten ";
   }
 
-  body.replaceText(pageTemplate, page);
-  body.replaceText(labelTemplate, label);
   body.replaceText(lentenTemplate, lenten);
+}
+
+function _handleSanctus(body, value) {
+  const pageTemplate = "{sanctus-page}";
+  const labelTemplate = "{sanctus}";
+
+  if (!value) {
+    _removeStorringtonPart(body, pageTemplate, labelTemplate, "SANCTUS");
+  } else {
+    _insertStorringtonPart(body, pageTemplate, labelTemplate, "21", "");
+  }
 }
 
 function _handleMemorial(body, value) {
