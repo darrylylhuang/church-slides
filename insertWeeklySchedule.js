@@ -103,18 +103,12 @@ function _insertStorringtonPart(
 function _handleGloria(body, value) {
   const pageTemplate = "{gloria-page}";
   const labelTemplate = "{gloria}";
-  let page = "INVALID PAGE NUMBER";
-  let label = "INVALID VALUE ENTERED";
 
   if (!value) {
     _removeStorringtonPart(body, pageTemplate, labelTemplate, "GLORIA");
   } else {
-    page = "6";
-    label = "";
+    _insertStorringtonPart(body, pageTemplate, labelTemplate, "6", "");
   }
-
-  body.replaceText(pageTemplate, page);
-  body.replaceText(labelTemplate, label);
 }
 
 function _handleGospel(body, value) {
