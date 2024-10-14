@@ -89,6 +89,17 @@ function _removeStorringtonPart(body, pageTemplate, labelTemplate, part) {
   body.replaceText(label + labelTemplate, `NO ${part}`);
 }
 
+function _insertStorringtonPart(
+  body,
+  pageTemplate,
+  labelTemplate,
+  page = "INVALID PAGE NUMBER",
+  label = "INVALID VALUE ENTERED"
+) {
+  body.replaceText(pageTemplate, page);
+  body.replaceText(labelTemplate, label);
+}
+
 function _handleGloria(body, value) {
   const pageTemplate = "{gloria-page}";
   const labelTemplate = "{gloria}";
@@ -142,6 +153,8 @@ function _handleSanctus(body, value) {
 
   if (!value) {
     _removeStorringtonPart(body, pageTemplate, labelTemplate, "SANCTUS");
+  } else {
+    _insertStorringtonPart(body, pageTemplate, labelTemplate, "21", "");
   }
 }
 
