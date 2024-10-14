@@ -115,8 +115,6 @@ function _handleGospel(body, value) {
   const pageTemplate = "{gospel-page}";
   const labelTemplate = "{gospel-acclamation}";
   const lentenTemplate = "{lenten} ";
-  let page = "INVALID PAGE NUMBER";
-  let label = "INVALID VALUE ENTERED";
 
   let lenten = "";
 
@@ -128,16 +126,12 @@ function _handleGospel(body, value) {
       "GOSPEL ACCLAMATION"
     );
   } else if (value === "1") {
-    page = "14";
-    label = "";
+    _insertStorringtonPart(body, pageTemplate, labelTemplate, "14", "");
   } else if (value === "2") {
-    page = "17";
-    label = "";
+    _insertStorringtonPart(body, pageTemplate, labelTemplate, "17", "");
     lenten = "Lenten ";
   }
 
-  body.replaceText(pageTemplate, page);
-  body.replaceText(labelTemplate, label);
   body.replaceText(lentenTemplate, lenten);
 }
 
