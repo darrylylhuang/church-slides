@@ -110,8 +110,11 @@ function _handleGloria(body, value) {
 function _handleGospel(body, value) {
   const pageTemplate = "{gospel-page}";
   const labelTemplate = "{gospel-acclamation}";
+  const lentenTemplate = "{lenten} ";
   let page = "INVALID PAGE NUMBER";
   let label = "INVALID VALUE ENTERED";
+
+  let lenten = "";
 
   if (value === "0") {
     _removeStorringtonPart(
@@ -120,7 +123,18 @@ function _handleGospel(body, value) {
       pageTemplate,
       labelTemplate
     );
+  } else if (value === "1") {
+    page = "14";
+    label = "";
+  } else if (value === "2") {
+    page = "17";
+    label = "";
+    lenten = "Lenten ";
   }
+
+  body.replaceText(pageTemplate, page);
+  body.replaceText(labelTemplate, label);
+  body.replaceText(lentenTemplate, lenten);
 }
 
 function _handleMemorial(body, value) {
