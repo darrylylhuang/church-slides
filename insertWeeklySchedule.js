@@ -44,6 +44,7 @@ function insertWeeklySchedule(doc, week) {
         _handleGloria(body, value);
         break;
       case "gospel":
+        _handleGospel(body, value);
         break;
       case "sanctus":
         break;
@@ -94,16 +95,32 @@ function _handleGloria(body, value) {
   let page = "INVALID PAGE NUMBER";
   let label = "INVALID VALUE ENTERED";
 
-  if (value) {
-    page = "6";
-    label = "";
-  } else {
+  if (!value) {
     _removeStorringtonPart(body, "GLORIA", pageTemplate, labelTemplate);
     return;
+  } else {
+    page = "6";
+    label = "";
   }
 
   body.replaceText(pageTemplate, page);
   body.replaceText(labelTemplate, label);
+}
+
+function _handleGospel(body, value) {
+  const pageTemplate = "{gospel-page}";
+  const labelTemplate = "{gospel-acclamation}";
+  let page = "INVALID PAGE NUMBER";
+  let label = "INVALID VALUE ENTERED";
+
+  if (value === "0") {
+    _removeStorringtonPart(
+      body,
+      "GOSPEL ACCLAMATION",
+      pageTemplate,
+      labelTemplate
+    );
+  }
 }
 
 function _handleMemorial(body, value) {
