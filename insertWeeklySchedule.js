@@ -38,7 +38,6 @@ function insertWeeklySchedule(doc, week) {
   storringtonParts.forEach((element) => {
     let name = element.name;
     let value = element.value;
-    // TODO: include / remove Storrington mass parts
     switch (name) {
       case "gloria":
         _handleGloria(body, value);
@@ -56,6 +55,7 @@ function insertWeeklySchedule(doc, week) {
         _handleAmen(body, value);
         break;
       case "lamb":
+        _handleLamb(body, value);
         break;
       default:
         break;
@@ -223,6 +223,17 @@ function _handleAmen(body, value) {
     _removeStorringtonPart(body, "AMEN", pageTemplate, labelTemplate);
   } else {
     _insertStorringtonPart(body, pageTemplate, labelTemplate, "28", "");
+  }
+}
+
+function _handleLamb(body, value) {
+  const pageTemplate = "{lamb-page}";
+  const labelTemplate = "{lamb}";
+
+  if (!value) {
+    _removeStorringtonPart(body, "LAMB OF GOD", pageTemplate, labelTemplate);
+  } else {
+    _insertStorringtonPart(body, pageTemplate, labelTemplate, "31", "");
   }
 }
 
