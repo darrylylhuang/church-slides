@@ -117,6 +117,11 @@ function _handleGospel(body, value) {
   const labelTemplate = "{gospel-acclamation}";
   const lentenTemplate = "{lenten} ";
 
+  const normalPage = "14";
+  const normalLabel = "Alleluia, Alleluia...";
+  const lentenPage = "17";
+  const lentenLabel = "Praise to you, Lord Jesus Christ...";
+
   let lenten = "";
 
   if (value === "0") {
@@ -127,9 +132,21 @@ function _handleGospel(body, value) {
       "GOSPEL ACCLAMATION"
     );
   } else if (value === "1") {
-    _insertStorringtonPart(body, pageTemplate, labelTemplate, "14", "");
+    _insertStorringtonPart(
+      body,
+      pageTemplate,
+      labelTemplate,
+      normalPage,
+      normalLabel
+    );
   } else if (value === "2") {
-    _insertStorringtonPart(body, pageTemplate, labelTemplate, "17", "");
+    _insertStorringtonPart(
+      body,
+      pageTemplate,
+      labelTemplate,
+      lentenPage,
+      lentenLabel
+    );
     lenten = "Lenten ";
   } else {
     _insertStorringtonPart(body, pageTemplate, labelTemplate);
