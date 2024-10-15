@@ -53,6 +53,7 @@ function insertWeeklySchedule(doc, week) {
         _handleMemorial(body, value);
         break;
       case "amen":
+        _handleAmen(body, value);
         break;
       case "lamb":
         break;
@@ -211,6 +212,17 @@ function _handleMemorial(body, value) {
     );
   } else {
     _insertStorringtonPart(body, pageTemplate, labelTemplate);
+  }
+}
+
+function _handleAmen(body, value) {
+  const pageTemplate = "{amen-page}";
+  const labelTemplate = "{amen}";
+
+  if (!value) {
+    _removeStorringtonPart(body, "AMEN", pageTemplate, labelTemplate);
+  } else {
+    _insertStorringtonPart(body, pageTemplate, labelTemplate, "28", "");
   }
 }
 
