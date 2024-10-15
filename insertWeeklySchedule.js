@@ -131,6 +131,8 @@ function _handleGospel(body, value) {
   } else if (value === "2") {
     _insertStorringtonPart(body, pageTemplate, labelTemplate, "17", "");
     lenten = "Lenten ";
+  } else {
+    _insertStorringtonPart(body, pageTemplate, labelTemplate);
   }
 
   body.replaceText(lentenTemplate, lenten);
@@ -148,8 +150,8 @@ function _handleSanctus(body, value) {
 }
 
 function _handleMemorial(body, value) {
-  const memorialLabelTemplate = "{memorial-acclamation}";
-  const memorialPageTemplate = "{memorial-page}";
+  const labelTemplate = "{memorial-acclamation}";
+  const pageTemplate = "{memorial-page}";
 
   const memorial1Label = "When We Eat This Bread...";
   const memorial2Label = "We Proclaim Your Death...";
@@ -159,33 +161,40 @@ function _handleMemorial(body, value) {
   const memorial2Page = "24";
   const memorial3Page = "27";
 
-  let memorialLabel = "";
-  let memorialPage = "";
-
-  switch (value) {
-    case "0":
-      body.replaceText("\\(page {memorial-page}", "NONE");
-      body.replaceText("Storrington Mass\\) ", "");
-      body.replaceText("{memorial-acclamation}", "NO MEMORIAL ACCLAMATION");
-      break;
-    case "1":
-      memorialLabel = memorial1Label;
-      memorialPage = memorial1Page;
-      break;
-    case "2":
-      memorialLabel = memorial2Label;
-      memorialPage = memorial2Page;
-      break;
-    case "3":
-      memorialLabel = memorial3Label;
-      memorialPage = memorial3Page;
-      break;
-    default:
-      break;
+  if (value === "0") {
+    _removeStorringtonPart(
+      body,
+      pageTemplate,
+      labelTemplate,
+      "MEMORIAL ACCLAMATION"
+    );
+  } else if (value === "1") {
+    _insertStorringtonPart(
+      body,
+      pageTemplate,
+      labelTemplate,
+      memorial1Page,
+      memorial1Label
+    );
+  } else if (value === "2") {
+    _insertStorringtonPart(
+      body,
+      pageTemplate,
+      labelTemplate,
+      memorial2Page,
+      memorial2Label
+    );
+  } else if (value === "3") {
+    _insertStorringtonPart(
+      body,
+      pageTemplate,
+      labelTemplate,
+      memorial3Page,
+      memorial3Label
+    );
+  } else {
+    _insertStorringtonPart(body, pageTemplate, labelTemplate);
   }
-
-  body.replaceText(memorialLabelTemplate, memorialLabel);
-  body.replaceText(memorialPageTemplate, memorialPage);
 }
 
 /**
