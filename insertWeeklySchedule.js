@@ -38,19 +38,24 @@ function insertWeeklySchedule(doc, week) {
   storringtonParts.forEach((element) => {
     let name = element.name;
     let value = element.value;
-    // TODO: include / remove Storrington mass parts
     switch (name) {
       case "gloria":
+        _handleGloria(body, value);
         break;
       case "gospel":
+        _handleGospel(body, value);
         break;
       case "sanctus":
+        _handleSanctus(body, value);
         break;
       case "memorial":
-        insertMemorialLabel(body, value);
+        _handleMemorial(body, value);
+        break;
       case "amen":
+        _handleAmen(body, value);
         break;
       case "lamb":
+        _handleLamb(body, value);
         break;
       default:
         break;
@@ -78,19 +83,157 @@ function _getHymnTitles(key) {
   return title;
 }
 
-function insertMemorialLabel(body, value) {
+function _removeStorringtonPart(body, pageTemplate, labelTemplate, part) {
+  const page = "\\(page ";
+  const label = "Storrington Mass\\) ";
+
+  body.replaceText(page + pageTemplate, "NONE");
+  body.replaceText(label + labelTemplate, `NO ${part}`);
+}
+
+function _insertStorringtonPart(
+  body,
+  pageTemplate,
+  labelTemplate,
+  page = "INVALID PAGE NUMBER",
+  label = "INVALID VALUE ENTERED"
+) {
+  body.replaceText(pageTemplate, page);
+  body.replaceText(labelTemplate, label);
+}
+
+function _handleGloria(body, value) {
+  const pageTemplate = "{gloria-page}";
+  const labelTemplate = "{gloria}";
+
+  if (!value) {
+    _removeStorringtonPart(body, pageTemplate, labelTemplate, "GLORIA");
+  } else {
+    _insertStorringtonPart(body, pageTemplate, labelTemplate, "6", "");
+  }
+}
+
+function _handleGospel(body, value) {
+  const pageTemplate = "{gospel-page}";
+  const labelTemplate = "{gospel-acclamation}";
+  const lentenTemplate = "{lenten} ";
+
+  const normalPage = "14";
+  const normalLabel = "Alleluia, Alleluia...";
+  const lentenPage = "17";
+  const lentenLabel = "Praise to you, Lord Jesus Christ...";
+
+  let lenten = "";
+
+  if (value === "0") {
+    _removeStorringtonPart(
+      body,
+      pageTemplate,
+      labelTemplate,
+      "GOSPEL ACCLAMATION"
+    );
+  } else if (value === "1") {
+    _insertStorringtonPart(
+      body,
+      pageTemplate,
+      labelTemplate,
+      normalPage,
+      normalLabel
+    );
+  } else if (value === "2") {
+    _insertStorringtonPart(
+      body,
+      pageTemplate,
+      labelTemplate,
+      lentenPage,
+      lentenLabel
+    );
+    lenten = "Lenten ";
+  } else {
+    _insertStorringtonPart(body, pageTemplate, labelTemplate);
+  }
+
+  body.replaceText(lentenTemplate, lenten);
+}
+
+function _handleSanctus(body, value) {
+  const pageTemplate = "{sanctus-page}";
+  const labelTemplate = "{sanctus}";
+
+  if (!value) {
+    _removeStorringtonPart(body, pageTemplate, labelTemplate, "SANCTUS");
+  } else {
+    _insertStorringtonPart(body, pageTemplate, labelTemplate, "21", "");
+  }
+}
+
+function _handleMemorial(body, value) {
+  const labelTemplate = "{memorial-acclamation}";
+  const pageTemplate = "{memorial-page}";
+
   const memorial1Label = "When We Eat This Bread...";
   const memorial2Label = "We Proclaim Your Death...";
   const memorial3Label = "Save us, Savior of the World...";
 
-  if (value === "1") {
-    body.replaceText("{memorial-acclamation}", memorial1Label);
+  const memorial1Page = "25";
+  const memorial2Page = "24";
+  const memorial3Page = "27";
+
+  if (value === "0") {
+    _removeStorringtonPart(
+      body,
+      pageTemplate,
+      labelTemplate,
+      "MEMORIAL ACCLAMATION"
+    );
+  } else if (value === "1") {
+    _insertStorringtonPart(
+      body,
+      pageTemplate,
+      labelTemplate,
+      memorial1Page,
+      memorial1Label
+    );
   } else if (value === "2") {
-    body.replaceText("{memorial-acclamation}", memorial2Label);
+    _insertStorringtonPart(
+      body,
+      pageTemplate,
+      labelTemplate,
+      memorial2Page,
+      memorial2Label
+    );
   } else if (value === "3") {
-    body.replaceText("{memorial-acclamation}", memorial3Label);
+    _insertStorringtonPart(
+      body,
+      pageTemplate,
+      labelTemplate,
+      memorial3Page,
+      memorial3Label
+    );
   } else {
-    // TODO: delete Memorial Acclamation
+    _insertStorringtonPart(body, pageTemplate, labelTemplate);
+  }
+}
+
+function _handleAmen(body, value) {
+  const pageTemplate = "{amen-page}";
+  const labelTemplate = "{amen}";
+
+  if (!value) {
+    _removeStorringtonPart(body, "AMEN", pageTemplate, labelTemplate);
+  } else {
+    _insertStorringtonPart(body, pageTemplate, labelTemplate, "28", "");
+  }
+}
+
+function _handleLamb(body, value) {
+  const pageTemplate = "{lamb-page}";
+  const labelTemplate = "{lamb}";
+
+  if (!value) {
+    _removeStorringtonPart(body, "LAMB OF GOD", pageTemplate, labelTemplate);
+  } else {
+    _insertStorringtonPart(body, pageTemplate, labelTemplate, "31", "");
   }
 }
 
