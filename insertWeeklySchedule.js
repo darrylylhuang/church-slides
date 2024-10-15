@@ -131,6 +131,8 @@ function _handleGospel(body, value) {
   } else if (value === "2") {
     _insertStorringtonPart(body, pageTemplate, labelTemplate, "17", "");
     lenten = "Lenten ";
+  } else {
+    _insertStorringtonPart(body, pageTemplate, labelTemplate);
   }
 
   body.replaceText(lentenTemplate, lenten);
