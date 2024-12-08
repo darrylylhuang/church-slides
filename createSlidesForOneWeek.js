@@ -1,4 +1,4 @@
-function createSlidesForOneWeek(nextSunday) {
+function createSlidesForOneDay(day) {
   const gatherPresentationIds = GlobalConstants.gatherPresentationIds;
   const binderPresentationIds = GlobalConstants.binderPresentationIds;
 
@@ -87,7 +87,7 @@ function createSlidesForOneWeek(nextSunday) {
     lambCond,
     gospelLine1,
     gospelLine2,
-  ] = nextSunday.slice();
+  ] = day.slice();
 
   const hymnNumList = [
     gatheringNum,
@@ -153,7 +153,7 @@ function createSlidesForOneWeek(nextSunday) {
     type: slide.type,
   }));
 
-  // Make a new presentation for a single Sunday; needs the date from nextSunday slice
+  // Make a new presentation for a single day (usually Sunday); needs the date from day slice
   const newPresentation = createPresentationInFolder(date);
   const currentPresentation = newPresentation;
   currentPresentation.getSlides()[0].remove();
@@ -177,7 +177,7 @@ function createSlidesForOneWeek(nextSunday) {
 
   // j will typically be 10 at the end of the iteration since we usually use 6 parts of the mass and 5 hymns
   for (let j = 0; j < slidesToAdd.length; j++) {
-    // Find the presentation ID for nextSundayHymnNumber
+    // Find the presentation ID for hymn number
     let presentationInfo = slidesToAdd[j];
     let presentationType = presentationInfo.type;
     let presentationId = presentationInfo.id ? presentationInfo.id : null;

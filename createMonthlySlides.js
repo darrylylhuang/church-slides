@@ -5,11 +5,11 @@ function createMonthlySlides() {
 
   // // Test with one week
   // var nextSunday = scheduleData[0];
-  // createSlidesForOneWeek(nextSunday);
+  // createSlidesForOneDay(nextSunday);
 
   // Make the slides for the whole month
-  scheduleData.forEach((week) => {
-    createSlidesForOneWeek(week);
+  scheduleData.forEach((day) => {
+    createSlidesForOneDay(day);
   });
 }
 
