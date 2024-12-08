@@ -53,7 +53,13 @@
         text-align: center;
         width: 100%;
         margin-top: 10px;
-        margin-bottom: 10px;
+      }
+
+      .sunday-title {
+        text-align: center;
+        width: 100%;
+        margin-top: -15px;
+        margin-bottom: 20px;
       }
 
       /* Each form group (label + input pair) */
@@ -135,6 +141,7 @@
     </div>
     <form id="hymn-form">
       <datalist id="all-hymns-list"></datalist>
+      <datalist id="sunday-titles"></datalist>
       <div id="mini-forms-container-0" class="mini-forms-container"></div>
       <div id="mini-forms-container-1" class="mini-forms-container"></div>
       <div id="hymn-form-submit-button-container"></div>
@@ -372,6 +379,16 @@
 
         element.innerHTML = `
             <h3>${sunday}</h3>
+            <div class="sunday-title">  
+            <input
+              type="text"
+              id="${month}-sunday-title-${i}"
+              class="${month}"
+              name="${month}-sunday-title-${i}"
+              list="sunday-titles"
+              style="font-weight: bold; height: 20px; font-size: 12pt; text-align: center;"
+            />
+            </div>
           `;
 
         const gathering = generateMiniFormPart(
@@ -511,7 +528,7 @@
       })();
     </script>
 
-    <!-- datalist.js -->
+    <!-- hymnDatalist.js -->
     <script>
       let fragment = new DocumentFragment();
       google.script.run
