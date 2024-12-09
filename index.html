@@ -55,7 +55,7 @@
         margin-top: 10px;
       }
 
-      .sunday-title {
+      .day-title {
         text-align: center;
         width: 100%;
         margin-top: -15px;
@@ -379,12 +379,12 @@
 
         element.innerHTML = `
             <h3>${sunday}</h3>
-            <div class="sunday-title">  
+            <div class="day-title">  
             <input
               type="text"
-              id="${month}-sunday-title-${i}"
-              class="${month}"
-              name="${month}-sunday-title-${i}"
+              id="${currentMonth}-day-title-${i}"
+              class="${currentMonth}"
+              name="${currentMonth}-day-title-${i}"
               list="liturgical-day-titles"
               style="font-weight: bold; height: 20px; font-size: 12pt; text-align: center;"
             />
