@@ -528,22 +528,44 @@
       })();
     </script>
 
-    <!-- hymnDatalist.js -->
+    <!-- hymnsDatalist.js -->
     <script>
-      let fragment = new DocumentFragment();
+      let hymnsDatalistFragment = new DocumentFragment();
       google.script.run
         .withSuccessHandler((response) => {
           // Populate the fragment with options from the response list which contains all hymn titles
           response.forEach((element) => {
             let option = document.createElement("option");
             option.value = element;
-            fragment.appendChild(option);
+            hymnsDatalistFragment.appendChild(option);
           });
 
           // Append the fragment to the datalist
-          document.getElementById("all-hymns-list").appendChild(fragment);
+          document
+            .getElementById("all-hymns-list")
+            .appendChild(hymnsDatalistFragment);
         })
         .getHymnOptions();
+    </script>
+
+    <!-- sundayTitlesDatalist.js -->
+    <script>
+      let sundayTitlesFragment = new DocumentFragment();
+      google.script.run
+        .withSuccessHandler((response) => {
+          // Populate the fragment with options from the response list which contains all hymn titles
+          response.forEach((element) => {
+            let option = document.createElement("option");
+            option.value = element;
+            sundayTitlesFragment.appendChild(option);
+          });
+
+          // Append the fragment to the datalist
+          document
+            .getElementById("sunday-titles")
+            .appendChild(sundayTitlesFragment);
+        })
+        .getSundayTitles();
     </script>
 
     <!-- index.js -->
