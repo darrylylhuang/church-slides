@@ -141,7 +141,7 @@
     </div>
     <form id="hymn-form">
       <datalist id="all-hymns-list"></datalist>
-      <datalist id="sunday-titles"></datalist>
+      <datalist id="liturgical-day-titles"></datalist>
       <div id="mini-forms-container-0" class="mini-forms-container"></div>
       <div id="mini-forms-container-1" class="mini-forms-container"></div>
       <div id="hymn-form-submit-button-container"></div>
@@ -385,7 +385,7 @@
               id="${month}-sunday-title-${i}"
               class="${month}"
               name="${month}-sunday-title-${i}"
-              list="sunday-titles"
+              list="liturgical-day-titles"
               style="font-weight: bold; height: 20px; font-size: 12pt; text-align: center;"
             />
             </div>
@@ -548,24 +548,24 @@
         .getHymnOptions();
     </script>
 
-    <!-- sundayTitlesDatalist.js -->
+    <!-- liturgicalDayTitlesDatalist.js -->
     <script>
-      let sundayTitlesFragment = new DocumentFragment();
+      let liturgicalDayTitlesFragment = new DocumentFragment();
       google.script.run
         .withSuccessHandler((response) => {
           // Populate the fragment with options from the response list which contains all hymn titles
           response.forEach((element) => {
             let option = document.createElement("option");
             option.value = element;
-            sundayTitlesFragment.appendChild(option);
+            liturgicalDayTitlesFragment.appendChild(option);
           });
 
           // Append the fragment to the datalist
           document
-            .getElementById("sunday-titles")
-            .appendChild(sundayTitlesFragment);
+            .getElementById("liturgical-day-titles")
+            .appendChild(liturgicalDayTitlesFragment);
         })
-        .getSundayTitles();
+        .getliturgicalDayTitles();
     </script>
 
     <!-- index.js -->
