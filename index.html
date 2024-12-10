@@ -195,9 +195,8 @@
 
       const firstOfNextMonth = (function () {
         const year = today.getFullYear();
-        const month = today.getMonth();
-        const nextMonth = (month + 1) % 12;
-        const firstOfNextMonth = new Date(year, nextMonth, 1);
+        const month = today.getMonth() + 1;
+        const firstOfNextMonth = new Date(year, month, 1);
         return firstOfNextMonth;
       })();
 
