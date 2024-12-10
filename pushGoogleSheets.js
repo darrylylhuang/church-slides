@@ -15,6 +15,7 @@ function pushGoogleSheets(weeks) {
       recessional,
       line1,
       line2,
+      liturgicalDayTitle,
     ] = [
       week.sunday,
       week.gathering,
@@ -24,6 +25,7 @@ function pushGoogleSheets(weeks) {
       week.recessional,
       week.gospelVerse.line1,
       week.gospelVerse.line2,
+      week.liturgicalDayTitle,
     ];
 
     const thisSunday = Utilities.formatDate(
@@ -36,7 +38,7 @@ function pushGoogleSheets(weeks) {
     const thisSundayRowIndex = thisSundayRange.getRowIndex();
 
     const weekRange = schedule.getRange(
-      `B${thisSundayRowIndex}:N${thisSundayRowIndex}`
+      `B${thisSundayRowIndex}:O${thisSundayRowIndex}`
     );
 
     // Hymns
@@ -46,6 +48,7 @@ function pushGoogleSheets(weeks) {
     rowData = rowData.concat(storringtonValues);
     rowData.push(line1);
     rowData.push(line2);
+    rowData.push(liturgicalDayTitle);
 
     // Data must be entered as a 2D array
     let data = [];

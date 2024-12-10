@@ -6,7 +6,8 @@ function processForm(
   communions,
   recessionals,
   gospelVerses,
-  storringtonParts
+  storringtonParts,
+  liturgicalDayTitles
 ) {
   initializeData();
 
@@ -18,7 +19,8 @@ function processForm(
     communions,
     recessionals,
     gospelVerses,
-    storringtonParts
+    storringtonParts,
+    liturgicalDayTitles
   );
 
   pushGoogleSheets(weeks);
