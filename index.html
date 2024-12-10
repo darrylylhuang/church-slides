@@ -601,6 +601,7 @@
         return hymnTypeList;
       };
     </script>
+    <!-- getGospelVerses.js -->
     <script>
       let getGospelVerses = function () {
         const gospelVerses = [];
@@ -617,6 +618,22 @@
         }
 
         return gospelVerses;
+      };
+    </script>
+    <!-- compileLiturgicalDayTitles.js -->
+    <script>
+      let compileLiturgicalDayTitles = function () {
+        const liturgicalDayTitles = [];
+
+        for (let i = 0; i < numberOfDivs(); i++) {
+          liturgicalDayTitles.push(
+            document.querySelector(
+              `#${getCurrentMonth()}-day-title-${i}.${getCurrentMonth()}`
+            ).value
+          );
+        }
+
+        return liturgicalDayTitles;
       };
     </script>
     <!-- submitForm.js -->
@@ -643,7 +660,6 @@
 
           // Add all the checkboxes and selected radios to be processed
           const storringtonParts = [];
-
           document
             .querySelectorAll(`input:checked.${getCurrentMonth()}`)
             .forEach((input) =>
@@ -652,6 +668,9 @@
                 value: input.value,
               })
             );
+
+          // TODO: Send Titles to the backend
+          const liturgicalDayTitles = compileLiturgicalDayTitles();
 
           // Send to backend
           google.script.run
