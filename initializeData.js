@@ -14,7 +14,9 @@ function initializeData() {
   const OTHER_SLIDES = SPREADSHEET.getSheetByName("Other Slides"); // Open the sheet that has transitions + additional slides
   const CURRENT_MONTH = SPREADSHEET.getSheetByName("Current Month"); // Open the sheet that has the information on what we're playing this month
   const SCHEDULE = SPREADSHEET.getSheetByName("Schedule"); // Open the sheet that has the all time schedule
-  const LITURGICAL_DAY_TITLES = SPREADSHEET.getSheetByName("Liturgical Day Titles"); // Open the sheet that contains Liturgical Day Titles
+  const LITURGICAL_DAY_TITLES = SPREADSHEET.getSheetByName(
+    "Liturgical Day Titles"
+  ); // Open the sheet that contains Liturgical Day Titles
 
   // ************* HYMN DATA *************
   const gatherData = GATHER_COMPREHENSIVE.getRange("A2:D").getValues(); // Contains hymn number, name, and GoogleSlides ID
@@ -29,8 +31,9 @@ function initializeData() {
   GlobalConstants.timeZone = SPREADSHEET_TIMEZONE;
   GlobalConstants.scheduleData = CURRENT_MONTH.getRange("A2:N6").getValues();
 
-  // ************* SUNDAY TITLES *************
-  const liturgicalDayTitlesData = LITURGICAL_DAY_TITLES.getRange("A2:A60").getValues();
+  // ************* LITURGICAL DAY TITLES *************
+  const liturgicalDayTitlesData =
+    LITURGICAL_DAY_TITLES.getRange("A2:A").getValues();
   const liturgicalDayTitles = [];
   liturgicalDayTitlesData.forEach(function (row) {
     liturgicalDayTitles.push(row[0]);
