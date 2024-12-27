@@ -53,7 +53,13 @@
         text-align: center;
         width: 100%;
         margin-top: 10px;
-        margin-bottom: 10px;
+      }
+
+      .day-title {
+        text-align: center;
+        width: 100%;
+        margin-top: -15px;
+        margin-bottom: 20px;
       }
 
       /* Each form group (label + input pair) */
@@ -135,6 +141,7 @@
     </div>
     <form id="hymn-form">
       <datalist id="all-hymns-list"></datalist>
+      <datalist id="liturgical-day-titles"></datalist>
       <div id="mini-forms-container-0" class="mini-forms-container"></div>
       <div id="mini-forms-container-1" class="mini-forms-container"></div>
       <div id="hymn-form-submit-button-container"></div>
@@ -188,9 +195,8 @@
 
       const firstOfNextMonth = (function () {
         const year = today.getFullYear();
-        const month = today.getMonth();
-        const nextMonth = (month + 1) % 12;
-        const firstOfNextMonth = new Date(year, nextMonth, 1);
+        const month = today.getMonth() + 1;
+        const firstOfNextMonth = new Date(year, month, 1);
         return firstOfNextMonth;
       })();
 
@@ -372,6 +378,16 @@
 
         element.innerHTML = `
             <h3>${sunday}</h3>
+            <div class="day-title">  
+            <input
+              type="text"
+              id="${currentMonth}-day-title-${i}"
+              class="${currentMonth}"
+              name="${currentMonth}-day-title-${i}"
+              list="liturgical-day-titles"
+              style="font-weight: bold; height: 20px; font-size: 12pt; text-align: center;"
+            />
+            </div>
           `;
 
         const gathering = generateMiniFormPart(
@@ -511,22 +527,44 @@
       })();
     </script>
 
-    <!-- datalist.js -->
+    <!-- hymnsDatalist.js -->
     <script>
-      let fragment = new DocumentFragment();
+      let hymnsDatalistFragment = new DocumentFragment();
       google.script.run
         .withSuccessHandler((response) => {
           // Populate the fragment with options from the response list which contains all hymn titles
           response.forEach((element) => {
             let option = document.createElement("option");
             option.value = element;
-            fragment.appendChild(option);
+            hymnsDatalistFragment.appendChild(option);
           });
 
           // Append the fragment to the datalist
-          document.getElementById("all-hymns-list").appendChild(fragment);
+          document
+            .getElementById("all-hymns-list")
+            .appendChild(hymnsDatalistFragment);
         })
         .getHymnOptions();
+    </script>
+
+    <!-- liturgicalDayTitlesDatalist.js -->
+    <script>
+      let liturgicalDayTitlesFragment = new DocumentFragment();
+      google.script.run
+        .withSuccessHandler((response) => {
+          // Populate the fragment with options from the response list which contains all hymn titles
+          response.forEach((element) => {
+            let option = document.createElement("option");
+            option.value = element;
+            liturgicalDayTitlesFragment.appendChild(option);
+          });
+
+          // Append the fragment to the datalist
+          document
+            .getElementById("liturgical-day-titles")
+            .appendChild(liturgicalDayTitlesFragment);
+        })
+        .getliturgicalDayTitles();
     </script>
 
     <!-- index.js -->
@@ -562,6 +600,7 @@
         return hymnTypeList;
       };
     </script>
+    <!-- getGospelVerses.js -->
     <script>
       let getGospelVerses = function () {
         const gospelVerses = [];
@@ -578,6 +617,22 @@
         }
 
         return gospelVerses;
+      };
+    </script>
+    <!-- compileLiturgicalDayTitles.js -->
+    <script>
+      let compileLiturgicalDayTitles = function () {
+        const liturgicalDayTitles = [];
+
+        for (let i = 0; i < numberOfDivs(); i++) {
+          liturgicalDayTitles.push(
+            document.querySelector(
+              `#${getCurrentMonth()}-day-title-${i}.${getCurrentMonth()}`
+            ).value
+          );
+        }
+
+        return liturgicalDayTitles;
       };
     </script>
     <!-- submitForm.js -->
@@ -604,7 +659,6 @@
 
           // Add all the checkboxes and selected radios to be processed
           const storringtonParts = [];
-
           document
             .querySelectorAll(`input:checked.${getCurrentMonth()}`)
             .forEach((input) =>
@@ -613,6 +667,9 @@
                 value: input.value,
               })
             );
+
+          // TODO: Send Titles to the backend
+          const liturgicalDayTitles = compileLiturgicalDayTitles();
 
           // Send to backend
           google.script.run
@@ -631,7 +688,8 @@
               communions,
               recessionals,
               gospelVerses,
-              storringtonParts
+              storringtonParts,
+              liturgicalDayTitles
             );
         });
     </script>

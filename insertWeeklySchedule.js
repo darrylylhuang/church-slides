@@ -10,6 +10,7 @@ function insertWeeklySchedule(doc, week) {
     recessional,
     line1,
     line2,
+    liturgicalDayTitle,
   ] = [
     week.sunday,
     week.gathering,
@@ -19,13 +20,14 @@ function insertWeeklySchedule(doc, week) {
     week.recessional,
     week.gospelVerse.line1,
     week.gospelVerse.line2,
+    week.liturgicalDayTitle,
   ];
 
   let hymns = [gathering, psalm, offertory, communion, recessional];
   [gathering, psalm, offertory, communion, recessional] =
     hymns.map(_getHymnTitles);
 
-  body.replaceText("{date}", sunday);
+  body.replaceText("{date}", `${sunday} - ${liturgicalDayTitle}`);
   body.replaceText("{gathering-hymn}", gathering);
   body.replaceText("{psalm}", psalm);
   body.replaceText("{offertory-hymn}", offertory);

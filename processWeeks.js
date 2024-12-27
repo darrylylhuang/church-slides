@@ -8,6 +8,7 @@
  * @param {*} recessionals
  * @param {*} gospelVerses
  * @param {*} storringtonParts
+ * @param {*} liturgicalDayTitles
  * @returns {Object[]}
  */
 function processWeeks(
@@ -18,7 +19,8 @@ function processWeeks(
   communions,
   recessionals,
   gospelVerses,
-  storringtonParts
+  storringtonParts,
+  liturgicalDayTitles
 ) {
   let weeks = [];
 
@@ -70,6 +72,7 @@ function processWeeks(
       recessional: recessionals[i].split(" - ")[0],
       gospelVerse: gospelVerses[i],
       storrington: thisWeekStorrington,
+      liturgicalDayTitle: liturgicalDayTitles[i]
     };
     weeks.push(week);
   }
