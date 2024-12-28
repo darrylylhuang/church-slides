@@ -24,15 +24,20 @@ function insertWeeklySchedule(doc, week) {
   ];
 
   let hymns = [gathering, psalm, offertory, communion, recessional];
-  [gathering, psalm, offertory, communion, recessional] =
-    hymns.map(_getHymnTitles);
+  [
+    gatheringTitle,
+    psalmTitle,
+    offertoryTitle,
+    communionTitle,
+    recessionalTitle,
+  ] = hymns.map(_getHymnTitles);
 
   body.replaceText("{date}", `${sunday} - ${liturgicalDayTitle}`);
-  body.replaceText("{gathering-hymn}", gathering);
-  body.replaceText("{psalm}", psalm);
-  body.replaceText("{offertory-hymn}", offertory);
-  body.replaceText("{communion-hymn}", communion);
-  body.replaceText("{recessional-hymn}", recessional);
+  body.replaceText("{gathering-title}", gatheringTitle);
+  body.replaceText("{psalm-title}", psalmTitle);
+  body.replaceText("{offertory-title}", offertoryTitle);
+  body.replaceText("{communion-title}", communionTitle);
+  body.replaceText("{recessional-title}", recessionalTitle);
   body.replaceText("{line1}", line1);
   body.replaceText("{line2}", line2);
 
@@ -76,13 +81,20 @@ function _getHymnTitles(key) {
       GlobalConstants.missingTitles.push(key);
       title = key;
     }
-    title += " (Binder)";
   } else {
-    title = gatherTitles[key] ? `${gatherTitles[key]} (${key})` : "";
+    title = gatherTitles[key] ? gatherTitles[key] : "";
     if (title === "") GlobalConstants.missingTitles.push(key);
   }
 
   return title;
+}
+
+function _getHymnNumbers(key) {
+  if (isNaN(key)) {
+    return "(Binder)";
+  } else {
+    return `(${key})`;
+  }
 }
 
 function _removeStorringtonPart(body, pageTemplate, labelTemplate, part) {
