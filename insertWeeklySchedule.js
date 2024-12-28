@@ -41,6 +41,20 @@ function insertWeeklySchedule(doc, week) {
   body.replaceText("{line1}", line1);
   body.replaceText("{line2}", line2);
 
+  [
+    gatheringNumber,
+    psalmNumber,
+    offertoryNumber,
+    communionNumber,
+    recessionalNumber,
+  ] = hymns.map(_getHymnNumbers);
+
+  body.replaceText("{gathering-number}", gatheringNumber);
+  body.replaceText("{psalm-number}", psalmNumber);
+  body.replaceText("{offertory-number}", offertoryNumber);
+  body.replaceText("{communion-number}", communionNumber);
+  body.replaceText("{recessional-number}", recessionalNumber);
+
   const storringtonParts = week.storrington;
   storringtonParts.forEach((element) => {
     let name = element.name;
