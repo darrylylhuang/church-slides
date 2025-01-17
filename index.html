@@ -277,6 +277,74 @@
         return element;
       }
     </script>
+    <script>
+      function generateMemorialInput(date) {
+        const memorial0Label = "None";
+        const memorial1Label = "When We Eat...";
+        const memorial2Label = "We Proclaim...";
+        const memorial3Label = "Save Us...";
+
+        const month = date.getMonth();
+        const day = date.getDate();
+        const part = "memorial";
+        const type = "radio";
+        const labelText = "Memorial Acclamation";
+
+        let element = document.createElement("div");
+        element.classList.add("form-group");
+        element.innerHTML = `
+          <label for="${month}-${part}-${day}">${labelText}</label>
+        `;
+
+        element.innerHTML += `
+          <div class="multiple-inputs">
+            <div class="labelled-radio">
+              <input
+                type="${type}"
+                id="${month}-${part}0-${day}"
+                class="${month}"
+                name="${month}-${part}-${day}"
+                value="0"
+              />
+              <label for="${month}-${part}0-${day}">${memorial0Label}</label>
+            </div>
+            <div class="labelled-radio">
+              <input
+                type="${type}"
+                id="${month}-${part}1-${day}"
+                class="${month}"
+                name="${month}-${part}-${day}"
+                value="1"
+                checked
+              />
+              <label for="${month}-${part}1-${day}">${memorial1Label}</label>
+            </div>
+            <div class="labelled-radio">
+              <input
+                type="${type}"
+                id="${month}-${part}2-${day}"
+                class="${month}"
+                name="${month}-${part}-${day}"
+                value="2"
+              />
+              <label for="${month}-${part}2-${day}">${memorial2Label}</label>
+            </div>
+            <div class="labelled-radio">
+              <input
+                type="${type}"
+                id="${month}-${part}3-${day}"
+                class="${month}"
+                name="${month}-${part}-${day}"
+                value="3"
+              />
+              <label for="${month}-${part}3-${day}">${memorial3Label}</label>
+            </div>
+          </div>
+        `;
+        return element;
+      }
+    </script>
+
     <!-- generateMiniForm.js -->
     <script>
       const generateMiniFormPart = function (
@@ -293,61 +361,6 @@
         element.innerHTML = `
           <label for="${month}-${part}-${i}">${labelText}</label>
         `;
-
-        // Memorial Acclamation radio selection
-        if (part === "memorial") {
-          const memorial0Label = "None";
-          const memorial1Label = "When We Eat...";
-          const memorial2Label = "We Proclaim...";
-          const memorial3Label = "Save Us...";
-
-          element.innerHTML += `
-            <div class="multiple-inputs">
-              <div class="labelled-radio">
-                <input
-                  type="${type}"
-                  id="${month}-${part}0-${i}"
-                  class="${month}"
-                  name="${month}-${part}-${i}"
-                  value="0"
-                />
-                <label for="${month}-${part}0-${i}">${memorial0Label}</label>
-              </div>
-              <div class="labelled-radio">
-                <input
-                  type="${type}"
-                  id="${month}-${part}1-${i}"
-                  class="${month}"
-                  name="${month}-${part}-${i}"
-                  value="1"
-                  checked
-                />
-                <label for="${month}-${part}1-${i}">${memorial1Label}</label>
-              </div>
-              <div class="labelled-radio">
-                <input
-                  type="${type}"
-                  id="${month}-${part}2-${i}"
-                  class="${month}"
-                  name="${month}-${part}-${i}"
-                  value="2"
-                />
-                <label for="${month}-${part}2-${i}">${memorial2Label}</label>
-              </div>
-              <div class="labelled-radio">
-                <input
-                  type="${type}"
-                  id="${month}-${part}3-${i}"
-                  class="${month}"
-                  name="${month}-${part}-${i}"
-                  value="3"
-                />
-                <label for="${month}-${part}3-${i}">${memorial3Label}</label>
-              </div>
-            </div>
-          `;
-          return element;
-        }
 
         // DEFAULT CASE FOR TEXT INPUTS and checkboxes; only text inputs required
         // do not use the datalist for Gospel Verses
@@ -452,13 +465,7 @@
           "true",
           true
         );
-        const memorial = generateMiniFormPart(
-          currentMonth,
-          "memorial",
-          i,
-          "radio",
-          "Memorial Acclamation"
-        );
+        const memorial = generateMemorialInput(date);
         const amen = generateMiniFormPart(
           currentMonth,
           "amen",
