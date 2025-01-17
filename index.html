@@ -147,6 +147,19 @@
       <div id="hymn-form-submit-button-container"></div>
     </form>
     <div id="result"></div>
+    <!-- formatDate.js -->
+    <script>
+      function formatDate(date) {
+        const options = {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        };
+
+        return date.toLocaleDateString("en-CA", options);
+      }
+    </script>
     <!-- sundaysInAMonth.js -->
     <script>
       /**
@@ -350,7 +363,7 @@
         return element;
       };
 
-      let generateMiniForm = function (date) {
+      function generateMiniForm(date) {
         let sunday = date;
         const currentMonth = date.getMonth();
         const i = date.getDate();
@@ -366,7 +379,7 @@
         element.classList.add("column", "form-column");
 
         element.innerHTML = `
-            <h3>${sunday}</h3>
+            <h3>${formatDate(sunday)}</h3>
             <div class="day-title">  
             <input
               type="text"
@@ -499,7 +512,7 @@
         document
           .getElementById(`mini-forms-container-${month}`)
           .append(element);
-      };
+      }
     </script>
     <!-- addSubmitButton -->
     <script>
