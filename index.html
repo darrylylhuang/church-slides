@@ -150,40 +150,28 @@
     <!-- sundaysInAMonth.js -->
     <script>
       /**
-       * Get a list of all Sundays in the current month formatted as strings.
-       * @returns {string[]} A list of formatted date strings for each Sunday in the current month.
+       * Get a list of all Sundays in the current month.
+       * @returns {Date[]} A list of Dates for each Sunday in the current month.
        */
-      const sundaysInAMonth = (today) => {
+      function sundaysInAMonth(today) {
         // Get the year and month
         const year = today.getFullYear();
         const month = today.getMonth();
+        const endOfCurrentMonth = new Date(year, month + 1, 0).getDate();
 
         // Initialize list of Sundays
         let sundaysList = [];
 
-        let options = {
-          weekday: "long",
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        };
-
         // Loop through each day of the month
-        for (
-          let day = 1;
-          day <= new Date(year, month + 1, 0).getDate();
-          day++
-        ) {
+        for (let day = 1; day <= endOfCurrentMonth; day++) {
           let currentDate = new Date(year, month, day);
           // Check if the current day is a Sunday (day 0 in JavaScript Date object)
-          if (currentDate.getDay() === 0) {
-            sundaysList.push(currentDate.toLocaleDateString("en-CA", options));
-          }
+          if (currentDate.getDay() === 0) sundaysList.push(currentDate);
         }
 
         // Return the list of Sundays found
         return sundaysList;
-      };
+      }
     </script>
     <!-- Sundays this month and next month + constants for today and the first of next month -->
     <!-- getCurrentMonth.js -->
