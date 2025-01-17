@@ -364,7 +364,6 @@
       };
 
       function generateMiniForm(date) {
-        let sunday = date;
         const currentMonth = date.getMonth();
         const i = date.getDate();
 
@@ -379,7 +378,7 @@
         element.classList.add("column", "form-column");
 
         element.innerHTML = `
-            <h3>${formatDate(sunday)}</h3>
+            <h3>${formatDate(date)}</h3>
             <div class="day-title">  
             <input
               type="text"
