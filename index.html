@@ -350,14 +350,15 @@
         return element;
       };
 
-      let generateMiniForm = function (i, month) {
-        let sundays = sundaysThisMonth;
-        let currentMonth = "thisMonth";
-        if (month === 1) {
-          sundays = sundaysNextMonth;
-          currentMonth = "nextMonth";
-        }
-        let sunday = sundays[i];
+      let generateMiniForm = function (date) {
+        let sunday = date;
+        const currentMonth = date.getMonth();
+        const i = date.getDate();
+
+        let month = 0;
+        // currently generating a mini-form for next month
+        if (currentMonth !== new Date().getMonth()) month = 1;
+
         let element = document.createElement("div");
 
         element.id = `${currentMonth}-form-column-${i}`;
@@ -559,16 +560,8 @@
     <script>
       let index = (function () {
         "use strict";
-
-        const numberOfDivs1 = sundaysNextMonth.length;
-        for (let i = 0; i < numberOfDivs1; i++) {
-          generateMiniForm(i, 1);
-        }
-
-        const numberOfDivs0 = sundaysThisMonth.length;
-        for (let i = 0; i < numberOfDivs0; i++) {
-          generateMiniForm(i, 0);
-        }
+        sundaysNextMonth.map(generateMiniForm);
+        sundaysThisMonth.map(generateMiniForm);
       })();
     </script>
 
