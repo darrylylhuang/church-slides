@@ -226,6 +226,57 @@
         return null;
       };
     </script>
+    <script>
+      function generateGospelInput(date) {
+        const month = date.getMonth();
+        const day = date.getDate();
+        const part = "gospel";
+        const type = "radio";
+        const labelText = "Gospel Acclamation";
+
+        let element = document.createElement("div");
+        element.classList.add("form-group");
+        element.innerHTML = `
+          <label for="${month}-${part}-${day}">${labelText}</label>
+        `;
+        element.innerHTML += `
+          <div class="multiple-inputs">
+            <div class="labelled-radio">
+              <input
+                type="${type}"
+                id="${month}-${part}-none-${day}"
+                class="${month}"
+                name="${month}-${part}-${day}"
+                value="0"
+              />
+              <label for="${month}-${part}-none-${day}">None</label>
+            </div>
+            <div class="labelled-radio">
+              <input
+                type="${type}"
+                id="${month}-${part}-norm-${day}"
+                class="${month}"
+                name="${month}-${part}-${day}"
+                value="1"
+                checked
+              />
+              <label for="${month}-${part}-norm-${day}">Normal</label>
+            </div>
+            <div class="labelled-radio">
+              <input
+                type="${type}"
+                id="${month}-${part}-lent-${day}"
+                class="${month}"
+                name="${month}-${part}-${day}"
+                value="2"
+              />
+              <label for="${month}-${part}-lent-${day}">Lenten</label>
+            </div>
+          </div>
+        `;
+        return element;
+      }
+    </script>
     <!-- generateMiniForm.js -->
     <script>
       const generateMiniFormPart = function (
@@ -242,46 +293,6 @@
         element.innerHTML = `
           <label for="${month}-${part}-${i}">${labelText}</label>
         `;
-
-        // Gospel Acclamation radio selection
-        if (part === "gospel") {
-          element.innerHTML += `
-              <div class="multiple-inputs">
-                <div class="labelled-radio">
-                  <input
-                    type="${type}"
-                    id="${month}-${part}-none-${i}"
-                    class="${month}"
-                    name="${month}-${part}-${i}"
-                    value="0"
-                  />
-                  <label for="${month}-${part}-none-${i}">None</label>
-                </div>
-                <div class="labelled-radio">
-                  <input
-                    type="${type}"
-                    id="${month}-${part}-norm-${i}"
-                    class="${month}"
-                    name="${month}-${part}-${i}"
-                    value="1"
-                    checked
-                  />
-                  <label for="${month}-${part}-norm-${i}">Normal</label>
-                </div>
-                <div class="labelled-radio">
-                  <input
-                    type="${type}"
-                    id="${month}-${part}-lent-${i}"
-                    class="${month}"
-                    name="${month}-${part}-${i}"
-                    value="2"
-                  />
-                  <label for="${month}-${part}-lent-${i}">Lenten</label>
-                </div>
-              </div>
-          `;
-          return element;
-        }
 
         // Memorial Acclamation radio selection
         if (part === "memorial") {
@@ -410,13 +421,7 @@
           "text",
           "Psalm"
         );
-        const gospel = generateMiniFormPart(
-          currentMonth,
-          "gospel",
-          i,
-          "radio",
-          "Gospel Acclamation"
-        );
+        const gospel = generateGospelInput(date);
         const gospelLine1 = generateMiniFormPart(
           currentMonth,
           "gospel-line1",
