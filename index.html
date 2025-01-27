@@ -257,7 +257,7 @@
         const month = date.getMonth();
         const day = date.getDate();
         const part = hymnType;
-        const labelText = getLabelText(hymnType);
+        const labelText = getHymnLabelText(hymnType);
         const type = "text";
 
         let element = document.createElement("div");
@@ -273,7 +273,7 @@
             class="${month}"
             name="${month}-${part}-${day}"
             list="all-hymns-list"
-            value=${""}
+            value=""
             required
           />
         `;
@@ -465,13 +465,7 @@
             </div>
           `;
 
-        const gathering = generateMiniFormPart(
-          currentMonth,
-          "gathering",
-          i,
-          "text",
-          "Gathering Hymn"
-        );
+        const gathering = generateHymnInput(date, "gathering");
         const gloria = generateMiniFormPart(
           currentMonth,
           "gloria",
@@ -481,13 +475,7 @@
           "true",
           true
         );
-        const psalm = generateMiniFormPart(
-          currentMonth,
-          "psalm",
-          i,
-          "text",
-          "Psalm"
-        );
+        const psalm = generateHymnInput(date, "psalm");
         const gospel = generateGospelInput(date);
         const gospelLine1 = generateMiniFormPart(
           currentMonth,
@@ -503,13 +491,7 @@
           "text",
           "Verse: Line 2"
         );
-        const offertory = generateMiniFormPart(
-          currentMonth,
-          "offertory",
-          i,
-          "text",
-          "Offertory Hymn"
-        );
+        const offertory = generateHymnInput(date, "offertory");
         const sanctus = generateMiniFormPart(
           currentMonth,
           "sanctus",
@@ -538,20 +520,8 @@
           "true",
           true
         );
-        const communion = generateMiniFormPart(
-          currentMonth,
-          "communion",
-          i,
-          "text",
-          "Communion Hymn"
-        );
-        const recessional = generateMiniFormPart(
-          currentMonth,
-          "recessional",
-          i,
-          "text",
-          "Recessional Hymn"
-        );
+        const communion = generateHymnInput(date, "communion");
+        const recessional = generateHymnInput(date, "recessional");
 
         // Add all parts to the mini form
         element.append(
