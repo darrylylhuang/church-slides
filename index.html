@@ -251,7 +251,35 @@
         return labelText;
       }
     </script>
+    <script>
+      // TODO: Separate text inputs and checkbox inputs
+      function generateHymnInput(date, hymnType) {
+        const month = date.getMonth();
+        const day = date.getDate();
+        const part = hymnType;
+        const labelText = getLabelText(hymnType);
+        const type = "text";
 
+        let element = document.createElement("div");
+        element.classList.add("form-group");
+        element.innerHTML = `
+          <label for="${month}-${part}-${day}">${labelText}</label>
+        `;
+
+        element.innerHTML += `
+          <input
+            type="${type}"
+            id="${month}-${part}-${day}"
+            class="${month}"
+            name="${month}-${part}-${day}"
+            list="all-hymns-list"
+            value=${""}
+            required
+          />
+        `;
+        return element;
+      }
+    </script>
     <script>
       function generateGospelInput(date) {
         const month = date.getMonth();
