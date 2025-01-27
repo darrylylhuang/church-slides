@@ -227,6 +227,32 @@
       };
     </script>
     <script>
+      function getHymnLabelText(hymnType) {
+        let labelText;
+        switch (hymnType) {
+          case "gathering":
+            labelText = "Gathering Hymn";
+            break;
+          case "psalm":
+            labelText = "Psalm";
+            break;
+          case "offertory":
+            labelText = "Offertory Hymn";
+            break;
+          case "communion":
+            labelText = "Communion Hymn";
+            break;
+          case "recessional":
+            labelText = "Recesional Hymn";
+            break;
+          default:
+            break;
+        }
+        return labelText;
+      }
+    </script>
+
+    <script>
       function generateGospelInput(date) {
         const month = date.getMonth();
         const day = date.getDate();
