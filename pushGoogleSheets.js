@@ -32,9 +32,7 @@ function pushGoogleSheets(entries) {
       entry.liturgicalDayTitle,
     ];
 
-    Logger.log(day);
     const date = Utilities.formatDate(new Date(day), timeZone, "MM/dd/yyyy");
-    Logger.log(date);
 
     schedule.insertRowAfter(lastCell);
     lastCell++;
