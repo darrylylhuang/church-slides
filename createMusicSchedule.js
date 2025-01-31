@@ -16,7 +16,7 @@ function createMusicSchedule(entries) {
   for (let i = 0; i < numEntries; i++) {
     const entry = entries[i];
     copyMusicScheudleTemplate(doc);
-    insertWeeklySchedule(doc, entry);
+    insertEntrySchedule(doc, entry);
 
     if (i % 2 === 0) {
       // At the start of a new page, remove the extra paragraph whose index will have been saved from the previous iteration
