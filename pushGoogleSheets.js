@@ -4,10 +4,14 @@
 function pushGoogleSheets(weeks) {
   const schedule = GlobalConstants.schedule;
   const timeZone = GlobalConstants.timeZone;
+
+  const columnAVals = schedule.getRange("A:A").getValues();
+  let lastCell = columnAVals.length;
+
   weeks.forEach((week) => {
     // Extract info
     let [
-      sunday,
+      day,
       gathering,
       psalm,
       offertory,
@@ -17,7 +21,7 @@ function pushGoogleSheets(weeks) {
       line2,
       liturgicalDayTitle,
     ] = [
-      week.sunday,
+      week.day,
       week.gathering,
       week.psalm,
       week.offertory,
@@ -28,21 +32,15 @@ function pushGoogleSheets(weeks) {
       week.liturgicalDayTitle,
     ];
 
-    const thisSunday = Utilities.formatDate(
-      new Date(sunday),
-      timeZone,
-      "MM/dd/yyyy"
-    );
-    const findThisSunday = schedule.createTextFinder(thisSunday);
-    const thisSundayRange = findThisSunday.findNext();
-    const thisSundayRowIndex = thisSundayRange.getRowIndex();
+    const date = Utilities.formatDate(new Date(day), timeZone, "MM/dd/yyyy");
 
-    const weekRange = schedule.getRange(
-      `B${thisSundayRowIndex}:O${thisSundayRowIndex}`
-    );
+    schedule.insertRowAfter(lastCell);
+    lastCell++;
+
+    const weekRange = schedule.getRange(`A${lastCell}:O${lastCell}`);
 
     // Hymns
-    let rowData = [gathering, psalm, offertory, communion, recessional];
+    let rowData = [date, gathering, psalm, offertory, communion, recessional];
     // Storrington parts are input in order on the web form and kept in order on the Google Sheet
     const storringtonValues = week.storrington.map((part) => part.value);
     rowData = rowData.concat(storringtonValues);
