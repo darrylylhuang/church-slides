@@ -227,7 +227,7 @@
       };
     </script>
     <script>
-      function getHymnLabelText(hymnType) {
+      function getLabelText(hymnType) {
         let labelText;
         switch (hymnType) {
           case "gathering":
@@ -245,6 +245,24 @@
           case "recessional":
             labelText = "Recesional Hymn";
             break;
+          case "gloria":
+            labelText = "Gloria";
+            break;
+          case "gospel":
+            labelText = "Gospel Acclamation";
+            break;
+          case "sanctus":
+            labelText = "Sanctus";
+            break;
+          case "memorial":
+            labelText = "Memorial Acclamation";
+            break;
+          case "amen":
+            labelText = "Amen";
+            break;
+          case "lamb":
+            labelText = "Lamb of God";
+            break;
           default:
             break;
         }
@@ -257,7 +275,7 @@
         const month = date.getMonth();
         const day = date.getDate();
         const part = hymnType;
-        const labelText = getHymnLabelText(hymnType);
+        const labelText = getLabelText(hymnType);
         const type = "text";
 
         let element = document.createElement("div");
@@ -281,12 +299,21 @@
       }
     </script>
     <script>
+      function generateStorringtonCheckbox(date, storringtonPart) {
+        const month = date.getMonth();
+        const day = date.getDate();
+        const part = storringtonPart;
+        const labelText = getLabelText(part);
+        const type = "checkbox";
+      }
+    </script>
+    <script>
       function generateGospelInput(date) {
         const month = date.getMonth();
         const day = date.getDate();
         const part = "gospel";
         const type = "radio";
-        const labelText = "Gospel Acclamation";
+        const labelText = getLabelText(part)
 
         let element = document.createElement("div");
         element.classList.add("form-group");
@@ -342,7 +369,7 @@
         const day = date.getDate();
         const part = "memorial";
         const type = "radio";
-        const labelText = "Memorial Acclamation";
+        const labelText = getLabelText(part)
 
         let element = document.createElement("div");
         element.classList.add("form-group");
