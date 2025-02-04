@@ -305,6 +305,24 @@
         const part = storringtonPart;
         const labelText = getLabelText(part);
         const type = "checkbox";
+
+        let element = document.createElement("div");
+        element.classList.add("form-group");
+        element.innerHTML = `
+          <label for="${month}-${part}-${day}">${labelText}</label>
+        `;
+
+        element.innerHTML += `
+          <input
+            type="${type}"
+            id="${month}-${part}-${day}"
+            class="${month}"
+            name="${month}-${part}-${day}"
+            value="true"
+            checked
+          />
+        `;
+        return element;
       }
     </script>
     <script>
@@ -313,7 +331,7 @@
         const day = date.getDate();
         const part = "gospel";
         const type = "radio";
-        const labelText = getLabelText(part)
+        const labelText = getLabelText(part);
 
         let element = document.createElement("div");
         element.classList.add("form-group");
@@ -369,7 +387,7 @@
         const day = date.getDate();
         const part = "memorial";
         const type = "radio";
-        const labelText = getLabelText(part)
+        const labelText = getLabelText(part);
 
         let element = document.createElement("div");
         element.classList.add("form-group");
@@ -493,15 +511,7 @@
           `;
 
         const gathering = generateHymnInput(date, "gathering");
-        const gloria = generateMiniFormPart(
-          currentMonth,
-          "gloria",
-          i,
-          "checkbox",
-          "Gloria",
-          "true",
-          true
-        );
+        const gloria = generateStorringtonCheckbox(date, "gloria");
         const psalm = generateHymnInput(date, "psalm");
         const gospel = generateGospelInput(date);
         const gospelLine1 = generateMiniFormPart(
@@ -519,34 +529,10 @@
           "Verse: Line 2"
         );
         const offertory = generateHymnInput(date, "offertory");
-        const sanctus = generateMiniFormPart(
-          currentMonth,
-          "sanctus",
-          i,
-          "checkbox",
-          "Sanctus",
-          "true",
-          true
-        );
+        const sanctus = generateStorringtonCheckbox(date, "sanctus");
         const memorial = generateMemorialInput(date);
-        const amen = generateMiniFormPart(
-          currentMonth,
-          "amen",
-          i,
-          "checkbox",
-          "Amen",
-          "true",
-          true
-        );
-        const lamb = generateMiniFormPart(
-          currentMonth,
-          "lamb",
-          i,
-          "checkbox",
-          "Lamb of God",
-          "true",
-          true
-        );
+        const amen = generateStorringtonCheckbox(date, "amen");
+        const lamb = generateStorringtonCheckbox(date, "lamb");
         const communion = generateHymnInput(date, "communion");
         const recessional = generateHymnInput(date, "recessional");
 
