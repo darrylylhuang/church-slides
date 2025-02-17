@@ -263,6 +263,12 @@
           case "lamb":
             labelText = "Lamb of God";
             break;
+          case "gospel-verse-line1":
+            labelText = "Verse: Line 1";
+            break;
+          case "gospel-verse-line2":
+            labelText = "Verse: Line 2";
+            break;
           default:
             break;
         }
@@ -350,6 +356,7 @@
         }
       }
     </script>
+    <!-- Generate Storrington Checkbox Inputs -->
     <script>
       class StorringtonCheckboxInput extends FormInput {
         constructor(date) {
@@ -414,6 +421,7 @@
         }
       }
     </script>
+    <!-- Generate Storrington Radio Inputs -->
     <script>
       class GospelAcclamationInput extends FormInput {
         constructor(date) {
@@ -557,45 +565,46 @@
         }
       }
     </script>
+    <!-- Generate Verse Line Inputs -->
+    <script>
+      class GospelVerseLineInput extends FormInput {
+        constructor(date, lineNumber) {
+          super(date);
+          this.storringtonPart = "gospel-verse-line" + lineNumber;
+        }
 
+        generate() {
+          const date = this.date;
+          const month = date.getMonth();
+          const day = date.getDate();
+
+          const part = this.storringtonPart;
+          const labelText = getLabelText(part);
+
+          const inputType = "text";
+
+          let element = document.createElement("div");
+          element.classList.add("form-group");
+          element.innerHTML = `
+            <label for="${month}-${part}-${day}">${labelText}</label>
+          `;
+
+          element.innerHTML += `
+            <input
+              type="${inputType}"
+              id="${month}-${part}-${day}"
+              class="month-${month} ${month}-${day}"
+              name="${month}-${part}-${day}"
+              value=""
+              required
+            />
+          `;
+          return element;
+        }
+      }
+    </script>
     <!-- generateMiniForm.js -->
     <script>
-      const generateMiniFormPart = function (
-        month,
-        part,
-        i,
-        type,
-        labelText,
-        value = "",
-        checked = false
-      ) {
-        let element = document.createElement("div");
-        element.classList.add("form-group");
-        element.innerHTML = `
-          <label for="${month}-${part}-${i}">${labelText}</label>
-        `;
-
-        // DEFAULT CASE FOR TEXT INPUTS and checkboxes; only text inputs required
-        // do not use the datalist for Gospel Verses
-        element.innerHTML += `
-          <input
-            type="${type}"
-            id="${month}-${part}-${i}"
-            class="${month}"
-            name="${month}-${part}-${i}"
-            list=${
-              part === "gospel-line1" || part === "gospel-line2"
-                ? ""
-                : "all-hymns-list"
-            }
-            value="${value}"
-            ${type === "text" ? "required" : ""}
-            ${checked ? "checked" : ""}
-          />
-        `;
-        return element;
-      };
-
       function generateMiniForm(date) {
         const currentMonth = date.getMonth();
         const i = date.getDate();
@@ -628,20 +637,8 @@
         const gloria = new GloriaInput(date).generate();
         const psalm = new PsalmInput(date).generate();
         const gospel = new GospelAcclamationInput(date).generate();
-        const gospelLine1 = generateMiniFormPart(
-          currentMonth,
-          "gospel-line1",
-          i,
-          "text",
-          "Verse: Line 1"
-        );
-        const gospelLine2 = generateMiniFormPart(
-          currentMonth,
-          "gospel-line2",
-          i,
-          "text",
-          "Verse: Line 2"
-        );
+        const gospelLine1 = new GospelVerseLineInput(date, 1).generate();
+        const gospelLine2 = new GospelVerseLineInput(date, 2).generate();
         const offertory = new OffertoryInput(date).generate();
         const sanctus = new SanctusInput(date).generate();
         const memorial = new MemorialInput(date).generate();
