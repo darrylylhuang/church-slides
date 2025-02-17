@@ -269,6 +269,35 @@
         return labelText;
       }
     </script>
+    <!-- Mini-form input types -->
+    <script>
+      class FormInput {
+        constructor(date) {
+          this.date = date;
+        }
+      }
+
+      class TextInput extends FormInput {
+        constructor(date) {
+          super(date);
+          this.inputType = "text";
+        }
+      }
+
+      class CheckboxInput extends FormInput {
+        constructor(date) {
+          super(date);
+          this.inputType = "checkbox";
+        }
+      }
+
+      class RadioInput extends FormInput {
+        constructor(date) {
+          super(date);
+          this.inputType = "radio";
+        }
+      }
+    </script>
     <!-- Generate Hymn Inputs -->
     <script>
       class HymnInput {
