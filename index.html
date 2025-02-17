@@ -276,42 +276,23 @@
           this.date = date;
         }
       }
-
-      class TextInput extends FormInput {
-        constructor(date) {
-          super(date);
-          this.inputType = "text";
-        }
-      }
-
-      class CheckboxInput extends FormInput {
-        constructor(date) {
-          super(date);
-          this.inputType = "checkbox";
-        }
-      }
-
-      class RadioInput extends FormInput {
-        constructor(date) {
-          super(date);
-          this.inputType = "radio";
-        }
-      }
     </script>
     <!-- Generate Hymn Inputs -->
     <script>
-      class HymnInput {
+      class HymnInput extends FormInput {
         constructor(date) {
-          this.date = date;
+          super(date);
         }
 
         generate() {
           const date = this.date;
-          const hymnType = this.hymnType;
           const month = date.getMonth();
           const day = date.getDate();
+
+          const hymnType = this.hymnType;
           const labelText = getLabelText(hymnType);
-          const type = "text";
+
+          const inputType = "text";
 
           let element = document.createElement("div");
           element.classList.add("form-group");
@@ -321,7 +302,7 @@
 
           element.innerHTML += `
           <input
-            type="${type}"
+            type="${inputType}"
             id="${month}-${hymnType}-${day}"
             class="month-${month} ${month}-${day}"
             name="${month}-${hymnType}-${day}"
@@ -370,30 +351,67 @@
       }
     </script>
     <script>
-      function generateStorringtonCheckbox(date, storringtonPart) {
-        const month = date.getMonth();
-        const day = date.getDate();
-        const part = storringtonPart;
-        const labelText = getLabelText(part);
-        const type = "checkbox";
+      class StorringtonCheckboxInput extends FormInput {
+        constructor(date) {
+          super(date);
+        }
 
-        let element = document.createElement("div");
-        element.classList.add("form-group");
-        element.innerHTML = `
-          <label for="${month}-${part}-${day}">${labelText}</label>
+        generate() {
+          const date = this.date;
+          const month = date.getMonth();
+          const day = date.getDate();
+
+          const storringtonPart = this.storringtonPart;
+          const labelText = getLabelText(storringtonPart);
+
+          const type = "checkbox";
+
+          let element = document.createElement("div");
+          element.classList.add("form-group");
+          element.innerHTML = `
+          <label for="${month}-${storringtonPart}-${day}">${labelText}</label>
         `;
 
-        element.innerHTML += `
+          element.innerHTML += `
           <input
             type="${type}"
-            id="${month}-${part}-${day}"
+            id="${month}-${storringtonPart}-${day}"
             class="${month}"
-            name="${month}-${part}-${day}"
+            name="${month}-${storringtonPart}-${day}"
             value="true"
             checked
           />
         `;
-        return element;
+          return element;
+        }
+      }
+
+      class GloriaInput extends StorringtonCheckboxInput {
+        constructor(date) {
+          super(date);
+          this.storringtonPart = "gloria";
+        }
+      }
+
+      class SanctusInput extends StorringtonCheckboxInput {
+        constructor(date) {
+          super(date);
+          this.storringtonPart = "sanctus";
+        }
+      }
+
+      class AmenInput extends StorringtonCheckboxInput {
+        constructor(date) {
+          super(date);
+          this.storringtonPart = "amen";
+        }
+      }
+
+      class LambOfGodInput extends StorringtonCheckboxInput {
+        constructor(date) {
+          super(date);
+          this.storringtonPart = "lamb";
+        }
       }
     </script>
     <script>
@@ -582,7 +600,7 @@
           `;
 
         const gathering = new GatheringInput(date).generate();
-        const gloria = generateStorringtonCheckbox(date, "gloria");
+        const gloria = new GloriaInput(date).generate();
         const psalm = new PsalmInput(date).generate();
         const gospel = generateGospelInput(date);
         const gospelLine1 = generateMiniFormPart(
@@ -600,10 +618,10 @@
           "Verse: Line 2"
         );
         const offertory = new OffertoryInput(date).generate();
-        const sanctus = generateStorringtonCheckbox(date, "sanctus");
+        const sanctus = new SanctusInput(date).generate();
         const memorial = generateMemorialInput(date);
-        const amen = generateStorringtonCheckbox(date, "amen");
-        const lamb = generateStorringtonCheckbox(date, "lamb");
+        const amen = new AmenInput(date).generate();
+        const lamb = new LambOfGodInput(date).generate();
         const communion = new CommunionInput(date).generate();
         const recessional = new RecessionalInput(date).generate();
 
