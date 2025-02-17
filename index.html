@@ -289,28 +289,28 @@
           const month = date.getMonth();
           const day = date.getDate();
 
-          const hymnType = this.hymnType;
-          const labelText = getLabelText(hymnType);
+          const part = this.hymnType;
+          const labelText = getLabelText(part);
 
           const inputType = "text";
 
           let element = document.createElement("div");
           element.classList.add("form-group");
           element.innerHTML = `
-          <label for="${month}-${hymnType}-${day}">${labelText}</label>
-        `;
+            <label for="${month}-${part}-${day}">${labelText}</label>
+          `;
 
           element.innerHTML += `
-          <input
-            type="${inputType}"
-            id="${month}-${hymnType}-${day}"
-            class="month-${month} ${month}-${day}"
-            name="${month}-${hymnType}-${day}"
-            list="all-hymns-list"
-            value=""
-            required
-          />
-        `;
+            <input
+              type="${inputType}"
+              id="${month}-${part}-${day}"
+              class="month-${month} ${month}-${day}"
+              name="${month}-${part}-${day}"
+              list="all-hymns-list"
+              value=""
+              required
+            />
+          `;
           return element;
         }
       }
@@ -361,27 +361,27 @@
           const month = date.getMonth();
           const day = date.getDate();
 
-          const storringtonPart = this.storringtonPart;
-          const labelText = getLabelText(storringtonPart);
+          const part = this.storringtonPart;
+          const labelText = getLabelText(part);
 
           const type = "checkbox";
 
           let element = document.createElement("div");
           element.classList.add("form-group");
           element.innerHTML = `
-          <label for="${month}-${storringtonPart}-${day}">${labelText}</label>
-        `;
+            <label for="${month}-${part}-${day}">${labelText}</label>
+          `;
 
           element.innerHTML += `
-          <input
-            type="${type}"
-            id="${month}-${storringtonPart}-${day}"
-            class="${month}"
-            name="${month}-${storringtonPart}-${day}"
-            value="true"
-            checked
-          />
-        `;
+            <input
+              type="${type}"
+              id="${month}-${part}-${day}"
+              class="${month}"
+              name="${month}-${part}-${day}"
+              value="true"
+              checked
+            />
+          `;
           return element;
         }
       }
@@ -415,54 +415,69 @@
       }
     </script>
     <script>
-      function generateGospelInput(date) {
-        const month = date.getMonth();
-        const day = date.getDate();
-        const part = "gospel";
-        const type = "radio";
-        const labelText = getLabelText(part);
+      class GospelAcclamationInput extends FormInput {
+        constructor(date) {
+          super(date);
+          this.storringtonPart = "gospel";
+        }
 
-        let element = document.createElement("div");
-        element.classList.add("form-group");
-        element.innerHTML = `
-          <label for="${month}-${part}-${day}">${labelText}</label>
-        `;
-        element.innerHTML += `
-          <div class="multiple-inputs">
-            <div class="labelled-radio">
-              <input
-                type="${type}"
-                id="${month}-${part}-none-${day}"
-                class="${month}"
-                name="${month}-${part}-${day}"
-                value="0"
-              />
-              <label for="${month}-${part}-none-${day}">None</label>
+        generate() {
+          const date = this.date;
+          const month = date.getMonth();
+          const day = date.getDate();
+
+          const part = this.storringtonPart;
+          const labelText = getLabelText(part);
+
+          const type = "radio";
+
+          const gospel0Label = "None";
+          const gospel1Label = "Normal";
+          const gospel2Label = "Lenten";
+
+          let element = document.createElement("div");
+          element.classList.add("form-group");
+          element.innerHTML = `
+            <label for="${month}-${part}-${day}">${labelText}</label>
+          `;
+
+          element.innerHTML += `
+            <div class="multiple-inputs">
+              <div class="labelled-radio">
+                <input
+                  type="${type}"
+                  id="${month}-${part}-none-${day}"
+                  class="${month}"
+                  name="${month}-${part}-${day}"
+                  value="0"
+                />
+                <label for="${month}-${part}-none-${day}">${gospel0Label}</label>
+              </div>
+              <div class="labelled-radio">
+                <input
+                  type="${type}"
+                  id="${month}-${part}-norm-${day}"
+                  class="${month}"
+                  name="${month}-${part}-${day}"
+                  value="1"
+                  checked
+                />
+                <label for="${month}-${part}-norm-${day}">${gospel1Label}</label>
+              </div>
+              <div class="labelled-radio">
+                <input
+                  type="${type}"
+                  id="${month}-${part}-lent-${day}"
+                  class="${month}"
+                  name="${month}-${part}-${day}"
+                  value="2"
+                />
+                <label for="${month}-${part}-lent-${day}">${gospel2Label}</label>
+              </div>
             </div>
-            <div class="labelled-radio">
-              <input
-                type="${type}"
-                id="${month}-${part}-norm-${day}"
-                class="${month}"
-                name="${month}-${part}-${day}"
-                value="1"
-                checked
-              />
-              <label for="${month}-${part}-norm-${day}">Normal</label>
-            </div>
-            <div class="labelled-radio">
-              <input
-                type="${type}"
-                id="${month}-${part}-lent-${day}"
-                class="${month}"
-                name="${month}-${part}-${day}"
-                value="2"
-              />
-              <label for="${month}-${part}-lent-${day}">Lenten</label>
-            </div>
-          </div>
-        `;
-        return element;
+          `;
+          return element;
+        }
       }
     </script>
     <script>
@@ -602,7 +617,7 @@
         const gathering = new GatheringInput(date).generate();
         const gloria = new GloriaInput(date).generate();
         const psalm = new PsalmInput(date).generate();
-        const gospel = generateGospelInput(date);
+        const gospel = new GospelAcclamationInput(date).generate();
         const gospelLine1 = generateMiniFormPart(
           currentMonth,
           "gospel-line1",
