@@ -1,5 +1,5 @@
 function processForm(
-  sundays,
+  days,
   gatherings,
   psalms,
   offertories,
@@ -11,8 +11,8 @@ function processForm(
 ) {
   initializeData();
 
-  let weeks = processWeeks(
-    sundays,
+  let entries = processScheduleEntries(
+    days,
     gatherings,
     psalms,
     offertories,
@@ -23,7 +23,7 @@ function processForm(
     liturgicalDayTitles
   );
 
-  pushGoogleSheets(weeks);
-  const response = createMusicSchedule(weeks);
+  pushGoogleSheets(entries);
+  const response = createMusicSchedule(entries);
   return response;
 }

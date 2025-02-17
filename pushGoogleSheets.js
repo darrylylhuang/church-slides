@@ -1,13 +1,17 @@
 /**
- * @param {Object[]} weeks
+ * @param {Object[]} entries
  */
-function pushGoogleSheets(weeks) {
+function pushGoogleSheets(entries) {
   const schedule = GlobalConstants.schedule;
   const timeZone = GlobalConstants.timeZone;
-  weeks.forEach((week) => {
+
+  const columnAVals = schedule.getRange("A:A").getValues();
+  let lastCell = columnAVals.length;
+
+  entries.forEach((entry) => {
     // Extract info
     let [
-      sunday,
+      day,
       gathering,
       psalm,
       offertory,
@@ -17,34 +21,28 @@ function pushGoogleSheets(weeks) {
       line2,
       liturgicalDayTitle,
     ] = [
-      week.sunday,
-      week.gathering,
-      week.psalm,
-      week.offertory,
-      week.communion,
-      week.recessional,
-      week.gospelVerse.line1,
-      week.gospelVerse.line2,
-      week.liturgicalDayTitle,
+      entry.day,
+      entry.gathering,
+      entry.psalm,
+      entry.offertory,
+      entry.communion,
+      entry.recessional,
+      entry.gospelVerse.line1,
+      entry.gospelVerse.line2,
+      entry.liturgicalDayTitle,
     ];
 
-    const thisSunday = Utilities.formatDate(
-      new Date(sunday),
-      timeZone,
-      "MM/dd/yyyy"
-    );
-    const findThisSunday = schedule.createTextFinder(thisSunday);
-    const thisSundayRange = findThisSunday.findNext();
-    const thisSundayRowIndex = thisSundayRange.getRowIndex();
+    const date = Utilities.formatDate(new Date(day), timeZone, "MM/dd/yyyy");
 
-    const weekRange = schedule.getRange(
-      `B${thisSundayRowIndex}:O${thisSundayRowIndex}`
-    );
+    schedule.insertRowAfter(lastCell);
+    lastCell++;
+
+    const entryRange = schedule.getRange(`A${lastCell}:O${lastCell}`);
 
     // Hymns
-    let rowData = [gathering, psalm, offertory, communion, recessional];
+    let rowData = [date, gathering, psalm, offertory, communion, recessional];
     // Storrington parts are input in order on the web form and kept in order on the Google Sheet
-    const storringtonValues = week.storrington.map((part) => part.value);
+    const storringtonValues = entry.storrington.map((part) => part.value);
     rowData = rowData.concat(storringtonValues);
     rowData.push(line1);
     rowData.push(line2);
@@ -54,6 +52,6 @@ function pushGoogleSheets(weeks) {
     let data = [];
     data.push(rowData);
 
-    weekRange.setValues(data);
+    entryRange.setValues(data);
   });
 }

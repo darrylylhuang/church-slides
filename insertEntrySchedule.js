@@ -1,8 +1,8 @@
-function insertWeeklySchedule(doc, week) {
+function insertEntrySchedule(doc, entry) {
   const body = doc.getBody();
 
   let [
-    sunday,
+    day,
     gathering,
     psalm,
     offertory,
@@ -12,19 +12,19 @@ function insertWeeklySchedule(doc, week) {
     line2,
     liturgicalDayTitle,
   ] = [
-    week.sunday,
-    week.gathering,
-    week.psalm,
-    week.offertory,
-    week.communion,
-    week.recessional,
-    week.gospelVerse.line1,
-    week.gospelVerse.line2,
-    week.liturgicalDayTitle,
+    entry.day,
+    entry.gathering,
+    entry.psalm,
+    entry.offertory,
+    entry.communion,
+    entry.recessional,
+    entry.gospelVerse.line1,
+    entry.gospelVerse.line2,
+    entry.liturgicalDayTitle,
   ];
 
   let hymns = [gathering, psalm, offertory, communion, recessional];
-  [
+  let [
     gatheringTitle,
     psalmTitle,
     offertoryTitle,
@@ -32,7 +32,7 @@ function insertWeeklySchedule(doc, week) {
     recessionalTitle,
   ] = hymns.map(_getHymnTitles);
 
-  body.replaceText("{date}", `${sunday} - ${liturgicalDayTitle}`);
+  body.replaceText("{date}", `${day} - ${liturgicalDayTitle}`);
   body.replaceText("{gathering-title}", gatheringTitle);
   body.replaceText("{psalm-title}", psalmTitle);
   body.replaceText("{offertory-title}", offertoryTitle);
@@ -55,7 +55,7 @@ function insertWeeklySchedule(doc, week) {
   body.replaceText("{communion-number}", communionNumber);
   body.replaceText("{recessional-number}", recessionalNumber);
 
-  const storringtonParts = week.storrington;
+  const storringtonParts = entry.storrington;
   storringtonParts.forEach((element) => {
     let name = element.name;
     let value = element.value;
