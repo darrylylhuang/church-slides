@@ -269,33 +269,75 @@
         return labelText;
       }
     </script>
+    <!-- Generate Hymn Inputs -->
     <script>
-      // TODO: Separate text inputs and checkbox inputs
-      function generateHymnInput(date, hymnType) {
-        const month = date.getMonth();
-        const day = date.getDate();
-        const part = hymnType;
-        const labelText = getLabelText(hymnType);
-        const type = "text";
+      class HymnInput {
+        constructor(date) {
+          this.date = date;
+        }
 
-        let element = document.createElement("div");
-        element.classList.add("form-group");
-        element.innerHTML = `
-          <label for="${month}-${part}-${day}">${labelText}</label>
+        generate() {
+          const date = this.date;
+          const hymnType = this.hymnType;
+          const month = date.getMonth();
+          const day = date.getDate();
+          const labelText = getLabelText(hymnType);
+          const type = "text";
+
+          let element = document.createElement("div");
+          element.classList.add("form-group");
+          element.innerHTML = `
+          <label for="${month}-${hymnType}-${day}">${labelText}</label>
         `;
 
-        element.innerHTML += `
+          element.innerHTML += `
           <input
             type="${type}"
-            id="${month}-${part}-${day}"
-            class="${month}"
-            name="${month}-${part}-${day}"
+            id="${month}-${hymnType}-${day}"
+            class="month-${month} ${month}-${day}"
+            name="${month}-${hymnType}-${day}"
             list="all-hymns-list"
             value=""
             required
           />
         `;
-        return element;
+          return element;
+        }
+      }
+
+      class GatheringInput extends HymnInput {
+        constructor(date) {
+          super(date);
+          this.hymnType = "gathering";
+        }
+      }
+
+      class PsalmInput extends HymnInput {
+        constructor(date) {
+          super(date);
+          this.hymnType = "psalm";
+        }
+      }
+
+      class OffertoryInput extends HymnInput {
+        constructor(date) {
+          super(date);
+          this.hymnType = "offertory";
+        }
+      }
+
+      class CommunionInput extends HymnInput {
+        constructor(date) {
+          super(date);
+          this.hymnType = "communion";
+        }
+      }
+
+      class RecessionalInput extends HymnInput {
+        constructor(date) {
+          super(date);
+          this.hymnType = "recessional";
+        }
       }
     </script>
     <script>
@@ -510,9 +552,9 @@
             </div>
           `;
 
-        const gathering = generateHymnInput(date, "gathering");
+        const gathering = new GatheringInput(date).generate();
         const gloria = generateStorringtonCheckbox(date, "gloria");
-        const psalm = generateHymnInput(date, "psalm");
+        const psalm = new PsalmInput(date).generate();
         const gospel = generateGospelInput(date);
         const gospelLine1 = generateMiniFormPart(
           currentMonth,
@@ -528,13 +570,13 @@
           "text",
           "Verse: Line 2"
         );
-        const offertory = generateHymnInput(date, "offertory");
+        const offertory = new OffertoryInput(date).generate();
         const sanctus = generateStorringtonCheckbox(date, "sanctus");
         const memorial = generateMemorialInput(date);
         const amen = generateStorringtonCheckbox(date, "amen");
         const lamb = generateStorringtonCheckbox(date, "lamb");
-        const communion = generateHymnInput(date, "communion");
-        const recessional = generateHymnInput(date, "recessional");
+        const communion = new CommunionInput(date).generate();
+        const recessional = new RecessionalInput(date).generate();
 
         // Add all parts to the mini form
         element.append(
