@@ -310,7 +310,8 @@
             <input
               type="${inputType}"
               id="${month}-${part}-${day}"
-              class="month-${month} ${month}-${day}"
+              month=${month}
+              day=${day}
               name="${month}-${part}-${day}"
               list="all-hymns-list"
               value=""
@@ -593,7 +594,8 @@
             <input
               type="${inputType}"
               id="${month}-${part}-${day}"
-              class="month-${month} ${month}-${day}"
+              month=${month}
+              day=${day}
               name="${month}-${part}-${day}"
               value=""
               required
@@ -605,6 +607,76 @@
     </script>
     <!-- generateMiniForm.js -->
     <script>
+      class MiniForm {
+        constructor(date) {
+          this.date = date;
+        }
+
+        generate() {
+          const date = this.date;
+          const month = date.getMonth();
+          const day = date.getDate();
+          const miniFormClass = "mini-form";
+
+          let element = document.createElement("div");
+
+          element.id = `${month}-form-column-${day}`;
+          // Apply form column CSS
+          element.classList.add("column", "form-column");
+          element.setAttribute("month", month);
+          element.setAttribute("day", day);
+
+          element.innerHTML = `
+            <h3>${formatDate(date)}</h3>
+            <div class="day-title">
+            <input
+              type="text"
+              id="${month}-day-title-${day}"
+              class=${miniFormClass}
+              month=${month}
+              day=${day}
+              name="${month}-day-title-${day}"
+              list="liturgical-day-titles"
+              style="font-weight: bold; height: 20px; font-size: 12pt; text-align: center;"
+            />
+            </div>
+          `;
+
+          const gathering = new GatheringInput(date).generate();
+          const gloria = new GloriaInput(date).generate();
+          const psalm = new PsalmInput(date).generate();
+          const gospel = new GospelAcclamationInput(date).generate();
+          const gospelLine1 = new GospelVerseLineInput(date, 1).generate();
+          const gospelLine2 = new GospelVerseLineInput(date, 2).generate();
+          const offertory = new OffertoryInput(date).generate();
+          const sanctus = new SanctusInput(date).generate();
+          const memorial = new MemorialInput(date).generate();
+          const amen = new AmenInput(date).generate();
+          const lamb = new LambOfGodInput(date).generate();
+          const communion = new CommunionInput(date).generate();
+          const recessional = new RecessionalInput(date).generate();
+
+          // Add all parts to the mini form
+          element.append(
+            gathering,
+            gloria,
+            psalm,
+            gospel,
+            gospelLine1,
+            gospelLine2,
+            offertory,
+            sanctus,
+            memorial,
+            amen,
+            lamb,
+            communion,
+            recessional
+          );
+
+          return element;
+        }
+      }
+
       function generateMiniForm(date) {
         const currentMonth = date.getMonth();
         const i = date.getDate();
@@ -621,7 +693,7 @@
 
         element.innerHTML = `
             <h3>${formatDate(date)}</h3>
-            <div class="day-title">  
+            <div class="day-title">
             <input
               type="text"
               id="${currentMonth}-day-title-${i}"
