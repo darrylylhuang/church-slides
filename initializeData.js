@@ -29,7 +29,7 @@ function initializeData() {
   // ************* CHANGE THIS RANGE AS NEEDED *************
   GlobalConstants.schedule = SCHEDULE;
   GlobalConstants.timeZone = SPREADSHEET_TIMEZONE;
-  GlobalConstants.scheduleData = CURRENT_MONTH.getRange("A2:N6").getValues();
+  GlobalConstants.scheduleData = CURRENT_MONTH.getRange("A2:N7").getValues();
 
   // ************* LITURGICAL DAY TITLES *************
   const liturgicalDayTitlesData =
