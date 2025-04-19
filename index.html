@@ -96,6 +96,7 @@
 
       .mini-forms-container {
         display: flex;
+        flex-wrap: wrap;
         justify-content: space-between; /* Evenly distribute columns */
         gap: 20px; /* Gap between columns */
       }
@@ -138,8 +139,7 @@
     <form id="hymn-form">
       <datalist id="all-hymns-list"></datalist>
       <datalist id="liturgical-day-titles"></datalist>
-      <div id="mini-forms-container-0" class="mini-forms-container"></div>
-      <div id="mini-forms-container-1" class="mini-forms-container"></div>
+      <div id="all-mini-forms" class="mini-forms-container"></div>
       <div id="hymn-form-submit-button-container"></div>
     </form>
     <div id="result"></div>
@@ -686,67 +686,9 @@
       }
 
       function generateMiniForm(date) {
-        const currentMonth = date.getMonth();
-        const i = date.getDate();
+        const element = new MiniForm(date).generate();
 
-        let month = 0;
-        // currently generating a mini-form for next month
-        if (currentMonth !== new Date().getMonth()) month = 1;
-
-        let element = document.createElement("div");
-
-        element.id = `${currentMonth}-form-column-${i}`;
-        // Apply form column CSS
-        element.classList.add("column", "form-column");
-
-        element.innerHTML = `
-            <h3>${formatDate(date)}</h3>
-            <div class="day-title">
-            <input
-              type="text"
-              id="${currentMonth}-day-title-${i}"
-              class="${currentMonth}"
-              name="${currentMonth}-day-title-${i}"
-              list="liturgical-day-titles"
-              style="font-weight: bold; height: 20px; font-size: 12pt; text-align: center;"
-            />
-            </div>
-          `;
-
-        const gathering = new GatheringInput(date).generate();
-        const gloria = new GloriaInput(date).generate();
-        const psalm = new PsalmInput(date).generate();
-        const gospel = new GospelAcclamationInput(date).generate();
-        const gospelLine1 = new GospelVerseLineInput(date, 1).generate();
-        const gospelLine2 = new GospelVerseLineInput(date, 2).generate();
-        const offertory = new OffertoryInput(date).generate();
-        const sanctus = new SanctusInput(date).generate();
-        const memorial = new MemorialInput(date).generate();
-        const amen = new AmenInput(date).generate();
-        const lamb = new LambOfGodInput(date).generate();
-        const communion = new CommunionInput(date).generate();
-        const recessional = new RecessionalInput(date).generate();
-
-        // Add all parts to the mini form
-        element.append(
-          gathering,
-          gloria,
-          psalm,
-          gospel,
-          gospelLine1,
-          gospelLine2,
-          offertory,
-          sanctus,
-          memorial,
-          amen,
-          lamb,
-          communion,
-          recessional
-        );
-
-        document
-          .getElementById(`mini-forms-container-${month}`)
-          .append(element);
+        document.getElementById(`all-mini-forms`).append(element);
       }
     </script>
     <!-- addSubmitButton -->
@@ -923,50 +865,50 @@
     </script>
     <!-- swapToForm.js -->
     <script>
-      const thisMonthForms = document.getElementById("mini-forms-container-0");
-      const nextMonthForms = document.getElementById("mini-forms-container-1");
+      const thisMonthInputs = document.querySelectorAll(
+        `[month*="${today.getMonth()}"]`
+      );
+      const nextMonthInputs = document.querySelectorAll(
+        `[month*="${firstOfNextMonth.getMonth()}"]`
+      );
 
-      const thisMonthInputs = document.querySelectorAll(".thisMonth");
-      const nextMonthInputs = document.querySelectorAll(".nextMonth");
-
-      nextMonthForms.classList.add("hidden");
       nextMonthInputs.forEach((input) => {
         input.required = false;
+        input.classList.add("hidden");
       });
 
       const swapToForm = function (month) {
-        if (month === 0) {
-          thisMonthForms.classList.remove("hidden");
-          nextMonthForms.classList.add("hidden");
+        let shown;
+        let hidden;
 
-          thisMonthInputs.forEach((input) => {
-            input.required = true;
-          });
-          nextMonthInputs.forEach((input) => {
-            input.required = false;
-          });
-        } else if (month === 1) {
-          thisMonthForms.classList.add("hidden");
-          nextMonthForms.classList.remove("hidden");
-
-          nextMonthInputs.forEach((input) => {
-            input.required = true;
-          });
-          thisMonthInputs.forEach((input) => {
-            input.required = false;
-          });
+        if (month === today.getMonth()) {
+          shown = thisMonthInputs;
+          hidden = nextMonthInputs;
+        } else if (month === firstOfNextMonth.getMonth()) {
+          shown = nextMonthInputs;
+          hidden = thisMonthInputs;
         }
+
+        hidden.forEach((input) => {
+          input.required = false;
+          input.classList.add("hidden");
+        });
+
+        shown.forEach((input) => {
+          input.required = true;
+          input.classList.remove("hidden");
+        });
       };
 
       document
         .getElementById("this-month")
         .addEventListener("click", function (e) {
-          swapToForm(0);
+          swapToForm(today.getMonth());
         });
       document
         .getElementById("next-month")
         .addEventListener("click", function (e) {
-          swapToForm(1);
+          swapToForm(firstOfNextMonth.getMonth());
         });
     </script>
   </body>
