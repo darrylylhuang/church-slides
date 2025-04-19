@@ -25,6 +25,10 @@
         margin-bottom: 20px;
       }
 
+      #new-date-adder {
+        margin-top: 10px;
+      }
+
       #result {
         text-align: center;
       }
@@ -135,6 +139,10 @@
       <label for="this-month">This Month</label>
       <input type="radio" id="next-month" name="schedule-month" />
       <label for="next-month">Next Month</label>
+      <div id="new-date-adder" name="new-date-adder">
+        <input type="date" id="new-date-calendar" name="new-date-calendar" />
+        <button id="new-date-button" name="new-date-button">Add a date</button>
+      </div>
     </div>
     <form id="hymn-form">
       <datalist id="all-hymns-list"></datalist>
@@ -225,6 +233,23 @@
         else if (currentMonth === "nextMonth") return sundaysNextMonth.length;
         return null;
       };
+    </script>
+    <script>
+      let element = document.getElementById("new-date-calendar");
+      const currentMonth = today.getMonth();
+      const currentYear = today.getFullYear();
+      const currentMonthMinDateFormatted = new Date(
+        currentYear,
+        currentMonth,
+        1
+      ).toLocaleDateString("en-CA");
+      const currentMonthMaxDateFormatted = new Date(
+        currentYear,
+        currentMonth + 1,
+        0
+      ).toLocaleDateString("en-CA");
+      element.setAttribute("min", currentMonthMinDateFormatted);
+      element.setAttribute("max", currentMonthMaxDateFormatted);
     </script>
     <script>
       function getLabelText(inputType) {
