@@ -214,10 +214,10 @@
       })();
 
       const getCurrentMonth = function () {
-        if (nextMonthForms.classList.contains("hidden")) return "thisMonth";
-        else if (thisMonthForms.classList.contains("hidden"))
-          return "nextMonth";
-        return null;
+        // if (nextMonthForms.classList.contains("hidden")) return "thisMonth";
+        // else if (thisMonthForms.classList.contains("hidden"))
+        //   return "nextMonth";
+        return activeMonth;
       };
 
       const sendTheseSundays = function () {
@@ -900,6 +900,8 @@
         `[month*="${firstOfNextMonth.getMonth()}"]`
       );
 
+      let activeMonth = "thisMonth";
+
       nextMonthInputs.forEach((input) => {
         input.required = false;
         input.classList.add("hidden");
@@ -913,10 +915,12 @@
           shown = thisMonthInputs;
           hidden = nextMonthInputs;
           switchDateInput(today);
+          activeMonth = "thisMonth";
         } else if (month === firstOfNextMonth.getMonth()) {
           shown = nextMonthInputs;
           hidden = thisMonthInputs;
           switchDateInput(firstOfNextMonth);
+          activeMonth = "nextMonth";
         }
 
         hidden.forEach((input) => {
