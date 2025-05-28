@@ -235,21 +235,23 @@
       };
     </script>
     <script>
-      let element = document.getElementById("new-date-calendar");
-      const currentMonth = today.getMonth();
-      const currentYear = today.getFullYear();
-      const currentMonthMinDateFormatted = new Date(
-        currentYear,
-        currentMonth,
-        1
-      ).toLocaleDateString("en-CA");
-      const currentMonthMaxDateFormatted = new Date(
-        currentYear,
-        currentMonth + 1,
-        0
-      ).toLocaleDateString("en-CA");
-      element.setAttribute("min", currentMonthMinDateFormatted);
-      element.setAttribute("max", currentMonthMaxDateFormatted);
+      function switchDateInput(date) {
+        let element = document.getElementById("new-date-calendar");
+        const currentMonth = date.getMonth();
+        const currentYear = date.getFullYear();
+        const currentMonthMinDateFormatted = new Date(
+          currentYear,
+          currentMonth,
+          1
+        ).toLocaleDateString("en-CA");
+        const currentMonthMaxDateFormatted = new Date(
+          currentYear,
+          currentMonth + 1,
+          0
+        ).toLocaleDateString("en-CA");
+        element.setAttribute("min", currentMonthMinDateFormatted);
+        element.setAttribute("max", currentMonthMaxDateFormatted);
+      }
     </script>
     <script>
       function getLabelText(inputType) {
@@ -777,6 +779,7 @@
         "use strict";
         sundaysNextMonth.map(generateMiniForm);
         sundaysThisMonth.map(generateMiniForm);
+        switchDateInput(today);
       })();
     </script>
 
@@ -909,9 +912,11 @@
         if (month === today.getMonth()) {
           shown = thisMonthInputs;
           hidden = nextMonthInputs;
+          switchDateInput(today);
         } else if (month === firstOfNextMonth.getMonth()) {
           shown = nextMonthInputs;
           hidden = thisMonthInputs;
+          switchDateInput(firstOfNextMonth);
         }
 
         hidden.forEach((input) => {
