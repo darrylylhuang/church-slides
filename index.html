@@ -164,6 +164,12 @@
         return date.toLocaleDateString("en-CA", options);
       }
     </script>
+    <script>
+      function formatDateShort(date) {
+        return date.toLocaleDateString("en-CA");
+      }
+    </script>
+
     <!-- sundaysInAMonth.js -->
     <script>
       /**
@@ -313,12 +319,14 @@
     <!-- Generate Hymn Inputs -->
     <script>
       class HymnInput extends FormInput {
-        constructor(date) {
+        constructor(date, hymnType = "") {
           super(date);
+          this.hymnType = hymnType;
         }
 
         generate() {
           const date = this.date;
+          const shortDate = formatDateShort(date);
           const month = date.getMonth();
           const day = date.getDate();
 
@@ -330,16 +338,16 @@
           let element = document.createElement("div");
           element.classList.add("form-group");
           element.innerHTML = `
-            <label for="${month}-${part}-${day}">${labelText}</label>
+            <label for="${part}-${shortDate}">${labelText}</label>
           `;
 
           element.innerHTML += `
             <input
               type="${inputType}"
-              id="${month}-${part}-${day}"
+              id="${part}-${shortDate}"
               month=${month}
               day=${day}
-              name="${month}-${part}-${day}"
+              name="${part}-${shortDate}"
               list="all-hymns-list"
               value=""
               required
@@ -351,36 +359,36 @@
 
       class GatheringInput extends HymnInput {
         constructor(date) {
-          super(date);
-          this.hymnType = "gathering";
+          const hymnType = "gathering";
+          super(date, hymnType);
         }
       }
 
       class PsalmInput extends HymnInput {
         constructor(date) {
-          super(date);
-          this.hymnType = "psalm";
+          const hymnType = "psalm";
+          super(date, hymnType);
         }
       }
 
       class OffertoryInput extends HymnInput {
         constructor(date) {
-          super(date);
-          this.hymnType = "offertory";
+          const hymnType = "psalm";
+          super(date, hymnType);
         }
       }
 
       class CommunionInput extends HymnInput {
         constructor(date) {
-          super(date);
-          this.hymnType = "communion";
+          const hymnType = "communion";
+          super(date, hymnType);
         }
       }
 
       class RecessionalInput extends HymnInput {
         constructor(date) {
-          super(date);
-          this.hymnType = "recessional";
+          const hymnType = "recessional";
+          super(date, hymnType);
         }
       }
     </script>
@@ -393,6 +401,7 @@
 
         generate() {
           const date = this.date;
+          const shortDate = formatDateShort(date);
           const month = date.getMonth();
           const day = date.getDate();
 
@@ -410,10 +419,10 @@
           element.innerHTML += `
             <input
               type="${type}"
-              id="${month}-${part}-${day}"
+              id="${part}-${shortDate}"
               month=${month}
               day=${day}
-              name="${month}-${part}-${day}"
+              name="${part}-${shortDate}"
               value="true"
               checked
             />
@@ -655,7 +664,7 @@
 
           let element = document.createElement("div");
 
-          element.id = `${month}-form-column-${day}`;
+          element.id = `form-column-${formatDateShort(date)}`;
           // Apply form column CSS
           element.classList.add("column", "form-column");
           element.setAttribute("month", month);
@@ -666,7 +675,7 @@
             <div class="day-title">
             <input
               type="text"
-              id="${month}-day-title-${day}"
+              id="day-title-${formatDateShort(date)}"
               class=${miniFormClass}
               month=${month}
               day=${day}
