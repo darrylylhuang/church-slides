@@ -345,8 +345,7 @@
             <input
               type="${inputType}"
               id="${part}-${shortDate}"
-              month=${month}
-              day=${day}
+              date="${shortDate}"
               name="${part}-${shortDate}"
               list="all-hymns-list"
               value=""
@@ -658,6 +657,7 @@
 
         generate() {
           const date = this.date;
+          const shortDate = formatDateShort(date);
           const month = date.getMonth();
           const day = date.getDate();
           const miniFormClass = "mini-form";
@@ -675,11 +675,10 @@
             <div class="day-title">
             <input
               type="text"
-              id="day-title-${formatDateShort(date)}"
+              id="day-title-${shortDate}"
               class=${miniFormClass}
-              month=${month}
-              day=${day}
-              name="${month}-day-title-${day}"
+              date="${shortDate}"
+              name="day-title-${shortDate}"
               list="liturgical-day-titles"
               style="font-weight: bold; height: 20px; font-size: 12pt; text-align: center;"
             />
